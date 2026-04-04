@@ -3,1263 +3,633 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VEFA AEROSPACE — GençTek Takımı</title>
+
+<!-- 🛡️ GÜVENLİK (SECURITY): Temel Koruma ve Medya İzni -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' https: data: 'unsafe-inline' 'unsafe-eval';">
+<meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+
+<title>VEFA AEROSPACE — Yeni Nesil Uzay Mimarisi</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;0,900;1,300;1,400&family=Barlow+Condensed:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
+/* ══ MODERN UZAY KAPSÜLÜ VE HUD TASARIM SİSTEMİ ══ */
 :root {
-  --black: #000000;
-  --deep: #020408;
-  --dark: #070c12;
-  --dark2: #0a1018;
-  --red: #e8131a;
-  --red2: #ff2a32;
-  --red-glow: rgba(232,19,26,0.6);
-  --red-dim: rgba(232,19,26,0.18);
-  --white: #ffffff;
-  --white-90: rgba(255,255,255,0.9);
-  --white-70: rgba(255,255,255,0.7);
-  --white-40: rgba(255,255,255,0.4);
-  --white-15: rgba(255,255,255,0.15);
-  --white-07: rgba(255,255,255,0.07);
-  --silver: #c8cdd4;
-  --f-display: 'Bebas Neue', 'Barlow Condensed', sans-serif;
-  --f-cond: 'Barlow Condensed', sans-serif;
-  --f-body: 'Barlow', sans-serif;
-  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --space-dark: #03050a;
+  --glass-bg: rgba(13, 22, 39, 0.4);
+  --glass-hover: rgba(20, 32, 55, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.06);
+  --glass-border-strong: rgba(255, 255, 255, 0.15);
+  
+  --text-main: #f8fafc;
+  --text-muted: #8ba2b8;
+  --accent: #ef4444; 
+  --accent-glow: rgba(239, 68, 68, 0.5);
+  --cyan-accent: #0ea5e9; 
+  --term-green: #10b981;
+  
+  --font-body: 'Inter', sans-serif;
+  --font-disp: 'Space Grotesk', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --ease-smooth: cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
 body {
-  background: var(--black);
-  color: var(--white);
-  font-family: var(--f-body);
-  overflow-x: hidden;
-  cursor: none;
-}
-a { text-decoration: none; color: inherit; }
-::-webkit-scrollbar { width: 2px; }
-::-webkit-scrollbar-track { background: var(--black); }
-::-webkit-scrollbar-thumb { background: var(--red); }
-
-/* ══ CUSTOM CURSOR ══════════════════════════════════ */
-#cursor {
-  position: fixed; width: 12px; height: 12px; border-radius: 50%;
-  background: var(--red); pointer-events: none; z-index: 9999;
-  transform: translate(-50%, -50%);
-  transition: width 0.2s, height 0.2s, background 0.2s;
-  mix-blend-mode: screen;
-}
-#cursor-ring {
-  position: fixed; width: 36px; height: 36px; border-radius: 50%;
-  border: 1px solid rgba(232,19,26,0.5); pointer-events: none; z-index: 9998;
-  transform: translate(-50%, -50%);
-  transition: transform 0.12s var(--ease-expo), width 0.3s, height 0.3s, border-color 0.3s;
-}
-body:has(a:hover) #cursor { width: 18px; height: 18px; }
-body:has(a:hover) #cursor-ring { width: 52px; height: 52px; border-color: var(--red); }
-
-/* ══ CANVAS / SPACE BG ══════════════════════════════ */
-#spaceCanvas {
-  position: fixed; inset: 0; z-index: 0;
-  width: 100%; height: 100%;
+  background-color: var(--space-dark); color: var(--text-main);
+  font-family: var(--font-body); overflow-x: hidden; -webkit-font-smoothing: antialiased;
 }
 
-/* ══ OVERLAY GRADIENT ═══════════════════════════════ */
-.overlay {
-  position: fixed; inset: 0; z-index: 1; pointer-events: none;
-  background:
-    radial-gradient(ellipse 60% 50% at 50% 0%, rgba(232,19,26,0.07) 0%, transparent 70%),
-    radial-gradient(ellipse 80% 40% at 50% 100%, rgba(2,4,8,0.8) 0%, transparent 80%);
-}
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--space-dark); }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.4); }
 
-/* ══ NAVBAR ════════════════════════════════════════ */
-#navbar {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 900;
-  height: 72px; display: flex; align-items: center; justify-content: space-between;
-  padding: 0 clamp(20px, 5vw, 72px);
-  background: rgba(0,0,0,0);
-  border-bottom: 1px solid transparent;
-  transition: background 0.6s, border-color 0.6s, backdrop-filter 0.6s;
+/* ══ BACKGROUND: DERİN UZAY BOŞLUĞU ══ */
+#spaceCanvas { position: fixed; inset: 0; z-index: -2; width: 100%; height: 100%; pointer-events: none; }
+.nebula-glow {
+  position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background: radial-gradient(circle at 80% -20%, rgba(14, 165, 233, 0.08) 0%, transparent 50%),
+              radial-gradient(circle at 10% 100%, rgba(239, 68, 68, 0.06) 0%, transparent 40%);
+  animation: pulseNebula 15s ease-in-out infinite alternate;
 }
-#navbar.scrolled {
-  background: rgba(0,0,0,0.88);
-  border-color: rgba(232,19,26,0.2);
-  backdrop-filter: blur(20px);
-}
-.nav-logo { display: flex; align-items: center; gap: 14px; }
-.nav-logo img { height: 44px; width: auto; filter: drop-shadow(0 0 10px rgba(232,19,26,0.4)); }
-.nav-logo-text {
-  font-family: var(--f-display);
-  font-size: 1.1rem; letter-spacing: 0.15em;
-  color: var(--white); line-height: 1;
-}
-.nav-logo-text small {
-  display: block; font-family: var(--f-body);
-  font-size: 0.52rem; font-weight: 500; letter-spacing: 0.28em;
-  text-transform: uppercase; color: var(--red2); margin-top: 2px;
-}
-.nav-links { display: flex; gap: 2.5rem; list-style: none; }
-.nav-links a {
-  font-family: var(--f-cond); font-size: 0.85rem; font-weight: 600;
-  letter-spacing: 0.14em; text-transform: uppercase; color: var(--white-70);
-  transition: color 0.2s;
-  position: relative; padding-bottom: 4px;
-}
-.nav-links a::after {
-  content: ''; position: absolute; bottom: 0; left: 0;
-  width: 0; height: 1px; background: var(--red2);
-  transition: width 0.35s var(--ease-expo);
-}
-.nav-links a:hover { color: var(--white); }
-.nav-links a:hover::after { width: 100%; }
+@keyframes pulseNebula { 0% { opacity: 0.8; } 100% { opacity: 1; } }
 
-.nav-cta {
-  font-family: var(--f-cond); font-size: 0.8rem; font-weight: 700;
-  letter-spacing: 0.18em; text-transform: uppercase; color: var(--white);
-  border: 1.5px solid var(--red); padding: 10px 26px;
-  position: relative; overflow: hidden;
-  transition: color 0.3s, box-shadow 0.3s;
-}
-.nav-cta::before {
-  content: ''; position: absolute; inset: 0;
-  background: var(--red); transform: scaleX(0); transform-origin: right;
-  transition: transform 0.35s var(--ease-expo); z-index: -1;
-}
-.nav-cta:hover { color: var(--white); box-shadow: 0 0 30px var(--red-glow); }
-.nav-cta:hover::before { transform: scaleX(1); transform-origin: left; }
+/* ══ TEMEL YAPI & KARTLAR ══ */
+.container { max-width: 1280px; margin: 0 auto; padding: 0 clamp(24px, 5vw, 64px); }
+a { text-decoration: none; color: inherit; transition: opacity 0.3s; }
+a:hover { opacity: 0.8; }
 
-.nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: none; }
-.nav-hamburger span { display: block; width: 24px; height: 1.5px; background: var(--white-70); transition: all 0.3s; }
-.nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); background: var(--red2); }
-.nav-hamburger.open span:nth-child(2) { opacity: 0; }
-.nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); background: var(--red2); }
+.hud-card {
+  background: var(--glass-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border); border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  transition: transform 0.4s var(--ease-smooth), border-color 0.4s, box-shadow 0.4s;
+}
+.hud-card:hover { border-color: rgba(255,255,255,0.2); box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(255,255,255,0.02); background: var(--glass-hover); }
 
-#mobileMenu {
-  display: none; position: fixed;
-  top: 72px; inset: 0; top: 72px; z-index: 899;
-  background: rgba(0,0,0,0.97); backdrop-filter: blur(20px);
-  flex-direction: column; align-items: center; justify-content: center; gap: 3rem;
-  opacity: 0; transform: translateY(-8px);
-  transition: opacity 0.3s, transform 0.3s;
-}
-#mobileMenu.open { display: flex; opacity: 1; transform: translateY(0); }
-#mobileMenu a {
-  font-family: var(--f-display); font-size: 3rem; letter-spacing: 0.08em;
-  color: var(--white-70); transition: color 0.2s;
-}
-#mobileMenu a:hover { color: var(--red2); }
+/* Ortak Başlıklar */
+.section-label { font-family: var(--font-disp); font-size: 0.85rem; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; color: var(--cyan-accent); display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+.section-label::before { content: ''; width: 30px; height: 1px; background: var(--cyan-accent); }
+.section-title { font-family: var(--font-disp); font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; color: var(--text-main); margin-bottom: 40px; }
 
-/* ══ HERO ══════════════════════════════════════════ */
-#hero {
-  position: relative; z-index: 2;
-  min-height: 100vh; display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  padding: 72px 20px 0; overflow: hidden;
-  text-align: center;
-}
+/* ══ REVEAL ANİMASYONLARI ══ */
+.reveal { opacity: 0; transform: translateY(40px); transition: opacity 1s var(--ease-smooth), transform 1s var(--ease-smooth); }
+.reveal.active { opacity: 1; transform: translateY(0); }
+.d-1 { transition-delay: 0.1s; } .d-2 { transition-delay: 0.2s; } .d-3 { transition-delay: 0.3s; }
 
-.hero-eyebrow {
-  font-family: var(--f-cond); font-size: 0.75rem; font-weight: 600;
-  letter-spacing: 0.35em; text-transform: uppercase; color: var(--red2);
-  margin-bottom: 2rem; opacity: 0;
-  animation: fadeUp 1s var(--ease-expo) 0.5s forwards;
-  display: flex; align-items: center; gap: 14px;
-}
-.hero-eyebrow::before, .hero-eyebrow::after {
-  content: ''; flex: 1; max-width: 60px; height: 1px; background: var(--red2); opacity: 0.6;
-}
+/* ══ NAVBAR ══ */
+header { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: 90px; transition: all 0.5s var(--ease-smooth); background: linear-gradient(to bottom, rgba(3,5,10,0.9), transparent); }
+header.scrolled { height: 75px; background: rgba(6, 11, 19, 0.8); backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border); }
+.nav-inner { display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 1400px; margin: 0 auto; padding: 0 clamp(24px, 5vw, 64px); height: 100%; }
+.logo { display: flex; align-items: center; gap: 16px; }
+.logo img { height: 42px; filter: drop-shadow(0 0 12px rgba(255,255,255,0.15)); }
+.logo-type { font-family: var(--font-disp); font-size: 1.25rem; font-weight: 700; letter-spacing: 0.1em; line-height: 1.2; }
+.logo-type span { color: var(--accent); font-size: 0.75rem; letter-spacing: 0.2em; display: block; font-weight: 500;}
+.nav-links { display: flex; gap: 40px; list-style: none; }
+.nav-links a { font-family: var(--font-disp); font-size: 0.9rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); transition: color 0.3s, text-shadow 0.3s; }
+.nav-links a:hover { color: var(--text-main); text-shadow: 0 0 10px rgba(255,255,255,0.3); }
 
-/* LOGO BIG */
-.hero-logo-wrap {
-  margin-bottom: 1.5rem; opacity: 0;
-  animation: fadeUp 1.1s var(--ease-expo) 0.7s forwards;
-  filter: drop-shadow(0 0 40px rgba(232,19,26,0.5));
-  position: relative;
-}
-.hero-logo-wrap img { height: clamp(90px, 18vw, 160px); width: auto; }
-.logo-pulse {
-  position: absolute; inset: -20px; border-radius: 50%;
-  background: radial-gradient(ellipse, rgba(232,19,26,0.2) 0%, transparent 70%);
-  animation: logoPulse 3s ease-in-out infinite;
-}
-@keyframes logoPulse {
-  0%,100% { transform: scale(1); opacity: 0.6; }
-  50% { transform: scale(1.2); opacity: 1; }
-}
+.menu-btn { display: none; flex-direction: column; gap: 7px; cursor: pointer; z-index: 101; background: none; border: none; padding: 10px; }
+.menu-btn span { display: block; width: 32px; height: 2px; background: var(--text-main); border-radius: 2px; transition: 0.4s; }
+.menu-btn.open span:nth-child(1) { transform: translateY(9px) rotate(45deg); background: var(--accent); }
+.menu-btn.open span:nth-child(2) { opacity: 0; }
+.menu-btn.open span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); background: var(--accent); }
 
-.hero-h1 {
-  font-family: var(--f-display);
-  font-size: clamp(3.5rem, 12vw, 11rem);
-  line-height: 0.88; letter-spacing: -0.01em;
-  margin-bottom: 1.5rem;
-}
-.hero-h1 .line { display: block; overflow: hidden; }
-.hero-h1 .line span {
-  display: block; opacity: 0;
-  animation: slideUp 1s var(--ease-expo) forwards;
-}
-.hero-h1 .line:nth-child(1) span { animation-delay: 1.0s; color: var(--white); }
-.hero-h1 .line:nth-child(2) span {
-  animation-delay: 1.15s;
-  background: linear-gradient(90deg, var(--red) 0%, #ff6b6b 50%, var(--red) 100%);
-  background-size: 200%;
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-  animation: slideUp 1s var(--ease-expo) 1.15s forwards, shimmer 3s linear 2.5s infinite;
-}
-.hero-h1 .line:nth-child(3) span { animation-delay: 1.3s; color: var(--white-40); -webkit-text-stroke: 1px rgba(255,255,255,0.25); }
-@keyframes slideUp { from { opacity:0; transform: translateY(100%); } to { opacity:1; transform: translateY(0); } }
-@keyframes shimmer { 0%,100%{background-position:0%} 50%{background-position:100%} }
+.mobile-nav { display: none; position: fixed; inset: 0; background: rgba(3, 5, 10, 0.95); backdrop-filter: blur(20px); z-index: 99; flex-direction: column; justify-content: center; align-items: center; gap: 40px; opacity: 0; transform: translateY(-20px); transition: 0.5s var(--ease-smooth); }
+.mobile-nav.active { display: flex; opacity: 1; transform: translateY(0); }
+.mobile-nav a { font-family: var(--font-disp); font-size: 2.2rem; color: var(--text-main); letter-spacing: 0.1em; font-weight: 600; text-transform: uppercase; }
 
-.hero-sub {
-  font-size: clamp(0.9rem, 1.8vw, 1.05rem); font-weight: 400;
-  color: var(--white-70); max-width: 540px; line-height: 1.9;
-  margin: 0 auto 3rem; opacity: 0;
-  animation: fadeUp 1s var(--ease-expo) 1.6s forwards;
+/* ══ BUTONLAR ══ */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  font-family: var(--font-disp); font-size: 0.95rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 16px 36px; border-radius: 8px; transition: all 0.4s var(--ease-smooth); cursor: pointer; border: 1px solid transparent; position: relative; overflow: hidden;
 }
+.btn::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); transition: 0.5s; }
+.btn:hover::before { left: 100%; }
+.btn-primary { background: var(--text-main); color: var(--space-dark); box-shadow: 0 0 20px rgba(255,255,255,0.2); }
+.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(255,255,255,0.4); }
+.btn-secondary { background: var(--glass-bg); color: var(--text-main); border-color: var(--glass-border-strong); }
+.btn-secondary:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); transform: translateY(-3px); }
+.btn-icon svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
-.hero-actions {
-  display: flex; gap: 1.2rem; justify-content: center; flex-wrap: wrap;
-  opacity: 0; animation: fadeUp 1s var(--ease-expo) 1.8s forwards;
-  margin-bottom: 5rem;
-}
+/* YENİ: Video Oynat Butonu (Görev Fragmanı) */
+.btn-video { border-color: var(--cyan-accent); color: var(--cyan-accent); background: rgba(14, 165, 233, 0.05); }
+.btn-video:hover { background: rgba(14, 165, 233, 0.2); transform: translateY(-3px); box-shadow: 0 0 20px rgba(14, 165, 233, 0.3); }
 
-.btn-primary {
-  font-family: var(--f-cond); font-size: 0.85rem; font-weight: 700;
-  letter-spacing: 0.2em; text-transform: uppercase; color: var(--white);
-  background: var(--red); padding: 15px 40px;
-  position: relative; overflow: hidden;
-  transition: box-shadow 0.3s, transform 0.25s var(--ease-expo);
-  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
-}
-.btn-primary::after {
-  content: ''; position: absolute; inset: 0;
-  background: linear-gradient(135deg, rgba(255,255,255,0.25) 0%, transparent 60%);
-  opacity: 0; transition: opacity 0.3s;
-}
-.btn-primary:hover { box-shadow: 0 0 50px rgba(232,19,26,0.7), 0 0 100px rgba(232,19,26,0.3); transform: translateY(-3px); }
-.btn-primary:hover::after { opacity: 1; }
+/* ══ KAHRAMAN BÖLÜMÜ (HERO) ══ */
+#hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding-top: 100px; position: relative; overflow: hidden; }
+.hero-grid { display: grid; grid-template-columns: 1.2fr 1fr; align-items: center; gap: 40px; }
 
-.btn-outline {
-  font-family: var(--f-cond); font-size: 0.85rem; font-weight: 700;
-  letter-spacing: 0.2em; text-transform: uppercase; color: var(--white-70);
-  background: transparent; padding: 14px 38px;
-  border: 1.5px solid var(--white-15);
-  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
-  transition: border-color 0.3s, color 0.3s, transform 0.25s var(--ease-expo), box-shadow 0.3s;
-}
-.btn-outline:hover { border-color: var(--white-40); color: var(--white); transform: translateY(-2px); box-shadow: 0 0 30px rgba(255,255,255,0.08); }
+.status-tag { display: inline-flex; align-items: center; gap: 10px; padding: 8px 16px; border: 1px solid var(--glass-border-strong); background: var(--glass-bg); border-radius: 30px; backdrop-filter: blur(10px); font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 0.1em; color: var(--text-main); margin-bottom: 32px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+.status-tag span { width: 8px; height: 8px; background: #10b981; border-radius: 50%; box-shadow: 0 0 12px #10b981; animation: pulseOk 2s infinite; }
+@keyframes pulseOk { 50% { opacity: 0.4; } }
 
-/* Stat strip */
-.hero-stats {
-  position: absolute; bottom: 0; left: 0; right: 0;
-  display: flex; justify-content: center;
-  border-top: 1px solid rgba(232,19,26,0.15);
-  background: rgba(0,0,0,0.6); backdrop-filter: blur(12px);
-  opacity: 0; animation: fadeUp 1s var(--ease-expo) 2.1s forwards;
-}
-.hero-stat {
-  flex: 1; max-width: 220px; padding: 24px 20px; text-align: center;
-  border-right: 1px solid rgba(255,255,255,0.05);
-  transition: background 0.3s;
-}
-.hero-stat:last-child { border-right: none; }
-.hero-stat:hover { background: rgba(232,19,26,0.06); }
-.stat-val {
-  font-family: var(--f-display); font-size: clamp(1.8rem, 4vw, 2.4rem);
-  color: var(--white); line-height: 1;
-}
-.stat-val em { font-style: normal; color: var(--red2); font-size: 0.5em; margin-left: 3px; }
-.stat-lbl {
-  font-family: var(--f-cond); font-size: 0.58rem; font-weight: 600;
-  letter-spacing: 0.22em; text-transform: uppercase; color: var(--white-40); margin-top: 6px;
-}
+.hero-title { font-family: var(--font-disp); font-size: clamp(3.2rem, 6vw, 6.5rem); font-weight: 700; line-height: 1.05; letter-spacing: -0.02em; text-transform: uppercase; margin-bottom: 24px; text-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+.hero-title span { color: transparent; -webkit-text-stroke: 1px var(--text-main); opacity: 0.8; font-weight: 500; }
+.hero-title .hg-red { color: var(--accent); -webkit-text-stroke: 0; opacity: 1; text-shadow: 0 0 40px var(--accent-glow); }
+.hero-desc { font-size: 1.2rem; font-weight: 300; color: var(--text-muted); line-height: 1.8; max-width: 600px; margin-bottom: 48px; }
+.hero-actions { display: flex; gap: 20px; flex-wrap: wrap; }
 
-/* ROCKET FLOATING */
-.hero-rocket {
-  position: absolute; right: clamp(20px, 8vw, 120px); top: 50%;
-  transform: translateY(-50%);
-  opacity: 0; animation: rocketIn 1.5s var(--ease-expo) 1.5s forwards;
-  pointer-events: none;
-}
-@keyframes rocketIn {
-  from { opacity:0; transform: translateY(-30%) rotate(-20deg); }
-  to { opacity:1; transform: translateY(-50%) rotate(-20deg); }
-}
-.hero-rocket svg { 
-  width: clamp(80px, 12vw, 160px);
-  filter: drop-shadow(0 0 30px rgba(232,19,26,0.5));
-  animation: rocketFloat 4s ease-in-out infinite;
-}
-@keyframes rocketFloat {
-  0%,100% { transform: translateY(0); }
-  50% { transform: translateY(-18px); }
-}
-/* Flame particles */
-.flame { position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%); width: 20px; }
-.flame span {
-  display: block; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
-  width: 4px; border-radius: 2px;
-  background: linear-gradient(to top, var(--red), #ff8800, transparent);
-  animation: flameAnim var(--fd, 0.5s) ease-in-out var(--fd2, 0s) infinite alternate;
-}
-@keyframes flameAnim { from { height: 12px; opacity: 1; } to { height: 28px; opacity: 0.6; } }
+.hero-visual { position: relative; display: flex; justify-content: center; align-items: center; height: 600px; }
+.rocket-wrapper { animation: floatCalmly 8s ease-in-out infinite; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5)) drop-shadow(0 0 30px rgba(14,165,233,0.2)); z-index: 2; }
+@keyframes floatCalmly { 0%, 100% { transform: translateY(0) rotate(5deg); } 50% { transform: translateY(-25px) rotate(8deg); } }
+.rocket-svg { width: clamp(140px, 15vw, 180px); }
 
-@keyframes fadeUp { from { opacity:0; transform:translateY(28px); } to { opacity:1; transform:translateY(0); } }
+.hero-hud-countdown { margin-top: 60px; }
+.countdown-box { display: inline-flex; gap: clamp(15px, 3vw, 40px); padding: 30px 50px; text-align: center; }
+.cd-block { display: flex; flex-direction: column; align-items: center; min-width: clamp(75px, 8vw, 110px); }
+.cd-num { font-family: var(--font-disp); font-size: clamp(3.5rem, 6vw, 5.5rem); font-weight: 700; color: var(--text-main); line-height: 1; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; text-align: center; }
+.cd-lbl { font-family: var(--font-mono); font-size: clamp(0.7rem, 1.5vw, 0.9rem); font-weight: 500; letter-spacing: 0.25em; color: var(--text-muted); margin-top: 12px; text-transform: uppercase; }
+.cd-sep { font-family: var(--font-disp); font-size: clamp(3.5rem, 6vw, 5.5rem); color: var(--glass-border-strong); line-height: 1; font-weight: 300; }
 
-/* ══ ABOUT ═════════════════════════════════════════ */
-#about {
-  position: relative; z-index: 2;
-  padding: clamp(80px,12vw,140px) 0;
+/* ══ YENİ EKLENTİ 1: GÖREV FRAGMANI MODALI (PR VİDEOSU) ══ */
+.video-modal {
+  position: fixed; inset: 0; z-index: 1000; background: rgba(3, 5, 10, 0.95); backdrop-filter: blur(15px);
+  display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: 0.4s var(--ease-smooth);
 }
-.container { max-width: 1180px; margin: 0 auto; padding: 0 clamp(20px,5vw,72px); }
+.video-modal.active { opacity: 1; pointer-events: all; }
+.modal-close {
+  position: absolute; top: 40px; right: 40px; background: transparent; border: 1px solid var(--glass-border-strong); color: white;
+  width: 50px; height: 50px; border-radius: 50%; font-size: 1.5rem; cursor: pointer; transition: 0.3s;
+}
+.modal-close:hover { background: var(--accent); border-color: var(--accent); }
+.modal-content {
+  width: 90%; max-width: 1000px; aspect-ratio: 16/9; background: #000; border-radius: 12px; overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 40px rgba(14, 165, 233, 0.2); border: 1px solid var(--glass-border-strong);
+  transform: translateY(40px) scale(0.95); transition: 0.6s var(--ease-smooth); transition-delay: 0.1s;
+}
+.video-modal.active .modal-content { transform: translateY(0) scale(1); }
+.modal-content iframe { width: 100%; height: 100%; border: none; }
 
-[data-reveal] {
-  opacity: 0; transform: translateY(40px);
-  transition: opacity 0.9s var(--ease-expo), transform 0.9s var(--ease-expo);
-}
-[data-reveal].visible { opacity: 1; transform: translateY(0); }
-[data-reveal][data-d="1"] { transition-delay: 0.1s; }
-[data-reveal][data-d="2"] { transition-delay: 0.22s; }
-[data-reveal][data-d="3"] { transition-delay: 0.34s; }
-[data-reveal][data-d="4"] { transition-delay: 0.48s; }
-[data-reveal][data-d="5"] { transition-delay: 0.62s; }
+/* ══ EKİBİMİZ (MÜRETTEBAT KAPSÜLÜ) ══ */
+#crew { padding: 140px 0; border-top: 1px solid var(--glass-border); background: rgba(0,0,0,0.1); }
+.crew-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 60px; }
+.crew-card { position: relative; padding: 0; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 380px; text-align: center; }
+.crew-card::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 50%; background: linear-gradient(to top, rgba(14, 165, 233, 0.2), transparent); border-bottom: 2px solid var(--cyan-accent); pointer-events: none; opacity: 0.5; transition: 0.4s; }
+.crew-card:hover::after { opacity: 1; height: 60%; }
+.crew-img-placer { width: 100%; height: 100%; position: absolute; top: 0; left: 0; display: flex; align-items:flex-end; justify-content: center; z-index: 1; }
+.crew-img-placer img { width: auto; height: 90%; object-fit: contain; }
+.crew-info { position: relative; z-index: 2; width: 100%; padding: 24px 16px; background: linear-gradient(to top, rgba(3,5,10,0.9), rgba(3,5,10,0.5) 80%, transparent); }
+.crew-name { font-family: var(--font-disp); font-size: 1.4rem; font-weight: 700; color: var(--text-main); margin-bottom: 4px; }
+.crew-role { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.15em; color: var(--cyan-accent); text-transform: uppercase; }
 
-.sec-label {
-  font-family: var(--f-cond); font-size: 0.7rem; font-weight: 700;
-  letter-spacing: 0.32em; text-transform: uppercase; color: var(--red2);
-  display: flex; align-items: center; gap: 12px; margin-bottom: 1rem;
-}
-.sec-label::before { content: ''; width: 30px; height: 1px; background: var(--red2); }
-.sec-title {
-  font-family: var(--f-display); font-size: clamp(2.5rem, 6vw, 5rem);
-  line-height: 0.95; letter-spacing: 0.02em; color: var(--white);
-  margin-bottom: 1.5rem;
-}
 
-.about-layout {
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: clamp(40px, 7vw, 100px); align-items: center;
-}
-.about-text p { font-size: 0.95rem; color: var(--white-70); line-height: 1.95; margin-bottom: 1rem; }
-.about-text strong { color: var(--white); font-weight: 600; }
+/* ══ SİSTEM MİMARİSİ (HUD KARTLARI) ══ */
+#architecture { padding: 140px 0; position: relative; border-top: 1px solid var(--glass-border); }
+.arch-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 60px; margin-bottom: 40px; }
+.arch-card { padding: 48px 40px; display: flex; flex-direction: column; height: 100%; }
+.ac-icon { width: 56px; height: 56px; border-radius: 14px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; margin-bottom: 32px; border: 1px solid rgba(255,255,255,0.05); }
+.ac-icon svg { width: 28px; height: 28px; stroke: var(--cyan-accent); stroke-width: 1.5; fill: none; }
+.arch-card h3 { font-family: var(--font-disp); font-size: 1.5rem; font-weight: 600; margin-bottom: 20px; color: var(--text-main); }
+.arch-card p { font-size: 1.05rem; color: var(--text-muted); line-height: 1.7; font-weight: 300; }
+.doc-download-wrapper { text-align: center; margin-top: 60px; padding-top: 40px; border-top: 1px dashed rgba(255,255,255,0.1); }
 
-.about-nums { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-top: 2.5rem; }
-.about-num {
-  padding: 24px; background: var(--white-07); border: 1px solid var(--white-07);
-  position: relative; overflow: hidden;
-  transition: background 0.3s, border-color 0.3s, transform 0.4s var(--ease-expo);
+/* ══ YENİ EKLENTİ 2: SAHTE GÜVENLİK TERMİNALİ (PR İÇİN SİSTEM ONAY EKRANI) ══ */
+#terminal-section { padding: 100px 0; background: #010204; border-top: 1px solid var(--glass-border); }
+.terminal-window {
+  background: #060b13; border: 1px solid #1f2937; border-radius: 8px; overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.8), inset 0 0 20px rgba(16, 185, 129, 0.05);
 }
-.about-num::before {
-  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
-  background: var(--red); transform: scaleX(0); transform-origin: left;
-  transition: transform 0.4s var(--ease-expo);
+.term-header {
+  background: #111827; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid #1f2937;
 }
-.about-num:hover { background: rgba(232,19,26,0.07); border-color: rgba(232,19,26,0.25); transform: translateY(-4px); }
-.about-num:hover::before { transform: scaleX(1); }
-.num-val { font-family: var(--f-display); font-size: 2.8rem; color: var(--white); line-height: 1; }
-.num-val sup { font-size: 0.55em; color: var(--red2); }
-.num-lbl { font-family: var(--f-cond); font-size: 0.6rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--white-40); margin-top: 4px; }
+.term-dots { display: flex; gap: 8px; }
+.term-dots span { width: 12px; height: 12px; border-radius: 50%; background: #374151; }
+.term-dots span:nth-child(1) { background: #ef4444; }
+.term-dots span:nth-child(2) { background: #f59e0b; }
+.term-dots span:nth-child(3) { background: #10b981; }
+.term-title { font-family: var(--font-disp); font-size: 0.8rem; letter-spacing: 0.1em; color: var(--text-muted); }
+.term-body {
+  padding: 30px; font-family: var(--font-mono); font-size: 0.95rem; line-height: 1.8;
+  height: 300px; overflow-y: hidden; position: relative; color: var(--term-green);
+}
+/* Titreyen cursor efekti */
+.cursor-blink { display: inline-block; width: 10px; height: 16px; background: var(--term-green); animation: blink 1s step-end infinite; vertical-align: middle; margin-left: 5px; }
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+.term-line { margin-bottom: 8px; opacity: 0; transform: translateY(10px); animation: typeLine 0.1s forwards; }
+@keyframes typeLine { to { opacity: 1; transform: translateY(0); } }
+.term-gray { color: #6b7280; }
+.term-cyan { color: var(--cyan-accent); }
+.term-red { color: var(--accent); }
 
-/* VISUAL RIGHT SIDE */
-.about-visual { position: relative; }
-.about-img-frame {
-  position: relative; border: 1px solid rgba(232,19,26,0.2);
-  background: linear-gradient(135deg, rgba(232,19,26,0.05) 0%, rgba(7,12,18,0.9) 100%);
-  padding: 2px; overflow: hidden;
-}
-.about-img-frame::before, .about-img-frame::after {
-  content: ''; position: absolute; width: 14px; height: 14px; border-color: var(--red2); border-style: solid; z-index: 1;
-}
-.about-img-frame::before { top: -1px; left: -1px; border-width: 1.5px 0 0 1.5px; }
-.about-img-frame::after  { bottom: -1px; right: -1px; border-width: 0 1.5px 1.5px 0; }
-.about-img-inner {
-  height: 380px; display: flex; align-items: center; justify-content: center;
-  background: rgba(0,0,0,0.4); flex-direction: column; gap: 12px;
-  position: relative; overflow: hidden;
-}
-.about-img-inner::before {
-  content: ''; position: absolute; inset: 0;
-  background: radial-gradient(ellipse at center, rgba(232,19,26,0.08) 0%, transparent 70%);
-  animation: scanGlow 4s ease-in-out infinite alternate;
-}
-@keyframes scanGlow { from { opacity: 0.5; } to { opacity: 1; } }
-.placeholder-ico { opacity: 0.2; }
-.placeholder-ico svg { width: 48px; height: 48px; stroke: var(--red2); fill: none; }
-.placeholder-txt { font-family: var(--f-cond); font-size: 0.65rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--red2); opacity: 0.4; text-align: center; padding: 0 20px; }
 
-.about-grid-images {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-top: 2px;
-}
-.about-img-sm {
-  height: 150px; background: rgba(7,12,18,0.8); border: 1px solid rgba(232,19,26,0.12);
-  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
-  transition: border-color 0.3s;
-}
-.about-img-sm:hover { border-color: rgba(232,19,26,0.35); }
-.about-img-sm svg { width: 20px; height: 20px; stroke: var(--red2); fill: none; opacity: 0.3; }
-.about-img-sm span { font-family: var(--f-cond); font-size: 0.55rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--white-40); }
+/* ══ FOOTER ══ */
+footer { padding: 100px 0 40px; border-top: 1px solid var(--glass-border); background: radial-gradient(circle at 50% 100%, rgba(13, 22, 39, 0.6) 0%, transparent 60%); position: relative; overflow: hidden; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1.5fr; gap: 80px; margin-bottom: 80px; }
+.footer-brand { margin-bottom: 32px; display: flex; align-items: center; gap: 20px; }
+.footer-brand img { height: 48px; filter: grayscale(100%) opacity(0.9); }
+.f-logo-text { font-family: var(--font-disp); font-size: 1.8rem; font-weight: 700; color: var(--text-main); letter-spacing: 0.1em; }
+.about-text { font-size: 1.1rem; color: var(--text-muted); line-height: 1.9; font-weight: 300; max-width: 600px; }
+.about-text strong { color: var(--text-main); font-weight: 500; font-size: 1.25rem; display: block; margin-bottom: 16px; font-family: var(--font-disp); }
+.f-title { font-family: var(--font-disp); font-size: 1.1rem; color: var(--text-main); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 32px; font-weight: 600; }
+.f-links { list-style: none; display: flex; flex-direction: column; gap: 16px; }
+.f-links a { font-size: 1.05rem; color: var(--text-muted); transition: all 0.3s; display: inline-block; font-weight: 400; }
+.f-links a:hover { color: var(--text-main); padding-left: 8px; }
+.f-contact { list-style: none; display: flex; flex-direction: column; gap: 24px; }
+.f-contact li { display: flex; align-items: center; gap: 16px; font-size: 1.05rem; color: var(--text-muted); }
+.f-icon { width: 44px; height: 44px; border-radius: 12px; background: rgba(255,255,255,0.03); display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.05); }
+.f-contact svg { width: 20px; height: 20px; stroke: var(--cyan-accent); stroke-width: 1.5; fill: none; }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 40px; border-top: 1px solid var(--glass-border); font-size: 0.95rem; color: var(--text-muted); font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.05em; }
 
-/* ══ ENGINEERING ═══════════════════════════════════ */
-#engineering {
-  position: relative; z-index: 2;
-  padding: clamp(80px,12vw,140px) 0;
-  border-top: 1px solid rgba(255,255,255,0.04);
-}
-
-/* Section divider */
-.slash-divider {
-  text-align: center; margin: -1px 0;
-  font-family: var(--f-display); font-size: 4rem;
-  color: rgba(232,19,26,0.08); letter-spacing: -0.05em;
-  overflow: hidden; line-height: 1;
-  pointer-events: none;
-}
-
-.eng-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 56px; }
-.eng-header-right { font-family: var(--f-cond); font-size: 0.8rem; font-weight: 500; color: var(--white-40); letter-spacing: 0.06em; max-width: 280px; text-align: right; line-height: 1.8; }
-
-/* Big feature card */
-.feat-card {
-  display: grid; grid-template-columns: 1fr 300px; gap: 56px; align-items: center;
-  border: 1px solid rgba(232,19,26,0.15); padding: clamp(30px,4vw,56px);
-  position: relative; margin-bottom: 16px; overflow: hidden;
-  background: rgba(7,12,18,0.7);
-  transition: border-color 0.4s, box-shadow 0.4s;
-}
-.feat-card::before {
-  content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 0;
-  background: linear-gradient(to bottom, var(--red), transparent);
-  transition: height 0.8s var(--ease-expo);
-}
-.feat-card:hover { border-color: rgba(232,19,26,0.4); box-shadow: 0 0 80px rgba(232,19,26,0.08), inset 0 0 80px rgba(232,19,26,0.03); }
-.feat-card:hover::before { height: 100%; }
-
-.feat-tag { font-family: var(--f-cond); font-size: 0.65rem; font-weight: 700; letter-spacing: 0.28em; text-transform: uppercase; color: var(--red2); margin-bottom: 0.8rem; }
-.feat-title { font-family: var(--f-display); font-size: clamp(1.8rem,4vw,2.8rem); color: var(--white); line-height: 0.95; margin-bottom: 1rem; }
-.feat-desc { font-size: 0.88rem; color: var(--white-70); line-height: 1.9; margin-bottom: 1.8rem; }
-
-.prog-list {}
-.prog-item { margin-bottom: 18px; }
-.prog-head { display: flex; justify-content: space-between; margin-bottom: 8px; }
-.prog-name { font-family: var(--f-cond); font-size: 0.62rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--white-40); }
-.prog-pct { font-family: var(--f-cond); font-size: 0.62rem; font-weight: 700; color: var(--red2); }
-.prog-track { height: 2px; background: rgba(255,255,255,0.06); overflow: hidden; }
-.prog-fill { height: 100%; background: linear-gradient(90deg, var(--red), var(--red2)); transform: scaleX(0); transform-origin: left; transition: transform 1.4s var(--ease-expo); }
-
-/* Rocket SVG */
-.feat-rocket { display: flex; align-items: center; justify-content: center; }
-.feat-rocket svg { width: 200px; filter: drop-shadow(0 0 30px rgba(232,19,26,0.4)); animation: floatRock 5s ease-in-out infinite; }
-@keyframes floatRock { 0%,100%{transform:translateY(0) rotate(-12deg);} 50%{transform:translateY(-16px) rotate(-12deg);} }
-
-/* Spec grid */
-.spec-grid {
-  display: grid; grid-template-columns: repeat(3,1fr);
-  border: 1px solid rgba(255,255,255,0.04); margin-bottom: 16px;
-}
-.spec-cell {
-  padding: clamp(22px,3vw,38px) clamp(18px,2vw,32px);
-  border-right: 1px solid rgba(255,255,255,0.04);
-  border-bottom: 1px solid rgba(255,255,255,0.04);
-  background: rgba(7,12,18,0.5);
-  position: relative; overflow: hidden;
-  transition: background 0.3s;
-}
-.spec-cell:nth-child(3n) { border-right: none; }
-.spec-cell:nth-child(n+4) { border-bottom: none; }
-.spec-cell:hover { background: rgba(232,19,26,0.05); }
-.spec-cell::after {
-  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1.5px;
-  background: var(--red); transform: scaleX(0); transform-origin: left;
-  transition: transform 0.45s var(--ease-expo);
-}
-.spec-cell:hover::after { transform: scaleX(1); }
-.spec-ico { width: 28px; height: 28px; stroke: var(--red); fill: none; stroke-width: 1.5; margin-bottom: 14px; opacity: 0.75; }
-.spec-val { font-family: var(--f-display); font-size: 2rem; color: var(--white); line-height: 1; margin-bottom: 4px; }
-.spec-val sub { font-size: 0.55em; color: var(--red2); vertical-align: baseline; }
-.spec-name { font-family: var(--f-cond); font-size: 0.58rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--white-40); margin-bottom: 8px; }
-.spec-desc { font-size: 0.78rem; color: var(--white-40); line-height: 1.7; }
-
-.eng-duo { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.eng-card {
-  padding: clamp(24px,3.5vw,40px);
-  border: 1px solid rgba(255,255,255,0.06);
-  background: rgba(7,12,18,0.7);
-  position: relative; overflow: hidden;
-  transition: border-color 0.3s, transform 0.4s var(--ease-expo), box-shadow 0.4s;
-}
-.eng-card::before {
-  content: attr(data-num); position: absolute; right: 20px; top: 16px;
-  font-family: var(--f-display); font-size: 5rem; color: rgba(232,19,26,0.07);
-  line-height: 1; transition: color 0.3s;
-}
-.eng-card:hover { border-color: rgba(232,19,26,0.25); transform: translateY(-6px); box-shadow: 0 20px 60px rgba(0,0,0,0.4); }
-.eng-card:hover::before { color: rgba(232,19,26,0.12); }
-.eng-tag { font-family: var(--f-cond); font-size: 0.6rem; font-weight: 700; letter-spacing: 0.24em; text-transform: uppercase; color: var(--red2); margin-bottom: 0.7rem; }
-.eng-card h3 { font-family: var(--f-display); font-size: 1.4rem; color: var(--white); margin-bottom: 0.8rem; letter-spacing: 0.04em; }
-.eng-card p { font-size: 0.84rem; color: var(--white-70); line-height: 1.9; }
-
-/* ══ SECURITY ══════════════════════════════════════ */
-#security {
-  position: relative; z-index: 2;
-  padding: clamp(80px,12vw,140px) 0;
-  border-top: 1px solid rgba(255,255,255,0.04);
-}
-.sec-head { text-align: center; max-width: 600px; margin: 0 auto 64px; }
-.sec-head .sec-label { justify-content: center; }
-.sec-head .sec-label::before { display: none; }
-.sec-head .sec-label::after { content: ''; width: 30px; height: 1px; background: var(--red2); }
-
-.sec-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 56px; }
-.sec-card {
-  border: 1px solid rgba(255,255,255,0.06);
-  background: rgba(7,12,18,0.7); padding: 32px 22px; text-align: center;
-  position: relative; overflow: hidden;
-  transition: border-color 0.3s, transform 0.4s var(--ease-expo), box-shadow 0.4s;
-}
-.sec-card::before {
-  content: ''; position: absolute; inset: 0;
-  background: radial-gradient(ellipse at 50% 100%, rgba(232,19,26,0.12) 0%, transparent 60%);
-  opacity: 0; transition: opacity 0.4s;
-}
-.sec-card:hover { border-color: rgba(232,19,26,0.35); transform: translateY(-8px); box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
-.sec-card:hover::before { opacity: 1; }
-.sec-icon {
-  width: 52px; height: 52px; margin: 0 auto 18px;
-  border: 1px solid rgba(232,19,26,0.25); background: rgba(232,19,26,0.07);
-  display: flex; align-items: center; justify-content: center;
-  transition: border-color 0.3s, background 0.3s;
-}
-.sec-card:hover .sec-icon { border-color: rgba(232,19,26,0.6); background: rgba(232,19,26,0.15); }
-.sec-icon svg { width: 22px; height: 22px; stroke: var(--red2); fill: none; stroke-width: 1.5; }
-.sec-card h4 { font-family: var(--f-display); font-size: 0.85rem; letter-spacing: 0.08em; color: var(--white); margin-bottom: 10px; }
-.sec-card p { font-size: 0.75rem; color: var(--white-40); line-height: 1.75; }
-.status-pill {
-  display: inline-flex; align-items: center; gap: 5px; margin-top: 14px;
-  font-family: var(--f-cond); font-size: 0.55rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
-  color: #4ade80; background: rgba(74,222,128,0.08); border: 1px solid rgba(74,222,128,0.2);
-  padding: 4px 10px;
-}
-.status-pill::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: #4ade80; animation: blink 1.6s step-end infinite; }
-@keyframes blink { 50%{opacity:0;} }
-
-/* Terminal */
-.terminal {
-  max-width: 700px; margin: 0 auto;
-  border: 1px solid rgba(232,19,26,0.2);
-  background: rgba(2,4,8,0.95); overflow: hidden;
-}
-.term-bar {
-  display: flex; align-items: center; gap: 6px;
-  padding: 12px 18px; background: rgba(255,255,255,0.03);
-  border-bottom: 1px solid rgba(255,255,255,0.04);
-}
-.t-dot { width: 10px; height: 10px; border-radius: 50%; }
-.t-dot.r { background: #ff5f57; } .t-dot.y { background: #febc2e; } .t-dot.g { background: #28c840; }
-.term-title { font-family: var(--f-cond); font-size: 0.62rem; font-weight: 600; letter-spacing: 0.12em; color: var(--white-40); margin-left: auto; }
-.term-body { padding: 28px 32px; font-family: 'Courier New', monospace; font-size: 0.78rem; line-height: 2.2; }
-.t-line { opacity: 0; }
-.t-prompt { color: var(--red2); }
-.t-cmd { color: var(--white-90); }
-.t-ok { color: #4ade80; }
-.t-warn { color: #fbbf24; }
-.t-dim { color: var(--white-40); }
-
-/* ══ FOOTER ════════════════════════════════════════ */
-footer {
-  position: relative; z-index: 2;
-  background: var(--deep);
-  border-top: 1px solid rgba(232,19,26,0.15);
-  padding: 72px 0 28px;
-}
-.footer-top {
-  text-align: center; padding-bottom: 56px;
-  border-bottom: 1px solid rgba(255,255,255,0.04);
-  margin-bottom: 52px;
-}
-.footer-logo img { height: 60px; filter: drop-shadow(0 0 20px rgba(232,19,26,0.4)); margin-bottom: 16px; }
-.footer-tagline {
-  font-family: var(--f-display); font-size: clamp(2rem, 5vw, 4rem);
-  color: var(--white); letter-spacing: 0.06em; line-height: 1;
-}
-.footer-tagline span { color: var(--red2); }
-
-.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: clamp(32px,6vw,72px); margin-bottom: 48px; }
-.footer-brand-name { font-family: var(--f-display); font-size: 1.3rem; letter-spacing: 0.12em; color: var(--white); margin-bottom: 4px; }
-.footer-brand-name span { color: var(--red2); }
-.footer-brand-sub { font-family: var(--f-cond); font-size: 0.6rem; font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase; color: var(--white-40); margin-bottom: 16px; }
-.footer-about { font-size: 0.83rem; color: var(--white-40); line-height: 1.9; }
-.footer-col h5 { font-family: var(--f-cond); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.28em; text-transform: uppercase; color: var(--red2); margin-bottom: 18px; }
-.footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-.footer-links a { font-size: 0.83rem; color: var(--white-40); transition: color 0.2s, padding-left 0.25s; display: flex; align-items: center; gap: 8px; }
-.footer-links a::before { content: '›'; color: var(--red2); opacity: 0; transition: opacity 0.2s, transform 0.2s; transform: translateX(-6px); }
-.footer-links a:hover { color: var(--white); padding-left: 4px; }
-.footer-links a:hover::before { opacity: 1; transform: translateX(0); }
-.contact-item { display: flex; gap: 10px; font-size: 0.8rem; color: var(--white-40); margin-bottom: 10px; align-items: flex-start; }
-.contact-item svg { width: 13px; height: 13px; stroke: var(--red2); fill: none; flex-shrink: 0; margin-top: 4px; }
-.footer-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; }
-.footer-copy { font-family: var(--f-cond); font-size: 0.6rem; font-weight: 500; letter-spacing: 0.1em; color: var(--white-40); }
-.footer-copy a { color: var(--red2); }
-.socials { display: flex; gap: 8px; }
-.social-btn {
-  width: 36px; height: 36px; border: 1px solid rgba(255,255,255,0.08);
-  display: flex; align-items: center; justify-content: center;
-  transition: border-color 0.25s, background 0.25s, transform 0.25s;
-}
-.social-btn:hover { border-color: var(--red2); background: rgba(232,19,26,0.1); transform: translateY(-3px); }
-.social-btn svg { width: 14px; height: 14px; stroke: var(--white-70); fill: none; }
-
-/* ══ RESPONSIVE ════════════════════════════════════ */
+/* ══ RESPONSIVE ══ */
 @media (max-width: 1100px) {
-  .hero-rocket { display: none; }
-  .spec-grid { grid-template-columns: repeat(2,1fr); }
-  .sec-grid { grid-template-columns: 1fr 1fr; }
-  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .hero-grid { grid-template-columns: 1fr; text-align: center; gap: 40px; }
+  .hero-visual { height: 400px; order: -1; }
+  .hero-title, .hero-desc { margin-left: auto; margin-right: auto; }
+  .hero-actions { justify-content: center; }
+  .hero-hud-countdown { display: flex; justify-content: center; }
+  .crew-grid, .arch-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 60px; }
   .footer-grid > :first-child { grid-column: 1/-1; }
 }
 @media (max-width: 768px) {
-  .nav-links, .nav-cta { display: none; }
-  .nav-hamburger { display: flex; }
-  .about-layout { grid-template-columns: 1fr; }
-  .feat-card { grid-template-columns: 1fr; }
-  .feat-rocket { display: none; }
-  .eng-duo { grid-template-columns: 1fr; }
-  .eng-header { flex-direction: column; align-items: flex-start; gap: 16px; }
-  .eng-header-right { text-align: left; }
-  .hero-stats { position: static; }
-  .footer-top { display: none; }
-}
-@media (max-width: 560px) {
-  .spec-grid { grid-template-columns: 1fr; }
-  .sec-grid { grid-template-columns: 1fr; }
-  .footer-grid { grid-template-columns: 1fr; }
-  .footer-bottom { flex-direction: column; text-align: center; }
-  .hero-h1 { font-size: clamp(2.8rem, 14vw, 5rem); }
-  .about-nums { grid-template-columns: 1fr 1fr; }
+  .nav-links, .btn-nav { display: none; }
+  .menu-btn { display: flex; }
+  .hero-title { font-size: clamp(2.8rem, 10vw, 4rem); }
+  .countdown-box { gap: clamp(10px, 2vw, 20px); padding: 24px 20px; width: 100%; justify-content: space-around; }
+  .crew-grid, .arch-grid { grid-template-columns: 1fr; }
+  .arch-card { padding: 40px 30px; }
+  .footer-grid { grid-template-columns: 1fr; gap: 50px; }
+  .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
 }
 </style>
 </head>
 <body>
 
-<!-- CURSOR -->
-<div id="cursor"></div>
-<div id="cursor-ring"></div>
-
-<!-- SPACE CANVAS -->
 <canvas id="spaceCanvas"></canvas>
-<div class="overlay"></div>
+<div class="nebula-glow"></div>
 
-<!-- NAVBAR -->
-<nav id="navbar">
-  <a href="#hero" class="nav-logo">
-    <img src="WhatsApp Image 2026-04-04 at 00.11.46.jpeg" alt="VEFA AEROSPACE">
-    <div class="nav-logo-text">
-      VEFA AEROSPACE
-      <small>GençTek — VPAL</small>
-    </div>
-  </a>
-  <ul class="nav-links">
-    <li><a href="#about">Hakkımızda</a></li>
-    <li><a href="#engineering">Mühendislik</a></li>
-    <li><a href="#security">Güvenlik</a></li>
-    <li><a href="#footer">İletişim</a></li>
-  </ul>
-  <a href="#engineering" class="nav-cta">Projeyi İncele</a>
-  <div class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></div>
-</nav>
+<header id="navbar">
+  <div class="nav-inner">
+    <a href="#" class="logo">
+      <img src="WhatsApp Image 2026-04-04 at 00.11.46.jpeg" alt="VEFA AEROSPACE">
+      <div class="logo-type">VEFA <span>AEROSPACE</span></div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#hero">Görev</a></li>
+      <li><a href="#crew">Mürettebat</a></li>
+      <li><a href="#architecture">Mimari</a></li>
+      <li><a href="#terminal-section">Sistem</a></li>
+    </ul>
+    <button class="menu-btn" id="menuBtn" aria-label="Menü Aç/Kapat">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
 
-<div id="mobileMenu">
-  <a href="#about" class="mob-link">Hakkımızda</a>
-  <a href="#engineering" class="mob-link">Mühendislik</a>
-  <a href="#security" class="mob-link">Güvenlik</a>
-  <a href="#footer" class="mob-link">İletişim</a>
+<div class="mobile-nav" id="mobileNav">
+  <a href="#hero" class="mob-link">Görev</a>
+  <a href="#crew" class="mob-link">Mürettebat</a>
+  <a href="#architecture" class="mob-link">Mimari</a>
+  <a href="#terminal-section" class="mob-link">Sistem Merkezi</a>
 </div>
 
-<!-- HERO -->
+<!-- KAHRAMAN ALANI -->
 <section id="hero">
-  <div class="hero-eyebrow">
-    <span></span> Misyon Aktif — Su Roketi Projesi V1.0 <span></span>
-  </div>
-
-  <div class="hero-logo-wrap">
-    <div class="logo-pulse"></div>
-    <img src="/mnt/user-data/uploads/WhatsApp_Image_2026-04-04_at_00_11_46.jpeg" alt="VEFA AEROSPACE Logo">
-  </div>
-
-  <h1 class="hero-h1">
-    <div class="line"><span>GÖKYÜZÜNE</span></div>
-    <div class="line"><span>İMZAMIZI</span></div>
-    <div class="line"><span>ATIYORUZ.</span></div>
-  </h1>
-
-  <p class="hero-sub">
-    Vefa Poyraz Anadolu Lisesi GençTek takımı — mühendislik, aerodinamik ve tutkuyla tasarlanan su roketi projemizle sınırları zorluyoruz.
-  </p>
-
-  <div class="hero-actions">
-    <a href="#engineering" class="btn-primary">
-      ▶ Projeyi İncele
-    </a>
-    <a href="#about" class="btn-outline">
-      Ekibimizi Tanı →
-    </a>
-  </div>
-
-  <!-- Floating Rocket -->
-  <div class="hero-rocket">
-    <svg viewBox="0 0 100 260" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="rBody" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stop-color="#0a1018"/>
-          <stop offset="50%" stop-color="#1a2535"/>
-          <stop offset="100%" stop-color="#0a1018"/>
-        </linearGradient>
-        <linearGradient id="rFin" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#e8131a" stop-opacity="0.6"/>
-          <stop offset="100%" stop-color="#e8131a" stop-opacity="0.15"/>
-        </linearGradient>
-        <filter id="glow">
-          <feGaussianBlur stdDeviation="3" result="b"/>
-          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-        </filter>
-      </defs>
-      <!-- Nose -->
-      <path d="M50 5 L64 55 L36 55 Z" fill="url(#rFin)" stroke="#e8131a" stroke-width="1.5" filter="url(#glow)"/>
-      <!-- Body -->
-      <rect x="36" y="55" width="28" height="145" rx="2" fill="url(#rBody)" stroke="rgba(79,142,240,0.3)" stroke-width="1"/>
-      <!-- Body details -->
-      <rect x="36" y="80" width="28" height="1" fill="rgba(232,19,26,0.4)"/>
-      <rect x="36" y="110" width="28" height="1" fill="rgba(232,19,26,0.25)"/>
-      <rect x="36" y="140" width="28" height="1" fill="rgba(232,19,26,0.15)"/>
-      <!-- Window -->
-      <circle cx="50" cy="95" r="7" fill="rgba(26,82,168,0.2)" stroke="#4f8ef0" stroke-width="1"/>
-      <circle cx="50" cy="95" r="3.5" fill="rgba(79,142,240,0.35)"/>
-      <!-- VEFA text on body -->
-      <text x="50" y="128" fill="rgba(232,19,26,0.6)" font-size="5.5" font-family="'Bebas Neue', monospace" text-anchor="middle" letter-spacing="2">VEFA</text>
-      <!-- Left fin -->
-      <path d="M36 160 L14 210 L36 195 Z" fill="url(#rFin)" stroke="#e8131a" stroke-width="1.2"/>
-      <!-- Right fin -->
-      <path d="M64 160 L86 210 L64 195 Z" fill="url(#rFin)" stroke="#e8131a" stroke-width="1.2"/>
-      <!-- Nozzle -->
-      <path d="M40 200 L60 200 L56 218 L44 218 Z" fill="rgba(30,40,55,0.9)" stroke="#4f8ef0" stroke-width="1"/>
-      <!-- Flame -->
-      <ellipse cx="50" cy="224" rx="5" ry="2" fill="rgba(79,142,240,0.2)" stroke="rgba(79,142,240,0.4)" stroke-width="0.7"/>
-      <path d="M45 224 Q50 248 46 255 Q50 245 54 255 Q50 248 55 224 Z" fill="url(#rFin)" opacity="0.7">
-        <animate attributeName="d" values="M45 224 Q50 248 46 255 Q50 245 54 255 Q50 248 55 224 Z;M45 224 Q48 242 44 252 Q50 238 56 252 Q52 242 55 224 Z;M45 224 Q50 248 46 255 Q50 245 54 255 Q50 248 55 224 Z" dur="0.4s" repeatCount="indefinite"/>
-      </path>
-      <!-- Center line -->
-      <line x1="50" y1="5" x2="50" y2="200" stroke="rgba(232,19,26,0.1)" stroke-width="0.5" stroke-dasharray="4 3"/>
-    </svg>
-  </div>
-
-  <div class="hero-stats">
-    <div class="hero-stat">
-      <div class="stat-val" data-count="40">40<em>PSI</em></div>
-      <div class="stat-lbl">Çalışma Basıncı</div>
-    </div>
-    <div class="hero-stat">
-      <div class="stat-val">2.7<em>BAR</em></div>
-      <div class="stat-lbl">Basınç Eşdeğeri</div>
-    </div>
-    <div class="hero-stat">
-      <div class="stat-val" data-count="4">4<em>FIN</em></div>
-      <div class="stat-lbl">Aerodinamik Kanat</div>
-    </div>
-    <div class="hero-stat">
-      <div class="stat-val">0<em>%</em></div>
-      <div class="stat-lbl">Hata Payı Hedefi</div>
-    </div>
-  </div>
-</section>
-
-<!-- ABOUT -->
-<section id="about">
-  <div class="container">
-    <div class="about-layout">
-      <div class="about-text">
-        <div class="sec-label" data-reveal>Hakkımızda</div>
-        <h2 class="sec-title" data-reveal data-d="1">VEFA<br>AEROSPACE<br>KİM?</h2>
-        <p data-reveal data-d="2"><strong>Vefa Poyraz Anadolu Lisesi GençTek ekibiyiz.</strong> Su roketi projemizle bilimi ve mühendislik disiplinini sınıf duvarlarının ötesine taşıyoruz. Her fazımız — tasarım, simülasyon, imalat, fırlatma — belgeleniyor.</p>
-        <p data-reveal data-d="3">Sızdırmazlık testleri, aerodinamik kanat hesaplamaları ve kontrollü fırlatma protokollerimiz projeyi okul kulübü düzeyinin çok ötesine taşıyor. <strong>Kırmızı ve beyaz</strong> renklerimiz güç, kararlılık ve Vefa ruhunu temsil ediyor.</p>
-        <div class="about-nums" data-reveal data-d="4">
-          <div class="about-num"><div class="num-val">5<sup>+</sup></div><div class="num-lbl">Aktif Üye</div></div>
-          <div class="about-num"><div class="num-val">3<sup>+</sup></div><div class="num-lbl">Prototip Ver.</div></div>
-          <div class="about-num"><div class="num-val">40<sup>PSI</sup></div><div class="num-lbl">Test Basıncı</div></div>
-          <div class="about-num"><div class="num-val">1</div><div class="num-lbl">Okul — VPAL</div></div>
-        </div>
+  <div class="container hero-grid">
+    <div class="reveal">
+      <div class="status-tag"><span></span> OTONOM FIRLATMA PLATFORMU V1.0</div>
+      <h1 class="hero-title">
+        <span>GÖKYÜZÜNÜN</span><br>ÖTESİNİ<br><div class="hg-red">HEDEFLİYORUZ.</div>
+      </h1>
+      <p class="hero-desc">
+        Vefa Poyraz Anadolu Lisesi "GençTek" takımı liderliğinde, aerodinamik kararlılık ile basınç mühendisliğinin kesiştiği devrimsel Su Roketi Projesi. Yüksek irtifaya hazırız.
+      </p>
+      
+      <div class="hero-actions">
+        <!-- PR VİDEOSU İÇİN OYNAT BUTONU -->
+        <button id="openVideoBtn" class="btn btn-video btn-icon" aria-label="Fragmanı İzle">
+          <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+          GÖREV FRAGMANI
+        </button>
+        <a href="#crew" class="btn btn-primary">Ekibi Tanı</a>
       </div>
-      <div class="about-visual" data-reveal data-d="2">
-        <div class="about-img-frame">
-          <div class="about-img-inner">
-            <div class="placeholder-ico">
-              <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-            </div>
-            <div class="placeholder-txt">Takım Fotoğrafı — Forma & Ekipman</div>
-          </div>
-        </div>
-        <div class="about-grid-images">
-          <div class="about-img-sm">
-            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-            <span>Kapak</span>
-          </div>
-          <div class="about-img-sm">
-            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-            <span>Roket Detay</span>
-          </div>
+      
+      <div class="hero-hud-countdown reveal d-2">
+        <div class="hud-card countdown-box">
+          <div class="cd-block"><div class="cd-num" id="cd-days">00</div><div class="cd-lbl">GÜN</div></div><div class="cd-sep">:</div>
+          <div class="cd-block"><div class="cd-num" id="cd-hours">00</div><div class="cd-lbl">SAAT</div></div><div class="cd-sep">:</div>
+          <div class="cd-block"><div class="cd-num" id="cd-mins">00</div><div class="cd-lbl">DAKİKA</div></div><div class="cd-sep">:</div>
+          <div class="cd-block"><div class="cd-num" id="cd-secs">00</div><div class="cd-lbl">SANİYE</div></div>
         </div>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- ENGINEERING -->
-<section id="engineering">
-  <div class="container">
-    <div class="eng-header">
-      <div>
-        <div class="sec-label" data-reveal>Mühendislik & Proje</div>
-        <h2 class="sec-title" data-reveal data-d="1">TEKNİK<br>SPESİFİKASYONLAR</h2>
-      </div>
-      <p class="eng-header-right" data-reveal data-d="2">Her bileşen hesaplanmış, her birleşim test edilmiştir. Sistemimizin mühendislik altyapısı aşağıda özetlenmiştir.</p>
-    </div>
-
-    <div class="feat-card" data-reveal>
-      <div>
-        <div class="feat-tag">// Sistem Mimarisi</div>
-        <h3 class="feat-title">PVC + PET ŞİŞE<br>HİBRİT GÖVDE</h3>
-        <p class="feat-desc">Düşük ağırlık ve yüksek basınç dayanımı için PVC boru ve PET şişe kombinasyonuyla inşa edilmiştir. Fin açıları drag katsayısı minimizasyonu gözetilerek hesaplanmıştır.</p>
-        <div class="prog-list" id="progList">
-          <div class="prog-item">
-            <div class="prog-head"><span class="prog-name">Aerodinamik Verimlilik</span><span class="prog-pct">96%</span></div>
-            <div class="prog-track"><div class="prog-fill" data-w="0.96"></div></div>
-          </div>
-          <div class="prog-item">
-            <div class="prog-head"><span class="prog-name">Basınç Bütünlüğü</span><span class="prog-pct">100%</span></div>
-            <div class="prog-track"><div class="prog-fill" data-w="1.0"></div></div>
-          </div>
-          <div class="prog-item">
-            <div class="prog-head"><span class="prog-name">Yapısal Stabilite</span><span class="prog-pct">92%</span></div>
-            <div class="prog-track"><div class="prog-fill" data-w="0.92"></div></div>
-          </div>
-          <div class="prog-item">
-            <div class="prog-head"><span class="prog-name">Fırlatma Hazırlığı</span><span class="prog-pct">87%</span></div>
-            <div class="prog-track"><div class="prog-fill" data-w="0.87"></div></div>
-          </div>
-        </div>
-      </div>
-      <div class="feat-rocket">
-        <svg viewBox="0 0 100 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+    
+    <div class="hero-visual reveal d-1">
+      <div class="rocket-wrapper">
+        <svg class="rocket-svg" viewBox="0 0 100 260" fill="none" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <linearGradient id="rBody2" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stop-color="#0a1018"/>
-              <stop offset="50%" stop-color="#1a2535"/>
-              <stop offset="100%" stop-color="#0a1018"/>
+            <linearGradient id="rBody" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#0f172a"/><stop offset="50%" stop-color="#334155"/><stop offset="100%" stop-color="#0f172a"/>
+            </linearGradient>
+            <linearGradient id="rFin" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#ef4444" stop-opacity="0.9"/><stop offset="100%" stop-color="#b91c1c" stop-opacity="0.7"/>
             </linearGradient>
           </defs>
-          <path d="M50 5 L64 55 L36 55 Z" fill="rgba(232,19,26,0.4)" stroke="#e8131a" stroke-width="1.5"/>
-          <rect x="36" y="55" width="28" height="145" rx="2" fill="url(#rBody2)" stroke="rgba(79,142,240,0.4)" stroke-width="1"/>
-          <rect x="36" y="80" width="28" height="1" fill="rgba(232,19,26,0.5)"/>
-          <rect x="36" y="110" width="28" height="1" fill="rgba(232,19,26,0.3)"/>
-          <rect x="36" y="140" width="28" height="1" fill="rgba(232,19,26,0.2)"/>
-          <circle cx="50" cy="95" r="7" fill="rgba(26,82,168,0.2)" stroke="#4f8ef0" stroke-width="1"/>
-          <circle cx="50" cy="95" r="3.5" fill="rgba(79,142,240,0.4)"/>
-          <text x="50" y="128" fill="rgba(232,19,26,0.7)" font-size="5.5" font-family="'Bebas Neue', monospace" text-anchor="middle" letter-spacing="2">VEFA</text>
-          <path d="M36 160 L14 210 L36 195 Z" fill="rgba(232,19,26,0.3)" stroke="#e8131a" stroke-width="1.2"/>
-          <path d="M64 160 L86 210 L64 195 Z" fill="rgba(232,19,26,0.3)" stroke="#e8131a" stroke-width="1.2"/>
-          <path d="M40 200 L60 200 L56 218 L44 218 Z" fill="rgba(30,40,55,0.9)" stroke="#4f8ef0" stroke-width="1"/>
-          <!-- Flame -->
-          <path d="M46 218 Q50 240 47 248 Q50 238 53 248 Q50 240 54 218 Z" fill="#e8131a" opacity="0.6">
-            <animate attributeName="d" values="M46 218 Q50 240 47 248 Q50 238 53 248 Q50 240 54 218 Z;M46 218 Q48 236 44 246 Q50 234 56 246 Q52 236 54 218 Z;M46 218 Q50 240 47 248 Q50 238 53 248 Q50 240 54 218 Z" dur="0.35s" repeatCount="indefinite"/>
+          <path d="M50 5 L65 55 L35 55 Z" fill="url(#rFin)"/>
+          <rect x="35" y="55" width="30" height="145" rx="2" fill="url(#rBody)"/>
+          <rect x="35" y="80" width="30" height="2" fill="#ef4444"/>
+          <rect x="35" y="110" width="30" height="1" fill="rgba(255,255,255,0.2)"/>
+          
+          <circle cx="50" cy="95" r="8" fill="#03050a" stroke="#0ea5e9" stroke-width="2"/>
+          <circle cx="50" cy="95" r="4" fill="#0ea5e9" opacity="0.6"/>
+          
+          <text x="50" y="130" fill="#f8fafc" font-size="6" font-family="'Space Grotesk', sans-serif" font-weight="700" text-anchor="middle" letter-spacing="2">VEFA</text>
+          <text x="50" y="140" fill="#ef4444" font-size="4" font-family="'JetBrains Mono', monospace" text-anchor="middle" letter-spacing="1">AERO</text>
+          
+          <path d="M35 160 L10 210 L35 195 Z" fill="url(#rFin)"/>
+          <path d="M65 160 L90 210 L65 195 Z" fill="url(#rFin)"/>
+          <path d="M40 200 L60 200 L56 218 L44 218 Z" fill="#03050a" stroke="#0ea5e9" stroke-width="1.5"/>
+          
+          <path d="M44 218 Q50 250 46 260 Q50 240 54 260 Q50 250 56 218 Z" fill="#ef4444" opacity="0.8">
+            <animate attributeName="d" values="M44 218 Q50 250 46 260 Q50 240 54 260 Q50 250 56 218 Z; M44 218 Q48 245 44 255 Q50 235 56 255 Q52 245 56 218 Z; M44 218 Q50 250 46 260 Q50 240 54 260 Q50 250 56 218 Z" dur="0.8s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1; 0.4 0 0.2 1"/>
           </path>
-          <line x1="50" y1="5" x2="50" y2="200" stroke="rgba(232,19,26,0.12)" stroke-width="0.5" stroke-dasharray="4 3"/>
-          <!-- Labels -->
-          <text x="72" y="32" fill="rgba(232,19,26,0.7)" font-size="5.5" font-family="monospace">NOSE</text>
-          <text x="72" y="132" fill="rgba(79,142,240,0.7)" font-size="5.5" font-family="monospace">BODY</text>
-          <text x="72" y="205" fill="rgba(232,19,26,0.7)" font-size="5.5" font-family="monospace">FIN</text>
         </svg>
       </div>
     </div>
-
-    <div class="spec-grid" data-reveal data-d="1">
-      <div class="spec-cell">
-        <svg class="spec-ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-        <div class="spec-val">40<sub>PSI</sub></div>
-        <div class="spec-name">Çalışma Basıncı</div>
-        <div class="spec-desc">2.76 bar eşdeğeri; PET şişe güvenlik sınırının %60 altında operasyon.</div>
-      </div>
-      <div class="spec-cell">
-        <svg class="spec-ico" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-        <div class="spec-val">4<sub>FIN</sub></div>
-        <div class="spec-name">Aerodinamik Kanat</div>
-        <div class="spec-desc">Trapez kesitli PVC kanatlar; stabil uçuş yörüngesi için optimize edilmiş.</div>
-      </div>
-      <div class="spec-cell">
-        <svg class="spec-ico" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        <div class="spec-val">PET<sub>+PVC</sub></div>
-        <div class="spec-name">Gövde Malzemesi</div>
-        <div class="spec-desc">Hibrit yapı; PVC boru gövde, PET şişe baskı haznesi.</div>
-      </div>
-      <div class="spec-cell">
-        <svg class="spec-ico" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-        <div class="spec-val">Cd<sub>min</sub></div>
-        <div class="spec-name">Drag Katsayısı</div>
-        <div class="spec-desc">Burun koni geometrisi hava sürtünmesini minimize edecek şekilde tasarlandı.</div>
-      </div>
-      <div class="spec-cell">
-        <svg class="spec-ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        <div class="spec-val">0<sub>hata</sub></div>
-        <div class="spec-name">Hedef Hata Payı</div>
-        <div class="spec-desc">Tam protokol; basınç, sızdırmazlık ve mekanik kontrol.</div>
-      </div>
-      <div class="spec-cell">
-        <svg class="spec-ico" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-        <div class="spec-val">CFD<sub>sim</sub></div>
-        <div class="spec-name">Simülasyon</div>
-        <div class="spec-desc">Tasarım kararları hesaplamalı akışkanlar dinamiği ile desteklendi.</div>
-      </div>
-    </div>
-
-    <div class="eng-duo" data-reveal data-d="2">
-      <div class="eng-card" data-num="01">
-        <div class="eng-tag">// İmalat Süreci</div>
-        <h3>ÜRETİM PROTOKOLÜ</h3>
-        <p>Tüm bileşenler şablon destekli üretimle hazırlanmıştır. Bağlantı noktalarında epoksi dolgu ve PVC kaynak uygulanmış; her birleşim sızıntı testi ile doğrulanmıştır.</p>
-      </div>
-      <div class="eng-card" data-num="02">
-        <div class="eng-tag">// Fırlatma Sistemi</div>
-        <h3>BASINÇ & İTKİ HESABI</h3>
-        <p>Su miktarı iç hacmin %30–40'ı olarak hesaplanmıştır. 40 PSI basınçla doldurulan sistem, kilitsizleme mekanizması tetiklenerek serbest bırakılır.</p>
-      </div>
-    </div>
   </div>
 </section>
 
-<!-- SECURITY -->
-<section id="security">
+<!-- MÜRETTEBAT KAPSÜLÜ (EKİBİMİZ) -->
+<section id="crew">
   <div class="container">
-    <div class="sec-head" data-reveal>
-      <div class="sec-label">Güvenlik & Altyapı</div>
-      <h2 class="sec-title">YÜKSEK GÜVENLİK<br>PROTOKOLLERİ</h2>
-      <p style="font-size:0.88rem;color:var(--white-70);margin-top:0.5rem;">Her sistem test edilmiş, her bileşen doğrulanmıştır.</p>
-    </div>
-    <div class="sec-grid">
-      <div class="sec-card" data-reveal data-d="1">
-        <div class="sec-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-        <h4>YAPISAL BÜTÜNLÜK</h4>
-        <p>Gövde birleşimleri çift katmanlı epoksi ile mühürlendi. Basınç altında deformasyon testi geçildi.</p>
-        <div class="status-pill">Doğrulandi</div>
+    <div class="section-label reveal">Mürettebat Kontrol Paneli</div>
+    <h2 class="section-title reveal">Ekibimizi Tanıyın</h2>
+    
+    <div class="crew-grid">
+      <!-- Ekip Üyesi 1 -->
+      <div class="hud-card crew-card reveal">
+        <div class="crew-img-placer">
+          <!-- TODO: Resminizi eklemek için yandaki yorum işaretlerini kaldırın -> <img src="memet.png" alt="Memet Ablak"> -->
+        </div>
+        <div class="crew-info">
+          <div class="crew-name">Memet Ablak</div><div class="crew-role">Sosyal Medya Yöneticisi</div>
+        </div>
       </div>
-      <div class="sec-card" data-reveal data-d="2">
-        <div class="sec-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
-        <h4>SIZDIRMAZLIK TESTİ</h4>
-        <p>Tüm basınç bölmeleri 40 PSI'da 5 dakika tutularak sızıntı kontrolü yapıldı.</p>
-        <div class="status-pill">Onaylandi</div>
+      <!-- Ekip Üyesi 2 -->
+      <div class="hud-card crew-card reveal d-1">
+        <div class="crew-img-placer">
+          <!-- TODO: <img src="yakup.png" alt="Yakup Yardım"> -->
+        </div>
+        <div class="crew-info">
+          <div class="crew-name">Yakup Yardım</div><div class="crew-role">Web Site Tasarımcısı</div>
+        </div>
       </div>
-      <div class="sec-card" data-reveal data-d="3">
-        <div class="sec-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
-        <h4>BASINÇ MONITÖRÜ</h4>
-        <p>Fırlatma öncesi basınç manometre ile ölçülür; ±2 PSI toleransla ayarlanır.</p>
-        <div class="status-pill">Aktif</div>
+      <!-- Ekip Üyesi 3 -->
+      <div class="hud-card crew-card reveal d-2">
+        <div class="crew-img-placer">
+          <!-- TODO: <img src="burak.png" alt="Burak"> -->
+        </div>
+        <div class="crew-info">
+          <div class="crew-name">Burak ?</div><div class="crew-role">Takım Kaptanı</div>
+        </div>
       </div>
-      <div class="sec-card" data-reveal data-d="4">
-        <div class="sec-icon"><svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div>
-        <h4>FIRLATMA PROTOKOLÜ</h4>
-        <p>5 adımlı kontrol listesi; mekanik kilit, alan temizleme ve sesli sayım protokolü.</p>
-        <div class="status-pill">Hazir</div>
-      </div>
-    </div>
-    <div class="terminal" data-reveal data-d="2">
-      <div class="term-bar">
-        <span class="t-dot r"></span><span class="t-dot y"></span><span class="t-dot g"></span>
-        <span class="term-title">vefa-aerospace — launch.check</span>
-      </div>
-      <div class="term-body">
-        <div class="t-line"><span class="t-prompt">▶ </span><span class="t-cmd">launch.check --all --verbose</span></div>
-        <div class="t-line"><span class="t-dim">[INIT] </span><span class="t-ok">Structural integrity .............. PASS ✓</span></div>
-        <div class="t-line"><span class="t-dim">[CHK]  </span><span class="t-ok">Pressure seal test (40 PSI) ....... PASS ✓</span></div>
-        <div class="t-line"><span class="t-dim">[CHK]  </span><span class="t-ok">Aerodynamic fins aligned ........... PASS ✓</span></div>
-        <div class="t-line"><span class="t-dim">[CHK]  </span><span class="t-ok">Nozzle diameter verified ........... PASS ✓</span></div>
-        <div class="t-line"><span class="t-dim">[CHK]  </span><span class="t-warn">Launch area clearance .............. PENDING ⚡</span></div>
-        <div class="t-line"><span class="t-dim">[SYS]  </span><span class="t-ok">All critical systems nominal — LAUNCH READY. 🚀</span></div>
+      <!-- Ekip Üyesi 4 -->
+      <div class="hud-card crew-card reveal d-3">
+        <div class="crew-img-placer">
+          <!-- TODO: <img src="yigit.png" alt="Yiğit"> -->
+        </div>
+        <div class="crew-info">
+          <div class="crew-name">Yiğit ?</div><div class="crew-role">Yazılım ve Elektronik</div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
+<!-- MÜHENDİSLİK DETAYLARI & PDF DOSYASI -->
+<section id="architecture">
+  <div class="container">
+    <div class="section-label reveal">Mühendisliğin Sınırları</div>
+    <h2 class="section-title reveal">Sistem Spesifikasyonları</h2>
+    
+    <div class="arch-grid">
+      <div class="hud-card arch-card reveal">
+        <div class="ac-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+        <h3>Maksimum Mukavemet: 40 PSI</h3>
+        <p>Aylarca süren sızdırmazlık ve yorulma testlerinden geçen PET ve PVC kompozit gövde, roketimizin en zorlu basınç koşullarında (40 PSI nominal) şaşmaz bir bütünlük sergilemesini sağlar.</p>
+      </div>
+      <div class="hud-card arch-card reveal d-1">
+        <div class="ac-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+        <h3>Kusursuz Aerodinamik</h3>
+        <p>Ağırlık merkezi (CG) ile basınç merkezi (CP) denklemi tam entegre çalışır. Bilgisayar destekli simülasyonlardan geçen 4 noktalı trapezyal kanatlar, rüzgar sapmasını sıfıra yakınsar.</p>
+      </div>
+      <div class="hud-card arch-card reveal d-2">
+        <div class="ac-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <h3>Akıllı Entegrasyon Birimi</h3>
+        <p>Manuel güvenlik kilitlerine ek olarak pnömatik tetikleme valfleri, sahadan ekibimize anlık durum izleme ve güvenli uzaklaştırma opsiyonu tanıyarak uçuş güvencesi sunar.</p>
+      </div>
+    </div>
+    
+    <div class="doc-download-wrapper reveal">
+      <p style="font-size: 1rem; color: var(--cyan-accent); margin-bottom: 24px;">Geliştirme aşamalarının incelendiği detaylı roket sistem güvenlik izni ve uçuş protokolü dosyası.</p>
+      <!-- NOT: PDF iNDİREMEMENİZİN SEBEBİ, BİLGİSAYARINIZDA ŞU AN BÖYLE BİR PDF DOSYASI OLMAMASIDIR. Klasöre "vefa_aerospace_guvenlik_izni.pdf" adında bir pdf atarsanız bu buton çalışacaktır. -->
+      <a href="vefa_aerospace_guvenlik_izni.pdf" download class="btn btn-secondary btn-icon">
+        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+        Sistem Güvenlik Raporunu İndir (PDF)
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- SAHTE GÜVENLİK TERMİNALİ (PR REKLAMI) YENİ! 🚀 -->
+<section id="terminal-section">
+  <div class="container reveal">
+    <div class="section-label">Güvenlik ve Validasyon Ağı</div>
+    <h2 class="section-title" style="font-size: 2rem;">Uçuş Öncesi Otomatik Diagnostik</h2>
+    
+    <div class="terminal-window">
+      <div class="term-header">
+        <div class="term-dots"><span></span><span></span><span></span></div>
+        <div class="term-title">VEFA_OS_DIAGNOSTICS_V1.4</div>
+        <div></div>
+      </div>
+      <div class="term-body" id="termConsole">
+        <!-- JS ile akan yazılar buraya gelecek -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HAKKIMIZDA VE İLETİŞİM -->
 <footer id="footer">
   <div class="container">
-    <div class="footer-top">
-      <div class="footer-logo">
-        <img src="/mnt/user-data/uploads/WhatsApp_Image_2026-04-04_at_00_11_46.jpeg" alt="VEFA AEROSPACE">
-      </div>
-      <div class="footer-tagline">GÖKYÜZÜ <span>SINIRIMIZ</span> DEĞİL.</div>
-    </div>
     <div class="footer-grid">
-      <div>
-        <div class="footer-brand-name">VEFA <span>AEROSPACE</span></div>
-        <div class="footer-brand-sub">GençTek Takımı — Vefa Poyraz Anadolu Lisesi</div>
-        <p class="footer-about">Su roketi projemizle mühendislik, aerodinamik ve takım çalışmasının gücünü bir araya getiriyoruz. Gençliğin vizyonu, bilimin diliyle.</p>
+      <div class="reveal">
+        <div class="footer-brand">
+          <img src="WhatsApp Image 2026-04-04 at 00.11.46.jpeg" alt="Logo" style="filter: grayscale(100%);">
+          <span class="f-logo-text">VEFA AEROSPACE</span>
+        </div>
+        <div class="about-text">
+          <strong>Bugün Lisede, Yarın Yörüngede!</strong>
+          Vefa Poyraz Anadolu Lisesi'nin inovasyona açık, sınır tanımayan öğrencileri olarak kurduğumuz <em>GençTek</em> ekibiyle karşınızdayız. Bizler, masadaki formülleri alıp bir "Su Roketi" platformuna dönüştüren pragmatik tutkunlarız.<br><br>
+          Bir uzay ve havacılık girişimi disipliniyle çalışarak, malzeme bilimi, akışkanlar mekaniği ve takım çalışmasını adeta bir simülasyon içindeymiş gibi profesyonelce sahalara yansıtıyoruz. Bizler gökyüzünün ötesine inanıyoruz.
+        </div>
       </div>
-      <div class="footer-col">
-        <h5>Bağlantılar</h5>
-        <ul class="footer-links">
-          <li><a href="#about">Hakkımızda</a></li>
-          <li><a href="#engineering">Mühendislik Detayları</a></li>
-          <li><a href="#security">Güvenlik Protokolü</a></li>
+
+      <div class="reveal d-1">
+        <div class="f-title">Proje Navigasyonu</div>
+        <ul class="f-links">
+          <li><a href="#hero">Canlı Görev Sayacı</a></li>
+          <li><a href="#crew">Görev Mürettebatı</a></li>
+          <li><a href="#terminal-section">Sistem Terminali</a></li>
         </ul>
       </div>
-      <div class="footer-col">
-        <h5>İletişim</h5>
-        <div class="contact-item"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>vefaaerospace@example.com</div>
-        <div class="contact-item"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Vefa Poyraz Anadolu Lisesi, İstanbul</div>
-        <div class="contact-item"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>GençTek Takımı</div>
+
+      <div class="reveal d-2">
+        <div class="f-title">İletişim ve Karargah</div>
+        <ul class="f-contact">
+          <li>
+            <div class="f-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+            <span>iletisim@vefagenctek.com</span>
+          </li>
+          <li>
+            <div class="f-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+            <span>Vefa Poyraz Anadolu Lisesi<br>Sultangazi / İstanbul, Türkiye</span>
+          </li>
+          <li>
+            <div class="f-icon"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></div>
+            <span>@vefa_genctek</span>
+          </li>
+        </ul>
       </div>
     </div>
+    
     <div class="footer-bottom">
-      <div class="footer-copy">&copy; 2025 <a href="#">VEFA AEROSPACE</a> — Tüm hakları saklıdır.</div>
-      <div class="socials">
-        <a href="#" class="social-btn" aria-label="Instagram">
-          <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-        </a>
-        <a href="#" class="social-btn" aria-label="YouTube">
-          <svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
-        </a>
-      </div>
+      <div>&copy; 2026 VEFA AEROSPACE &bull; GENÇTEK TAKIMI</div>
+      <div>GELECEK, GÖKYÜZÜNDE. KORUMALI SİSTEM.</div>
     </div>
   </div>
 </footer>
 
+<!-- VİDEO MODALI (FRAGMAN) -->
+<div class="video-modal" id="videoModal">
+  <button class="modal-close" id="closeVideoBtn" aria-label="Kapat">×</button>
+  <div class="modal-content">
+    <!-- ÖRNEK BİR YOUTUBE FRAGMANI EKLENDİ. SİZ SONRA BURADAKİ LİNKİ KENDİ VİDEONUZUN LİNKİ İLE DEĞİŞTİREBİLİRSİNİZ. -->
+    <iframe id="videoIframe" src="https://www.youtube.com/embed/ScMzIvxBSi4?enablejsapi=1" 
+      title="YouTube video player" frameborder="0" 
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+    </iframe>
+  </div>
+</div>
+
 <script>
-/* ═══ CUSTOM CURSOR ══════════════════════════════ */
-const cur = document.getElementById('cursor');
-const ring = document.getElementById('cursor-ring');
-let mx=0, my=0, rx=0, ry=0;
-document.addEventListener('mousemove', e => {
-  mx = e.clientX; my = e.clientY;
-  cur.style.left = mx+'px'; cur.style.top = my+'px';
-});
-function animRing() {
-  rx += (mx - rx) * 0.12;
-  ry += (my - ry) * 0.12;
-  ring.style.left = rx+'px'; ring.style.top = ry+'px';
-  requestAnimationFrame(animRing);
-}
-animRing();
+/* ══ 1. GÜVENLİK VE İZİNSİZ SIZMA KORUMASI ══ */
+console.log("%c[VEFA AEROSPACE SECURITY] %cBu alana (Geliştirici Konsoluna) giriş loglanmaktadır. Yetkisiz erişim tespit edildiğinde güvenlik protokolleri devreye girer.", "color: #ef4444; font-weight: bold; font-size: 1.2rem;", "color: #f8fafc; font-size: 1rem;");
+document.addEventListener('contextmenu', e => e.preventDefault());
 
-/* ═══ SPACE CANVAS ═══════════════════════════════ */
-const canvas = document.getElementById('spaceCanvas');
-const ctx = canvas.getContext('2d');
-let W, H, stars=[], nebulas=[], meteors=[], shootingStars=[];
-
-function resize() {
-  W = canvas.width = window.innerWidth;
-  H = canvas.height = window.innerHeight;
-}
-resize();
-window.addEventListener('resize', resize);
-
-// Stars
-for(let i=0; i<350; i++) {
-  stars.push({
-    x: Math.random()*10000, y: Math.random()*10000,
-    r: Math.random()*1.5+0.2,
-    alpha: Math.random()*0.8+0.1,
-    twinkle: Math.random()*Math.PI*2,
-    twinkleSpeed: 0.005+Math.random()*0.02,
-    color: Math.random() > 0.85 ? `hsl(${200+Math.random()*40},80%,85%)` : '#ffffff'
-  });
-}
-
-// Nebula clouds
-for(let i=0; i<5; i++) {
-  nebulas.push({
-    x: Math.random()*1, y: Math.random()*1,
-    rx: 200+Math.random()*300, ry: 100+Math.random()*200,
-    hue: Math.random() > 0.5 ? 0 : 220,
-    alpha: 0.03+Math.random()*0.05
-  });
-}
-
-// Shooting stars
-function spawnShootingStar() {
-  if(shootingStars.length < 3) {
-    shootingStars.push({
-      x: Math.random()*W*1.5,
-      y: Math.random()*H*0.5,
-      len: 80+Math.random()*180,
-      speed: 8+Math.random()*14,
-      alpha: 0,
-      phase: 'in', // in, hold, out
-      angle: Math.PI/6 + Math.random()*0.3,
-      life: 0
-    });
+/* ══ SAKİN, DERİN UZAY ARKA PLANI ══ */
+const canvas = document.getElementById('spaceCanvas'); const ctx = canvas.getContext('2d');
+let w, h; let stars = [];
+function resize() { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; initStars(); }
+function initStars() {
+  stars = []; const numStars = (w * h) / 4000; 
+  for(let i = 0; i < numStars; i++) {
+    stars.push({ x: Math.random() * w, y: Math.random() * h, size: Math.random() * 1.5, speedY: (Math.random() * 0.05) + 0.02, opacity: Math.random() * 0.5 + 0.1, drift: (Math.random() - 0.5) * 0.02 });
   }
-  setTimeout(spawnShootingStar, 2000+Math.random()*5000);
 }
-spawnShootingStar();
-
-// Scroll parallax
-let scrollY = 0;
-window.addEventListener('scroll', () => { scrollY = window.scrollY; }, {passive:true});
-
-function drawFrame(t) {
-  ctx.clearRect(0,0,W,H);
-
-  // Gradient BG
-  const grd = ctx.createRadialGradient(W/2,0,0,W/2,0,H*0.9);
-  grd.addColorStop(0,'#060d16');
-  grd.addColorStop(1,'#010204');
-  ctx.fillStyle = grd;
-  ctx.fillRect(0,0,W,H);
-
-  // Nebulas
-  nebulas.forEach(n => {
-    const gn = ctx.createRadialGradient(n.x*W, n.y*H, 0, n.x*W, n.y*H, Math.max(n.rx, n.ry));
-    gn.addColorStop(0, `hsla(${n.hue},80%,50%,${n.alpha*1.5})`);
-    gn.addColorStop(1, `hsla(${n.hue},80%,50%,0)`);
-    ctx.save();
-    ctx.scale(1, n.ry/n.rx);
-    ctx.fillStyle = gn;
-    ctx.beginPath();
-    ctx.arc(n.x*W, (n.y*H)*n.rx/n.ry, n.rx, 0, Math.PI*2);
-    ctx.fill();
-    ctx.restore();
-  });
-
-  // Stars with parallax layers
-  stars.forEach((s,i) => {
-    const px = (s.x % W + scrollY * (i%3 === 0 ? 0.03 : i%3===1 ? 0.06 : 0.01)) % W;
-    const py = (s.y % H + scrollY * (i%3 === 0 ? 0.05 : i%3===1 ? 0.1 : 0.02)) % H;
-    s.twinkle += s.twinkleSpeed;
-    const alpha = s.alpha * (0.7 + 0.3 * Math.sin(s.twinkle));
-    ctx.globalAlpha = alpha;
-    ctx.fillStyle = s.color;
-    ctx.beginPath();
-    ctx.arc(px, py, s.r, 0, Math.PI*2);
-    ctx.fill();
-    // Glow on bright stars
-    if(s.r > 1.0) {
-      const glow = ctx.createRadialGradient(px, py, 0, px, py, s.r*4);
-      glow.addColorStop(0, 'rgba(255,255,255,0.15)');
-      glow.addColorStop(1, 'transparent');
-      ctx.fillStyle = glow;
-      ctx.beginPath();
-      ctx.arc(px, py, s.r*4, 0, Math.PI*2);
-      ctx.fill();
-    }
-  });
-  ctx.globalAlpha = 1;
-
-  // Shooting stars
-  shootingStars.forEach((ss, idx) => {
-    ss.life++;
-    if(ss.phase === 'in') { ss.alpha = Math.min(1, ss.life*0.08); if(ss.alpha >= 1) { ss.phase='hold'; ss.life=0; } }
-    else if(ss.phase === 'hold') { if(ss.life > 8) { ss.phase='out'; ss.life=0; } }
-    else { ss.alpha = Math.max(0, 1 - ss.life*0.06); }
-
-    ss.x += Math.cos(ss.angle) * ss.speed;
-    ss.y += Math.sin(ss.angle) * ss.speed;
-
-    const tailX = ss.x - Math.cos(ss.angle) * ss.len;
-    const tailY = ss.y - Math.sin(ss.angle) * ss.len;
-    const grad = ctx.createLinearGradient(tailX, tailY, ss.x, ss.y);
-    grad.addColorStop(0, 'transparent');
-    grad.addColorStop(0.7, `rgba(255,100,100,${ss.alpha*0.4})`);
-    grad.addColorStop(1, `rgba(255,255,255,${ss.alpha})`);
-    ctx.strokeStyle = grad;
-    ctx.lineWidth = 1.5;
-    ctx.beginPath();
-    ctx.moveTo(tailX, tailY);
-    ctx.lineTo(ss.x, ss.y);
-    ctx.stroke();
-
-    if(ss.alpha <= 0) shootingStars.splice(idx, 1);
-  });
-
-  // Grid lines (very subtle)
-  ctx.globalAlpha = 0.025;
-  ctx.strokeStyle = '#4f8ef0';
-  ctx.lineWidth = 0.5;
-  for(let x=0; x<W; x+=56) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
-  for(let y=0; y<H; y+=56) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
-  ctx.globalAlpha = 1;
-
-  requestAnimationFrame(drawFrame);
+function drawSpace() {
+  ctx.clearRect(0, 0, w, h);
+  stars.forEach(s => {
+    ctx.fillStyle = `rgba(255, 255, 255, ${s.opacity})`; ctx.beginPath(); ctx.arc(s.x, s.y, s.size, 0, Math.PI*2); ctx.fill();
+    s.y -= s.speedY; s.x += s.drift;
+    if(s.y < 0) s.y = h; if(s.x < 0) s.x = w; if(s.x > w) s.x = 0;
+  }); requestAnimationFrame(drawSpace);
 }
-requestAnimationFrame(drawFrame);
+window.addEventListener('resize', resize); resize(); drawSpace();
 
-/* ═══ NAVBAR ═════════════════════════════════════ */
-const navbar = document.getElementById('navbar');
-window.addEventListener('scroll', () => {
-  navbar.classList.toggle('scrolled', window.scrollY > 60);
-}, {passive:true});
+/* ══ DEV GERİ SAYIM SAYACI ══ */
+const targetDate = new Date(Date.now() + 15 * 24 * 60 * 60 * 1000).getTime();
+const elDays = document.getElementById('cd-days'), elHours = document.getElementById('cd-hours'), elMins = document.getElementById('cd-mins'), elSecs = document.getElementById('cd-secs');
+function updateTimer() {
+  const diff = targetDate - new Date().getTime();
+  if (diff < 0) { elDays.innerText = "00"; elHours.innerText = "00"; elMins.innerText = "00"; elSecs.innerText = "00"; return; }
+  elDays.innerText = Math.floor(diff / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
+  elHours.innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
+  elMins.innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+  elSecs.innerText = Math.floor((diff % (1000 * 60)) / 1000).toString().padStart(2, '0');
+}
+setInterval(updateTimer, 1000); updateTimer();
 
-/* ═══ HAMBURGER ══════════════════════════════════ */
-const hbg = document.getElementById('hamburger');
-const mmenu = document.getElementById('mobileMenu');
-hbg.addEventListener('click', () => {
-  const open = hbg.classList.toggle('open');
-  if(open) { mmenu.style.display='flex'; requestAnimationFrame(() => mmenu.classList.add('open')); }
-  else { mmenu.classList.remove('open'); setTimeout(() => { mmenu.style.display='none'; }, 320); }
+/* ══ HEADER & MOBİL MENÜ ══ */
+const header = document.getElementById('navbar'); window.addEventListener('scroll', () => { if (window.scrollY > 50) header.classList.add('scrolled'); else header.classList.remove('scrolled'); }, { passive: true });
+const menuBtn = document.getElementById('menuBtn'), mobileNav = document.getElementById('mobileNav');
+menuBtn.addEventListener('click', () => { menuBtn.classList.toggle('open'); mobileNav.classList.toggle('active'); document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : ''; });
+document.querySelectorAll('.mob-link').forEach(link => { link.addEventListener('click', () => { menuBtn.classList.remove('open'); mobileNav.classList.remove('active'); document.body.style.overflow = ''; }); });
+
+/* ══ REVEAL ══ */
+const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('active'); observer.unobserve(entry.target); } }); }, { threshold: 0.15, rootMargin: "0px 0px -50px 0px" });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+
+/* ══ YENİ - VİDEO MODAL (FRAGMAN SİSTEMİ) KONTROLCÜSÜ ══ */
+const openVideoBtn = document.getElementById('openVideoBtn');
+const closeVideoBtn = document.getElementById('closeVideoBtn');
+const videoModal = document.getElementById('videoModal');
+const videoIframe = document.getElementById('videoIframe');
+
+openVideoBtn.addEventListener('click', () => {
+    videoModal.classList.add('active');
+    document.body.style.overflow = 'hidden';
 });
-document.querySelectorAll('.mob-link').forEach(l => l.addEventListener('click', () => {
-  hbg.classList.remove('open'); mmenu.classList.remove('open');
-  setTimeout(() => { mmenu.style.display='none'; }, 320);
-}));
+closeVideoBtn.addEventListener('click', () => {
+    videoModal.classList.remove('active');
+    document.body.style.overflow = '';
+    // YouTube videosunu durdurmak için src'yi yenile
+    let src = videoIframe.src;
+    videoIframe.src = src;
+});
 
-/* ═══ SCROLL REVEAL ══════════════════════════════ */
-const ro = new IntersectionObserver(entries => {
-  entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); ro.unobserve(e.target); } });
-}, { threshold: 0.08, rootMargin: '0px 0px -28px 0px' });
-document.querySelectorAll('[data-reveal]').forEach(el => ro.observe(el));
 
-/* ═══ PROGRESS BARS ══════════════════════════════ */
-const po = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if(e.isIntersecting) {
-      e.target.querySelectorAll('.prog-fill').forEach((b, i) => {
-        setTimeout(() => { b.style.transform = `scaleX(${b.dataset.w})`; }, i*160+300);
-      });
-      po.unobserve(e.target);
-    }
-  });
-}, { threshold: 0.2 });
-const pl = document.getElementById('progList');
-if(pl) po.observe(pl.closest('.feat-card'));
+/* ══ YENİ - PR SHOW: SAHTE GÜVENLİK TERMİNALİ ANİMASYONU ══ */
+const terminalLines = [
+  "<span class='term-gray'>[SYS] T-15:00:00 Protokol başlatıldı. Vefa_Aero_Core çekirdeği yükleniyor...</span>",
+  "&gt; Sistem durumu sorgulanıyor... <span class='term-cyan'>LÜTFEN BEKLEYİN</span>",
+  "&gt; Uçuş modülü donanım bağlantısı <span class='term-green'>[BAŞARILI]</span>",
+  "&gt; Çevresel rüzgar parametreleri yükleniyor... Rüzgar sapması %0.4",
+  "&gt; Epoksi sızdırmazlık bölümlerine statik simülasyon test ediliyor...",
+  "<span class='term-red'>[UYARI]</span> Yüksek irtifa tahmini 40 PSI üzerinde gerçekleşebilir.",
+  "&gt; Aerodinamik yüzey toleransları kontrol ediliyor <span class='term-green'>[NOMİNAL]</span>",
+  "&gt; Telemetri paneli dinleniyor... Veri bağlantısı sağlandı.",
+  "<span class='term-cyan'>[ONAY] BÜTÜN SİSTEMLER OPERASYONEL. FIRLATMA İÇİN ONAY BEKLENİYOR.</span>"
+];
+const termConsole = document.getElementById('termConsole');
+let termObserver = new IntersectionObserver((entries) => {
+  if (entries[0].isIntersecting) {
+    runTerminalAnim();
+    termObserver.disconnect();
+  }
+});
+termObserver.observe(document.getElementById('terminal-section'));
 
-/* ═══ TERMINAL REVEAL ════════════════════════════ */
-const to = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if(e.isIntersecting) {
-      e.target.querySelectorAll('.t-line').forEach((line, i) => {
-        setTimeout(() => { line.style.transition = 'opacity 0.4s'; line.style.opacity = '1'; }, i*200+250);
-      });
-      to.unobserve(e.target);
-    }
-  });
-}, { threshold: 0.3 });
-const term = document.querySelector('.terminal');
-if(term) to.observe(term);
-
-/* ═══ STAGGER CARDS ══════════════════════════════ */
-const so = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if(e.isIntersecting) {
-      e.target.querySelectorAll('.sec-card,.spec-cell,.about-num,.eng-card').forEach((c, i) => {
-        c.style.opacity = '0'; c.style.transform = 'translateY(30px)';
-        setTimeout(() => {
-          c.style.transition = 'opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1)';
-          c.style.opacity = '1'; c.style.transform = 'translateY(0)';
-        }, i*80+100);
-      });
-      so.unobserve(e.target);
-    }
-  });
-}, { threshold: 0.05 });
-document.querySelectorAll('.sec-grid,.spec-grid,.about-nums,.eng-duo').forEach(el => so.observe(el));
+function runTerminalAnim() {
+  let i = 0;
+  termConsole.innerHTML = '<span class="cursor-blink"></span>';
+  
+  function nextLine() {
+    if (i >= terminalLines.length) return;
+    const lineDiv = document.createElement('div');
+    lineDiv.className = 'term-line';
+    lineDiv.innerHTML = terminalLines[i];
+    
+    // İmlec'ten önce ekle
+    termConsole.insertBefore(lineDiv, termConsole.querySelector('.cursor-blink'));
+    // En alta kaydır
+    termConsole.scrollTop = termConsole.scrollHeight;
+    
+    i++;
+    // Rasgele gecikme süresi ile yazma efekti ver (hacker hissi)
+    setTimeout(nextLine, Math.random() * 800 + 400);
+  }
+  setTimeout(nextLine, 1000);
+}
 </script>
+
 </body>
 </html>
