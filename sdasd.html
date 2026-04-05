@@ -1,13 +1,13 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- 🛡️ GÜVENLİK (SECURITY) -->
+<!-- 🛡️  GÜVENLİK (SECURITY) -->
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:;">
 
-<!-- ğŸš€ SEO METADATA -->
+<!-- 🚀 SEO METADATA -->
 <title>${title} - Vefa Akademi</title> 
 <meta name="description" content="${desc}">
 
@@ -17,7 +17,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
-/* Ö•Ö• PREMIUM MAKALE TASARIM SİSTEMİ Ö•Ö• */
+/* • •  PREMIUM MAKALE TASARIM SİSTEMİ • •  */
 :root {
   --space-bg: #03050a;
   --glass-bg: rgba(13, 22, 39, 0.4);
@@ -31,32 +31,44 @@
   --font-body: 'Inter', sans-serif;
   --font-disp: 'Space Grotesk', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
+  --ease-smooth: cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { background-color: var(--space-bg); color: var(--text-main); font-family: var(--font-body); line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
 
-/* Ö•Ö• BACKGROUND Ö•Ö• */
-.space-layer {
-  position: fixed; inset: 0; z-index: -1; pointer-events: none;
-  background: radial-gradient(ellipse at top right, rgba(14, 165, 233, 0.08) 0%, transparent 50%),
-              radial-gradient(circle at bottom left, rgba(239, 68, 68, 0.05) 0%, transparent 40%);
-}
-.grid-overlay {
-  position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: 0.15;
-  background-image: linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
-  background-size: 40px 40px;
-}
+/* • •  BACKGROUND • •  */
+.space-layer { position: fixed; inset: 0; z-index: -1; pointer-events: none; background: radial-gradient(ellipse at top right, rgba(14, 165, 233, 0.08) 0%, transparent 50%), radial-gradient(circle at bottom left, rgba(239, 68, 68, 0.05) 0%, transparent 40%); }
+.grid-overlay { position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: 0.15; background-image: linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px); background-size: 40px 40px; }
 
-/* Ö•Ö• NAVBAR Ö•Ö• */
-.navbar { position: fixed; top: 0; left: 0; width: 100%; height: 70px; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; background: rgba(3,5,10,0.8); backdrop-filter: blur(12px); border-bottom: 1px solid var(--glass-border); z-index: 50;}
+/* • •  NAVBAR • •  */
+.navbar { position: fixed; top: 0; left: 0; width: 100%; height: 75px; display: flex; align-items: center; justify-content: space-between; padding: 0 clamp(20px, 5vw, 40px); background: rgba(3,5,10,0.8); backdrop-filter: blur(16px); border-bottom: 1px solid var(--glass-border); z-index: 100;}
 .nav-brand { font-family: var(--font-disp); font-size: 1.2rem; font-weight: 700; letter-spacing: 0.1em; color: var(--text-main); text-decoration: none; display: flex; align-items: center; gap: 8px;}
 .nav-brand span { color: var(--cyan-accent); font-weight: 500;}
 .nav-back { display: flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--cyan-accent); text-decoration: none; transition: 0.3s; }
 .nav-back:hover { color: var(--text-main); }
 .nav-back svg { width: 16px; height: 16px; stroke: currentColor; fill: none; }
 
-/* Ö•Ö• HERO ALANI Ö•Ö• */
+.menu-btn { display: flex; flex-direction: column; gap: 7px; cursor: pointer; z-index: 101; background: none; border: none; padding: 10px; }
+.menu-btn span { display: block; width: 28px; height: 2px; background: var(--text-main); border-radius: 2px; transition: 0.4s; }
+.menu-btn.open span:nth-child(1) { transform: translateY(9px) rotate(45deg); background: var(--red-accent); }
+.menu-btn.open span:nth-child(2) { opacity: 0; }
+.menu-btn.open span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); background: var(--red-accent); }
+
+.mobile-nav { display: none; position: fixed; inset: 0; background: rgba(3, 5, 10, 0.95); backdrop-filter: blur(20px); z-index: 99; flex-direction: column; justify-content: center; align-items: center; gap: 40px; opacity: 0; transform: translateY(-20px); transition: 0.5s var(--ease-smooth); }
+.mobile-nav.active { display: flex; opacity: 1; transform: translateY(0); }
+.mobile-nav a { font-family: var(--font-disp); font-size: 2.2rem; color: var(--text-main); letter-spacing: 0.1em; font-weight: 600; text-transform: uppercase; text-decoration: none; }
+
+/* ── UZAY GEÇİŞ ANİMASYONU ── */
+#warp-overlay { position: fixed; inset: 0; z-index: 99999; background: var(--space-bg); opacity: 0; pointer-events: none; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: 0.4s ease; }
+#warp-overlay.active { opacity: 1; pointer-events: all; }
+.warp-rocket { width: 50px; height: 50px; stroke: var(--cyan-accent); fill: none; opacity: 0; transition: all 0.5s var(--ease-smooth); }
+#warp-overlay.active .warp-rocket { opacity: 1; animation: rocketLaunch 0.6s 0.6s forwards; }
+@keyframes rocketLaunch { 100% { transform: translateY(-300px); opacity: 0; } }
+.warp-msg { margin-top: 24px; font-family: var(--font-disp); font-size: 0.85rem; color: var(--text-main); letter-spacing: 0.25em; text-transform: uppercase; opacity: 0; transform: translateY(10px); transition: all 0.4s ease 0.2s; }
+#warp-overlay.active .warp-msg { opacity: 1; transform: translateY(0); }
+
+/* • •  HERO ALANI • •  */
 .article-hero { position: relative; padding: 160px 40px 80px; max-width: 1000px; margin: 0 auto; text-align: center; border-bottom: 1px solid var(--glass-border); }
 .meta-badges { display: flex; justify-content: center; flex-wrap: wrap; gap: 16px; margin-bottom: 30px; font-family: var(--font-mono); font-size: 0.8rem; color: var(--cyan-accent); text-transform: uppercase; letter-spacing: 0.1em; }
 .meta-badge { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: rgba(14, 165, 233, 0.1); border: 1px solid rgba(14, 165, 233, 0.2); border-radius: 20px; }
@@ -69,7 +81,7 @@ body { background-color: var(--space-bg); color: var(--text-main); font-family: 
 .author-name { display: block; font-family: var(--font-disp); font-size: 1.1rem; font-weight: 600; color: var(--text-main); }
 .author-role { font-size: 0.85rem; color: var(--text-muted); }
 
-/* Ö•Ö• MAKALE İÇERİÄİ TİPOGRAFİSİ Ö•Ö• */
+/* • •  MAKALE İÇERİĞİ TİPOGRAFİSİ • •  */
 .main-content { max-width: 800px; margin: 0 auto; padding: 60px 20px 100px; }
 .pro-reader { font-size: 1.2rem; line-height: 1.8; color: var(--text-read); font-weight: 300; }
 .pro-reader p { margin-bottom: 24px; }
@@ -81,9 +93,12 @@ body { background-color: var(--space-bg); color: var(--text-main); font-family: 
 .pro-reader li::marker { color: var(--cyan-accent); }
 .pro-reader blockquote { background: var(--glass-bg); border: 1px solid var(--glass-border); border-left: 4px solid var(--red-accent); padding: 30px; margin: 40px 0; border-radius: 0 16px 16px 0; font-size: 1.3rem; font-style: italic; color: white; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
 
-/* Ö•Ö• FOOTER BÖLÜMÜ Ö•Ö• */
+/* • •  FOOTER BÖLÜMÜ • •  */
 .article-footer { max-width: 800px; margin: 0 auto 100px; padding-top: 40px; border-top: 1px solid var(--glass-border); display: flex; justify-content: space-between; align-items: center; }
 .footer-text { font-family: var(--font-mono); font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+
+/* Progress bar (okuma) */
+.read-progress { position: fixed; top: 75px; left: 0; width: 0%; height: 2px; background: var(--cyan-accent); z-index: 99; transition: width 0.1s linear; }
 
 @media(max-width: 768px){
   .navbar { padding: 0 20px; }
@@ -97,11 +112,26 @@ body { background-color: var(--space-bg); color: var(--text-main); font-family: 
 
 <div class="space-layer"></div>
 <div class="grid-overlay"></div>
+<div class="read-progress" id="progress"></div>
+
+<div id="warp-overlay">
+  <svg class="warp-rocket" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+  <div class="warp-msg">Uzay Üssüne Bağlanılıyor...</div>
+</div>
 
 <nav class="navbar">
   <a href="akademi.html" class="nav-back"><svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg> AKADEMİ</a>
   <a href="index.html" class="nav-brand">VEFA <span>AEROSPACE</span></a>
+  <button class="menu-btn" id="menuBtn">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<div class="mobile-nav" id="mobileNav">
+  <a href="index.html" class="mob-link">Proje</a>
+  <a href="akademi.html" class="mob-link">Akademi</a>
+  <a href="hakkimizda.html" class="mob-link">Hakkımızda</a>
+</div>
 
 <header class="article-hero">
   <div class="meta-badges">
@@ -127,8 +157,46 @@ body { background-color: var(--space-bg); color: var(--text-main); font-family: 
 
 <footer class="article-footer">
   <div class="footer-text">VEFA AKADEMİ © 2026</div>
-  <a href="akademi.html" style="color: var(--cyan-accent); font-family: var(--font-mono); font-size: 0.9rem; text-decoration: none;">Makalelere Dön Öœ</a>
+  <a href="akademi.html" style="color: var(--cyan-accent); font-family: var(--font-mono); font-size: 0.9rem; text-decoration: none;">Makalelere Dön →</a>
 </footer>
 
+<script>
+window.addEventListener('scroll', ()=>{
+  const el = document.getElementById('progress');
+  const h  = document.body.scrollHeight - window.innerHeight;
+  if(h > 0) el.style.width = (window.scrollY / h * 100) + '%';
+});
+
+const menuBtn = document.getElementById('menuBtn'), mobileNav = document.getElementById('mobileNav');
+if(menuBtn && mobileNav) {
+  menuBtn.addEventListener('click', () => { 
+    menuBtn.classList.toggle('open'); 
+    mobileNav.classList.toggle('active'); 
+    document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : ''; 
+  });
+  document.querySelectorAll('.mob-link').forEach(link => { 
+    link.addEventListener('click', () => { 
+      menuBtn.classList.remove('open'); 
+      mobileNav.classList.remove('active'); 
+      document.body.style.overflow = ''; 
+    }); 
+  });
+}
+
+document.querySelectorAll('a').forEach(a=>{
+  if(a.getAttribute('href') && !a.getAttribute('href').startsWith('#')){
+    a.addEventListener('mouseenter',function(){this.dataset.h=this.href;this.removeAttribute('href');this.style.cursor='pointer'});
+    a.addEventListener('mouseleave',function(){if(this.dataset.h)this.setAttribute('href',this.dataset.h)});
+    a.addEventListener('click',function(e){
+      if(this.dataset.h){
+        e.preventDefault();
+        const target = this.dataset.h;
+        document.getElementById('warp-overlay').classList.add('active');
+        setTimeout(() => { window.location.href = target; }, 1100);
+      }
+    });
+  }
+});
+</script>
 </body>
 </html>

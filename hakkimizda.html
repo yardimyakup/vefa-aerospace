@@ -37,6 +37,8 @@ body { background-color: var(--space-dark); color: var(--text-main); font-family
 .nebula-glow { position: fixed; inset: 0; z-index: -1; pointer-events: none; background: radial-gradient(circle at 80% -20%, rgba(14, 165, 233, 0.08) 0%, transparent 50%), radial-gradient(circle at 10% 100%, rgba(239, 68, 68, 0.06) 0%, transparent 40%); }
 
 .container { max-width: 1280px; margin: 0 auto; padding: 0 clamp(24px, 5vw, 64px); }
+a { text-decoration: none; color: inherit; transition: opacity 0.3s; }
+a:hover { opacity: 0.8; }
 .hud-card { background: var(--glass-bg); backdrop-filter: blur(16px); border: 1px solid var(--glass-border); border-radius: 16px; padding: 40px; transition: 0.4s; }
 .hud-card:hover { border-color: rgba(255,255,255,0.2); background: var(--glass-hover); }
 
@@ -47,24 +49,56 @@ body { background-color: var(--space-dark); color: var(--text-main); font-family
 .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s var(--ease-smooth); }
 .reveal.active { opacity: 1; transform: translateY(0); }
 
-/* NAVBAR */
-header { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: 90px; background: linear-gradient(to bottom, rgba(3,5,10,0.9), transparent); }
+/* Ö• Ö•  NAVBAR Ö• Ö•  */
+header { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: 90px; transition: all 0.5s var(--ease-smooth); background: linear-gradient(to bottom, rgba(3,5,10,0.9), transparent); }
 header.scrolled { height: 75px; background: rgba(6, 11, 19, 0.8); backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border); }
-.nav-inner { display: flex; justify-content: space-between; align-items: center; height: 100%; max-width: 1400px; margin: 0 auto; padding: 0 40px; }
+.nav-inner { display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 1400px; margin: 0 auto; padding: 0 clamp(24px, 5vw, 64px); height: 100%; }
 .logo { display: flex; align-items: center; gap: 16px; }
-.logo img { height: 42px; }
-.logo-type { font-family: var(--font-disp); font-size: 1.25rem; font-weight: 700; color: #fff; }
-.logo-type span { color: var(--accent); font-size: 0.75rem; display: block; }
+.logo img { height: 42px; filter: drop-shadow(0 0 12px rgba(255,255,255,0.15)); }
+.logo-type { font-family: var(--font-disp); font-size: 1.25rem; font-weight: 700; letter-spacing: 0.1em; line-height: 1.2; }
+.logo-type span { color: var(--accent); font-size: 0.75rem; letter-spacing: 0.2em; display: block; font-weight: 500;}
 .nav-links { display: flex; gap: 40px; list-style: none; }
-.nav-links a { font-family: var(--font-disp); font-size: 0.9rem; font-weight: 500; color: var(--text-muted); text-transform: uppercase; }
-.nav-links a:hover, .nav-links a.active { color: #fff; }
+.nav-links a { font-family: var(--font-disp); font-size: 0.9rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); transition: color 0.3s, text-shadow 0.3s; }
+.nav-links a:hover, .nav-links a.active { color: var(--text-main); text-shadow: 0 0 10px rgba(255,255,255,0.3); }
+
+.menu-btn { display: none; flex-direction: column; gap: 7px; cursor: pointer; z-index: 101; background: none; border: none; padding: 10px; }
+.menu-btn span { display: block; width: 32px; height: 2px; background: var(--text-main); border-radius: 2px; transition: 0.4s; }
+.menu-btn.open span:nth-child(1) { transform: translateY(9px) rotate(45deg); background: var(--accent); }
+.menu-btn.open span:nth-child(2) { opacity: 0; }
+.menu-btn.open span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); background: var(--accent); }
+
+.mobile-nav { display: none; position: fixed; inset: 0; background: rgba(3, 5, 10, 0.95); backdrop-filter: blur(20px); z-index: 99; flex-direction: column; justify-content: center; align-items: center; gap: 40px; opacity: 0; transform: translateY(-20px); transition: 0.5s var(--ease-smooth); }
+.mobile-nav.active { display: flex; opacity: 1; transform: translateY(0); }
+.mobile-nav a { font-family: var(--font-disp); font-size: 2.2rem; color: var(--text-main); letter-spacing: 0.1em; font-weight: 600; text-transform: uppercase; }
 
 /* WARP ANIMATION */
-#warp-overlay { position: fixed; inset: 0; z-index: 10000; background: var(--space-dark); opacity: 0; pointer-events: none; display: flex; align-items: center; justify-content: center; transition: 0.4s; }
+#warp-overlay {
+  position: fixed; inset: 0; z-index: 99999;
+  background: var(--space-dark);
+  background-image: radial-gradient(circle at 50% 50%, rgba(14, 165, 233, 0.1), transparent 60%);
+  opacity: 0; pointer-events: none;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  transition: opacity 0.4s ease;
+}
 #warp-overlay.active { opacity: 1; pointer-events: all; }
-.warp-rocket { width: 50px; height: 50px; stroke: var(--cyan-accent); fill: none; opacity: 0; transition: 0.5s; }
-#warp-overlay.active .warp-rocket { opacity: 1; animation: launch 0.6s 0.5s forwards; }
-@keyframes launch { 100% { transform: translateY(-300px); opacity: 0; } }
+
+.warp-rocket {
+  width: 50px; height: 50px; stroke: var(--cyan-accent); fill: none; stroke-width: 1.5;
+  transform: translateY(60px); opacity: 0;
+  transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+#warp-overlay.active .warp-rocket {
+  transform: translateY(0); opacity: 1;
+  animation: rocketLaunch 0.6s 0.6s cubic-bezier(0.5, 0, 1, 0.5) forwards;
+}
+@keyframes rocketLaunch { 100% { transform: translateY(-300px); opacity: 0; } }
+
+.warp-msg {
+  margin-top: 24px; font-family: var(--font-disp); font-size: 0.85rem; color: var(--text-main);
+  letter-spacing: 0.25em; text-transform: uppercase;
+  opacity: 0; transform: translateY(10px); transition: all 0.4s ease 0.2s;
+}
+#warp-overlay.active .warp-msg { opacity: 1; transform: translateY(0); }
 
 /* HAKKIMIZDA ÖZEL */
 .about-hero { padding: 180px 0 100px; text-align: center; }
@@ -84,30 +118,40 @@ header.scrolled { height: 75px; background: rgba(6, 11, 19, 0.8); backdrop-filte
 .crew-name { font-family: var(--font-disp); font-size: 1.5rem; font-weight: 700; color: #fff; }
 .crew-role { font-family: var(--font-mono); font-size: 0.8rem; color: var(--cyan-accent); text-transform: uppercase; margin-top: 5px; }
 
-/* FOOTER */
-footer { padding: 80px 0 40px; border-top: 1px solid var(--glass-border); background: rgba(0,0,0,0.2); }
-.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1.5fr; gap: 60px; }
-.f-title { font-family: var(--font-disp); font-size: 1rem; color: #fff; text-transform: uppercase; margin-bottom: 24px; }
-.f-links { list-style: none; display: flex; flex-direction: column; gap: 12px; }
-.f-links a { color: var(--text-muted); transition: 0.3s; }
-.f-links a:hover { color: #fff; padding-left: 5px; }
-.footer-bottom { border-top: 1px solid var(--glass-border); margin-top: 60px; padding-top: 30px; display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted); }
+/* Ö• Ö•  FOOTER Ö• Ö•  */
+footer { padding: 100px 0 40px; border-top: 1px solid var(--glass-border); background: radial-gradient(circle at 50% 100%, rgba(13, 22, 39, 0.6) 0%, transparent 60%); position: relative; overflow: hidden; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1.5fr; gap: 80px; margin-bottom: 80px; }
+.footer-brand { margin-bottom: 32px; display: flex; align-items: center; gap: 24px; }
+.footer-brand img { height: 48px; filter: grayscale(100%) opacity(0.9); }
+.f-logo-text { font-family: var(--font-disp); font-size: 1.8rem; font-weight: 700; color: var(--text-main); letter-spacing: 0.1em; }
+.about-text { font-size: 1.1rem; color: var(--text-muted); line-height: 1.8; font-weight: 300; max-width: 600px; }
+.about-text strong { color: var(--text-main); font-weight: 500; font-size: 1.25rem; display: block; margin-bottom: 12px; font-family: var(--font-disp); }
+.f-title { font-family: var(--font-disp); font-size: 1.1rem; color: var(--text-main); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 32px; font-weight: 600; }
+.f-links { list-style: none; display: flex; flex-direction: column; gap: 16px; }
+.f-links a { font-size: 1.05rem; color: var(--text-muted); transition: all 0.3s; display: inline-block; font-weight: 400; }
+.f-links a:hover { color: var(--text-main); padding-left: 8px; }
+.f-contact { list-style: none; display: flex; flex-direction: column; gap: 24px; }
+.f-contact li { display: flex; align-items: center; gap: 16px; font-size: 1.05rem; color: var(--text-muted); }
+.f-icon { width: 44px; height: 44px; border-radius: 12px; background: rgba(255,255,255,0.03); display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.05); }
+.f-contact svg { width: 20px; height: 20px; stroke: var(--cyan-accent); stroke-width: 1.5; fill: none; }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 40px; border-top: 1px solid var(--glass-border); font-size: 0.95rem; color: var(--text-muted); font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.05em; }
 
-@media (max-width: 900px) {
-  .about-grid { grid-template-columns: 1fr; }
-  .footer-grid { grid-template-columns: 1fr; }
+/* RESPONSIVE */
+@media (max-width: 1100px) {
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 60px; }
+  .footer-grid > :first-child { grid-column: 1/-1; }
 }
-
-/* MOBİL MENÜ */
-.menu-btn { display: none; flex-direction: column; gap: 7px; cursor: pointer; }
-.menu-btn span { width: 30px; height: 2px; background: #fff; transition: 0.3s; }
 @media (max-width: 768px) {
+  .container { padding: 0 20px; }
   .nav-links { display: none; }
   .menu-btn { display: flex; }
+  
+  .about-grid { grid-template-columns: 1fr; gap: 40px; }
+  .footer-grid { grid-template-columns: 1fr; gap: 50px; }
+  .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+  
+  .about-grid { grid-template-columns: 1fr; gap: 40px; }
 }
-.mobile-nav { position: fixed; inset: 0; background: rgba(3,5,10,0.95); z-index: 99; display: none; flex-direction: column; align-items: center; justify-content: center; gap: 30px; }
-.mobile-nav.active { display: flex; }
-.mobile-nav a { font-size: 2rem; font-family: var(--font-disp); color: #fff; }
 </style>
 </head>
 <body>
@@ -116,13 +160,16 @@ footer { padding: 80px 0 40px; border-top: 1px solid var(--glass-border); backgr
 <div class="nebula-glow"></div>
 
 <div id="warp-overlay">
-  <svg class="warp-rocket" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+  <svg class="warp-rocket" viewBox="0 0 24 24">
+    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+  </svg>
+  <div class="warp-msg">Uzay Üssüne Bağlanılıyor...</div>
 </div>
 
 <header id="navbar">
   <div class="nav-inner">
     <a href="index.html" class="logo">
-      <img src="WhatsApp Image 2026-04-04 at 00.11.46.jpeg" alt="Logo">
+      <img src="WhatsApp Image 2026-04-04 at 00.11.46.jpeg" alt="VEFA AEROSPACE">
       <div class="logo-type">VEFA <span>AEROSPACE</span></div>
     </a>
     <ul class="nav-links">
@@ -130,14 +177,16 @@ footer { padding: 80px 0 40px; border-top: 1px solid var(--glass-border); backgr
       <li><a href="akademi.html">Akademi</a></li>
       <li><a href="hakkimizda.html" class="active">Hakkımızda</a></li>
     </ul>
-    <div class="menu-btn" id="menuBtn"><span></span><span></span><span></span></div>
+    <button class="menu-btn" id="menuBtn" aria-label="Menü Aç/Kapat">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </header>
 
 <div class="mobile-nav" id="mobileNav">
-  <a href="index.html">Proje</a>
-  <a href="akademi.html">Akademi</a>
-  <a href="hakkimizda.html">Hakkımızda</a>
+  <a href="index.html" class="mob-link">Proje</a>
+  <a href="akademi.html" class="mob-link">Akademi</a>
+  <a href="hakkimizda.html" class="mob-link">Hakkımızda</a>
 </div>
 
 <main>
@@ -207,31 +256,53 @@ footer { padding: 80px 0 40px; border-top: 1px solid var(--glass-border); backgr
   </section>
 </main>
 
-<footer>
-  <div class="container footer-grid">
-    <div>
-      <div class="logo" style="margin-bottom: 24px;">
-        <img src="WhatsApp Image 2026-04-04 at 00.11.46.jpeg" alt="Logo">
-        <div class="logo-type">VEFA <span>AEROSPACE</span></div>
+<!-- RESTORED MULTI-COLUMN FOOTER SYNC -->
+<footer id="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="reveal">
+        <div class="footer-brand">
+          <img src="WhatsApp Image 2026-04-04 at 00.11.46.jpeg" alt="Logo">
+          <span class="f-logo-text">VEFA AEROSPACE</span>
+        </div>
+        <div class="about-text">
+          <strong>Bugün Lisede, Yarın Yörüngede!</strong>
+          Vefa GençTek ekibi olarak, lise sıralarından gökyüzüne uzanan bir tutkuyla teknoloji üretiyoruz. Roket sistemleri, aerodinamik ve yazılım geliştirme alanlarında yarının mühendislik çözümlerini hayal ediyoruz.
+        </div>
       </div>
-      <p style="color: var(--text-muted); line-height: 1.6;">Lise sıralarından gökyüzüne uzanan teknoloji yolculuğu. GençTek ekibi gururla sunar.</p>
+
+      <div class="reveal d-1">
+        <div class="f-title">Navigasyon</div>
+        <ul class="f-links">
+          <li><a href="index.html#hero">Proje</a></li>
+          <li><a href="akademi.html">Akademi</a></li>
+          <li><a href="hakkimizda.html" class="active">Hakkımızda</a></li>
+        </ul>
+      </div>
+
+      <div class="reveal d-2">
+        <div class="f-title">Karargah & İletişim</div>
+        <ul class="f-contact">
+          <li>
+            <div class="f-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+            <span>iletisim@vefagenctek.com</span>
+          </li>
+          <li>
+            <div class="f-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+            <span>İstanbul, Türkiye</span>
+          </li>
+          <li>
+            <div class="f-icon"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></div>
+            <span>@vefa_genctek</span>
+          </li>
+        </ul>
+      </div>
     </div>
-    <div>
-      <div class="f-title">Navigasyon</div>
-      <ul class="f-links">
-        <li><a href="index.html">Proje</a></li>
-        <li><a href="akademi.html">Akademi</a></li>
-        <li><a href="hakkimizda.html">Hakkımızda</a></li>
-      </ul>
+    
+    <div class="footer-bottom">
+      <div>&copy; 2026 VEFA AEROSPACE &bull; GENÇTEK TAKIMI</div>
+      <div>GÖKYÜZÜNÜN ÖTESİNDEKİ TUTKU.</div>
     </div>
-    <div>
-      <div class="f-title">İletişim</div>
-      <p style="color: var(--text-muted); font-size: 0.9rem;">iletisim@vefagenctek.com<br>Sultangazi / İstanbul</p>
-    </div>
-  </div>
-  <div class="container footer-bottom">
-    <div>&copy; 2026 VEFA AEROSPACE</div>
-    <div>Bugün Lisede, Yarın Yörüngede!</div>
   </div>
 </footer>
 
@@ -262,14 +333,26 @@ const observer = new IntersectionObserver((entries) => {
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
 // NAVBAR SCROLL
+const header = document.getElementById('navbar');
 window.addEventListener('scroll', () => {
-  if(window.scrollY > 50) document.getElementById('navbar').classList.add('scrolled');
-  else document.getElementById('navbar').classList.remove('scrolled');
-});
+  if(window.scrollY > 50) header.classList.add('scrolled');
+  else header.classList.remove('scrolled');
+}, { passive: true });
 
 // MOBİL MENÜ
 const menuBtn = document.getElementById('menuBtn'), mobileNav = document.getElementById('mobileNav');
-menuBtn.addEventListener('click', () => { mobileNav.classList.toggle('active'); });
+menuBtn.addEventListener('click', () => { 
+  menuBtn.classList.toggle('open'); 
+  mobileNav.classList.toggle('active'); 
+  document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : ''; 
+});
+document.querySelectorAll('.mob-link').forEach(link => { 
+  link.addEventListener('click', () => { 
+    menuBtn.classList.remove('open'); 
+    mobileNav.classList.remove('active'); 
+    document.body.style.overflow = ''; 
+  }); 
+});
 
 // GEÇİŞ ANİMASYONU (WARP)
 document.querySelectorAll('a').forEach(a => {
@@ -278,7 +361,7 @@ document.querySelectorAll('a').forEach(a => {
       e.preventDefault();
       const target = this.href;
       document.getElementById('warp-overlay').classList.add('active');
-      setTimeout(() => { window.location.href = target; }, 1000);
+      setTimeout(() => { window.location.href = target; }, 1100);
     });
   }
 });
