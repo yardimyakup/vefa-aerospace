@@ -1,0 +1,418 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>egsdfg — Vefa Akademi</title>
+<meta name="description" content="dfgdfgdfgdfg">
+<meta property="og:title" content="egsdfg">
+<meta property="og:description" content="dfgdfgdfgdfg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Syne:wght@700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+/* ═══════════════════════════════════════════════════
+   VEFA AKADEMİ — MAKALE TASARIM SİSTEMİ V5
+   Aynı renk paleti, gelişmiş tipografi & animasyon
+═══════════════════════════════════════════════════ */
+:root{
+  --bg:#03050a;
+  --glass:rgba(13,22,39,0.45);
+  --glass-b:rgba(255,255,255,0.07);
+  --text:#f0f6ff;
+  --read:#b8cfea;
+  --muted:#607090;
+  --cyan:#0ea5e9;
+  --cyan2:#38bdf8;
+  --red:#ef4444;
+  --green:#10b981;
+  --gold:#f59e0b;
+  --font-b:'Inter',sans-serif;
+  --font-d:'Syne',sans-serif;
+  --font-m:'JetBrains Mono',monospace;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-b);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+
+/* Arka plan katmanları */
+.bg-layer{position:fixed;inset:0;z-index:-2;pointer-events:none;
+  background:
+    radial-gradient(ellipse 80% 50% at 70% -10%,rgba(14,165,233,0.07),transparent),
+    radial-gradient(circle at 5% 80%,rgba(239,68,68,0.05),transparent 40%)}
+.grid-layer{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:0.12;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.06) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,0.06) 1px,transparent 1px);
+  background-size:44px 44px}
+.vignette{position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(ellipse at center,transparent 40%,rgba(0,0,0,0.6) 100%)}
+
+/* ── NAVBAR ── */
+.navbar{
+  position:fixed;top:0;left:0;width:100%;height:68px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 48px;
+  background:rgba(3,5,10,0.82);
+  backdrop-filter:blur(16px) saturate(1.5);
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  z-index:100}
+.nav-brand{
+  font-family:var(--font-d);font-size:1.15rem;font-weight:800;
+  letter-spacing:0.12em;color:var(--text);text-decoration:none;
+  display:flex;align-items:center;gap:6px}
+.nav-brand em{color:var(--cyan);font-style:normal;font-weight:700}
+.nav-back{
+  display:flex;align-items:center;gap:8px;
+  font-family:var(--font-m);font-size:0.75rem;
+  text-transform:uppercase;letter-spacing:0.12em;
+  color:var(--muted);text-decoration:none;
+  transition:color 0.25s;padding:8px 0}
+.nav-back:hover{color:var(--cyan)}
+.nav-back svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2.5}
+
+/* ── HERO ── */
+.article-hero{
+  position:relative;
+  max-width:1000px;margin:0 auto;
+  padding:148px 48px 80px;
+  text-align:center;
+  cursor:pointer;
+  min-height:400px;
+  display:flex;flex-direction:column;justify-content:center;
+  -webkit-tap-highlight-color:transparent;}
+.article-hero{background-image:url('https://tmssl.akamaized.net//images/foto/galerie/fenerbahce-logo-1579861520-30402.jpg');background-size:cover;background-position:center;}
+.article-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(rgba(3,5,10,0.3) 0%,rgba(3,5,10,0.85) 100%);z-index:0;transition:opacity 0.7s cubic-bezier(0.25, 1, 0.5, 1);pointer-events:none;}
+.article-hero.hide-text::after{opacity:0;}
+.hero-inner{position:relative;z-index:1;animation:fadeUp 0.8s cubic-bezier(0.25, 1, 0.5, 1) both;}
+.hero-content{
+  opacity: 1; transform: translateY(0) scale(1);
+  transition: all 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.article-hero.hide-text .hero-content {
+  opacity: 0;
+  transform: translateY(40px) scale(0.96);
+  pointer-events: none;
+}
+
+/* Kategori pill */
+.hero-cat{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--font-m);font-size:0.7rem;
+  text-transform:uppercase;letter-spacing:0.15em;
+  color:var(--cyan);
+  background:rgba(14,165,233,0.1);
+  border:1px solid rgba(14,165,233,0.25);
+  padding:6px 14px;border-radius:20px;
+  margin-bottom:28px}
+
+/* Meta rozetleri */
+.meta-row{
+  display:flex;justify-content:center;flex-wrap:wrap;gap:12px;
+  margin-bottom:32px;
+  font-family:var(--font-m);font-size:0.72rem;
+  color:var(--muted);text-transform:uppercase;letter-spacing:0.1em}
+.meta-badge{
+  display:flex;align-items:center;gap:7px;
+  padding:6px 14px;
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:20px}
+.meta-badge svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:1.8;opacity:0.7}
+
+/* Başlık */
+.a-title{
+  font-family:var(--font-d);
+  font-size:clamp(2.2rem,5vw,3.8rem);
+  font-weight:800;line-height:1.08;
+  letter-spacing:-0.025em;
+  color:#fff;
+  margin-bottom:44px;
+  text-shadow:0 2px 40px rgba(0,0,0,0.6);
+  background:linear-gradient(135deg,#fff 60%,rgba(14,165,233,0.7));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text}
+
+/* Yazar */
+.author-box{
+  display:inline-flex;align-items:center;gap:14px;
+  padding:14px 20px;
+  background:var(--glass);
+  border:1px solid var(--glass-b);
+  border-radius:50px;
+  backdrop-filter:blur(8px)}
+.avatar{
+  width:44px;height:44px;border-radius:50%;
+  background:rgba(14,165,233,0.15);
+  border:1.5px solid rgba(14,165,233,0.4);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 16px rgba(14,165,233,0.2)}
+.avatar svg{width:20px;height:20px;stroke:var(--cyan);fill:none;stroke-width:1.8}
+.author-name{display:block;font-weight:600;font-size:1rem;color:#fff;text-align:left}
+.author-role{font-size:0.8rem;color:var(--muted);text-align:left}
+
+/* ── MAKALe İÇERİĞİ ── */
+.main-content{max-width:760px;margin:0 auto;padding:72px 24px 120px}
+
+.article-body{
+  font-size:1.15rem;line-height:1.9;
+  color:var(--read);font-weight:300;
+  animation:fadeUp 0.9s 0.15s ease both}
+
+/* Tipografi */
+.article-body p{margin-bottom:26px}
+
+.article-body h2{
+  font-family:var(--font-d);
+  font-size:clamp(1.7rem,3vw,2.2rem);
+  font-weight:800;
+  color:#fff;
+  margin:72px 0 26px;
+  padding-left:20px;
+  border-left:4px solid var(--cyan);
+  line-height:1.15;
+  letter-spacing:-0.02em}
+
+.article-body h3{
+  font-size:1.35rem;font-weight:600;
+  color:#d4e4f7;
+  margin:48px 0 20px;
+  padding-left:16px;
+  border-left:2px solid rgba(14,165,233,0.35);
+  line-height:1.3}
+
+.article-body strong{color:#fff;font-weight:700}
+.article-body em{color:var(--cyan2);font-style:italic}
+
+.article-body ul,.article-body ol{
+  margin:0 0 28px 0;padding-left:0;list-style:none}
+.article-body li{
+  position:relative;padding-left:24px;
+  margin-bottom:12px;color:var(--read)}
+.article-body ul li::before{
+  content:'';position:absolute;left:0;top:0.65em;
+  width:6px;height:6px;border-radius:50%;
+  background:var(--cyan);opacity:0.8}
+.article-body ol{counter-reset:list}
+.article-body ol li{counter-increment:list}
+.article-body ol li::before{
+  content:counter(list);
+  position:absolute;left:0;
+  font-family:var(--font-m);font-size:0.78rem;
+  color:var(--cyan);font-weight:700;top:0.05em}
+
+/* Alıntı */
+.article-body blockquote{
+  position:relative;
+  background:linear-gradient(135deg,rgba(239,68,68,0.07),rgba(239,68,68,0.03));
+  border:1px solid rgba(239,68,68,0.18);
+  border-left:4px solid var(--red);
+  padding:28px 32px 28px 36px;
+  margin:44px 0;
+  border-radius:0 16px 16px 0;
+  font-size:1.2rem;font-style:italic;
+  color:#f5d0d0;
+  line-height:1.7}
+.article-body blockquote::before{
+  content:'"';
+  position:absolute;top:-12px;left:20px;
+  font-size:5rem;font-family:Georgia,serif;
+  color:rgba(239,68,68,0.15);
+  line-height:1;pointer-events:none}
+
+/* Formül */
+.article-body .math-formula{
+  display:block;
+  background:rgba(16,185,129,0.07);
+  border:1px solid rgba(16,185,129,0.2);
+  border-left:4px solid var(--green);
+  padding:18px 24px;
+  margin:36px 0;
+  border-radius:0 8px 8px 0;
+  font-family:var(--font-m);
+  font-size:1.05rem;
+  color:var(--green);
+  letter-spacing:0.06em;
+  overflow-x:auto}
+
+/* Bilgi kutusu */
+.article-body .info-box{
+  background:rgba(14,165,233,0.07);
+  border:1px solid rgba(14,165,233,0.2);
+  border-left:4px solid var(--cyan);
+  padding:20px 24px;
+  margin:36px 0;
+  border-radius:0 10px 10px 0;
+  color:#c5ddf5;
+  font-size:1.05rem;
+  line-height:1.75}
+
+/* İç Görseller */
+.article-body .article-img-wrap{
+  margin:44px 0;text-align:center;}
+.article-body .article-img-wrap img{
+  max-width:100%;border-radius:16px;
+  border:1px solid rgba(255,255,255,0.1);
+  box-shadow:0 12px 40px rgba(0,0,0,0.5);}
+
+/* Ayırıcı */
+.article-body hr{
+  border:none;
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(14,165,233,0.3),transparent);
+  margin:52px 0}
+
+/* Progress bar (okuma) */
+.read-progress{
+  position:fixed;top:68px;left:0;width:0%;height:2px;
+  background:linear-gradient(90deg,var(--cyan),var(--cyan2));
+  z-index:99;transition:width 0.1s linear;
+  box-shadow:0 0 8px rgba(14,165,233,0.5)}
+
+/* ── FOOTER ── */
+.article-footer{
+  max-width:760px;margin:0 auto 100px;
+  padding:36px 24px 0;
+  border-top:1px solid rgba(255,255,255,0.07);
+  display:flex;justify-content:space-between;align-items:center;
+  flex-wrap:wrap;gap:16px}
+.footer-label{
+  font-family:var(--font-m);font-size:0.75rem;
+  text-transform:uppercase;letter-spacing:0.1em;
+  color:var(--muted)}
+.footer-back{
+  display:flex;align-items:center;gap:8px;
+  font-family:var(--font-m);font-size:0.8rem;
+  color:var(--cyan);text-decoration:none;
+  transition:gap 0.2s}
+.footer-back:hover{gap:12px}
+.footer-back svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2}
+
+/* Animasyon */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(24px)}
+  to{opacity:1;transform:translateY(0)}}
+
+/* Responsive */
+@media(max-width:768px){
+  .navbar{padding:0 20px}
+  .article-hero{padding:110px 20px 60px}
+  .main-content{padding:48px 16px 80px}
+  .article-body{font-size:1.05rem}
+  .a-title{-webkit-text-fill-color:#fff}
+  .article-body blockquote{padding:20px 20px 20px 24px;font-size:1.05rem}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-layer"></div>
+<div class="grid-layer"></div>
+<div class="vignette"></div>
+<div class="read-progress" id="progress"></div>
+
+<nav class="navbar">
+  <a href="akademi.html" class="nav-back">
+    <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+    Akademi
+  </a>
+  <a href="index.html" class="nav-brand">VEFA <em>AEROSPACE</em></a>
+</nav>
+
+<header class="article-hero" onclick="this.classList.toggle('hide-text')" title="Yazıları Gizle/Göster">
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-cat">sdfgdfgdfg</div>
+    <div class="meta-row">
+      <span class="meta-badge">
+        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+        5 Nisan 2026
+      </span>
+      <span class="meta-badge">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+        fgdfgdfg okuma
+      </span>
+    </div>
+    <h1 class="a-title">egsdfg</h1>
+    <div class="author-box">
+      <div class="avatar">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+      </div>
+      <div>
+        <span class="author-name">dfgdfg</span>
+        <span class="author-role">dfgdfgd</span>
+      </div>
+    </div>
+    </div>
+  </div>
+</header>
+
+<main class="main-content">
+  <article class="article-body">
+<h3>Bilmekte Fayda Var!</h3>
+<h3>Zaman Nasıl Ölçülür?</h3>
+<p>Geçmişte insanlar zamanı ölçmek için gök cisimlerinin hareketinden yararlanıyorlardı. Örneğin güneş saatlerinde, Güneş gökyüzünde hareket ettikçe bir cismin gölgesinde ortaya çıkan değişimler belirlenerek zaman ölçülüyordu. Peki gök cisimlerinin hareketinden yararlanarak geceleri zamanı belirleyebilir miyiz?</p>
+<h3>Gece ve Gündüz Nasıl Oluşur?</h3>
+<p>Gece ve gündüz Dünya’nın kendi ekseni etrafındaki dönüşü nedeniyle oluşur. Dünya’nın kendi ekseni etrafındaki dönüşünün etkilerini gök cisimlerinin konumlarında gece boyunca ortaya çıkan değişimleri takip ederek fark edebiliriz.</p>
+<p>Örneğin gökyüzünde Ay’ın hareketini incelediğimizde uydumuzun gece boyunca hep aynı yerde kalmadığını görürüz. Peki Ay yer değiştirirken diğer gök cisimleri sabit kalıyor mu? Dikkatli bir gözlemle aslında yıldızların da gece boyunca gökyüzünde yer değiştirdiğini fark edebiliriz.</p>
+<h3>Yıldızların Gökyüzündeki Konumu Neden Değişir?</h3>
+<p>Yıldızların gökyüzündeki hareketini daha yakından inceleyelim. Yıldızlar, Dünya’dan çok uzaktadır. Yıldızların gökyüzündeki konumlarının değişmesinin iki nedeni vardır. Birincisi Dünya’nın kendi ekseni etrafındaki dönüşü, ikincisi ise Güneş etrafındaki hareketidir. Dünya’nın kendi etrafındaki hareketi nedeniyle gökyüzünde gördüğümüz yıldızların konumu gece boyunca değişir. Dünya kendi ekseni etrafındaki dönerken yerin yüzeyinde, Dünya ile birlikte hareket hâlinde olan biz gözlemcilere sanki gökyüzü hareket ediyormuş gibi gelir. Bu duruma “gökyüzünün görünür hareketi” denir.</p>
+<h3>Sleg211 / Storyblocks</h3>
+<p>Bu hareketi daha iyi anlayabilmek için duran bir arabanın içinde oturduğumuzu ve yanımızda duran başka bir araba olduğunu düşünelim. Yanımızdaki araba ileri ya da geri hareket ettiğinde sanki içinde bulunduğumuz araba hareket ediyormuş gibi algılayabiliriz. Benzer şekilde gece gökyüzünde Ay’ın, gezegenlerin ve yıldızların yer değiştirmesi, gökyüzünün sanki Dünya'nın etrafında hareket ediyormuş gibi algılanmasına sebep olabilir.</p>
+<h3>Yıldızların Hareketine Bakarak Zamanı Belirleyebilir miyiz?</h3>
+<p>Yıldızların gece boyunca gökyüzündeki hareketinden faydalanarak zamanı belirleyebiliriz. Bunun için takımyıldızların Kutup Yıldızı etrafındaki hareketini takip edebiliriz. Gözümüzde Dünya’nın merkezinden ve Kuzey Kutbu’ndan geçen bir doğru canlandırdığımızda, Kutup Yıldızı bu doğrunun neredeyse üzerinde kalır. Bu nedenle geceleri gökyüzüne baktığımızda diğer yıldızları Kutup Yıldızı’nın etrafında dolanıyormuş gibi algılarız. Bu hareketi gözlemleyerek zamanı belirleyebiliriz. Ayrıca kuzeyi gösterdiğinden Kutup Yıldızı’nı açık havalarda yön bulmak için de kullanabiliriz.</p>
+<h3>Çizim: Umut Uludağ</h3>
+<h3>Kutup Yıldızı Nasıl Bulunur?</h3>
+<p>Kutup Yıldızı’nın gökyüzündeki yerini belirleyebilmek öncelikle Büyük Ayı Takımyıldızı’nı bulmalıyız. Yapay aydınlatmalardan uzakta bir yerde ve berrak bir gökyüzünde gözlem yapmak işimizi kolaylaştırabilir. Büyük Ayı Takımyıldızı’nı bir kepçeyi ya da cezveyi andıran şekliyle gökyüzünde kolayca fark edebiliriz. Kutup Yıldızı’nı bulmak için Büyük Ayı Takımyıldızı’nın kepçesinin ucundaki Dubhe ve Merak yıldızlarını hayali bir doğru ile birleştirelim. Bu iki yıldızın arasındaki mesafeyi bir birim kabul edelim. Dubhe ve Merak yıldızlarının üzerinde yer aldığı doğrultuda beş birim uzağa baktığımızda Kutup Yıldızı’nı görebiliriz.</p>
+<p>Deneyler köşesinin bu projesinde, Büyük Ayı Takımyıldızı’nın Kutup Yıldızı etrafındaki hareketinden yararlanarak zamanı ölçüyoruz.</p>
+<h3>Nelere İhtiyacımız Var?</h3>
+<h3>Cep telefonu ya da fotoğraf makinesi</h3>
+<h3>Ne Yapıyoruz?</h3>
+<p>Açık havada ve şehir ışıklarından uzak bir yerde gece dışarı çıkıp gözlem yapalım.</p>
+<h3>Önce Büyük Ayı Takımyıldızı’nı, ardından da Kutup Yıldızı’nı bulalım.</h3>
+<p>Cep telefonunu, Kutup Yıldızı’nı merkeze alacak ve Büyük Ayı Takımyıldızı’nın fotoğrafını çekebilecek şekilde sabit bir yere yerleştirelim. Kamera ayarlarını değiştirerek daha iyi görüntüler elde edebilirsiniz. Örneğin ışığa duyarlılık düzeyini ifade eden ISO ayarını ve pozlama süresini artırabilirsiniz (ISO: 800 Pozlama Süresi: 16 saniye). Kameranızı bu süre boyunca sabit tutmaya özen gösterin.</p>
+<p>Kameranın konumunu değiştirmeden 60 dakika aralıklarla dört defa Kutup Yıldızı’nın ve Büyük Ayı Takımyıldızı’nın fotoğrafını çekelim.</p>
+<h3>Ne Oldu?</h3>
+<h3>Fotoğraflar: Sevda Seçer Esmer</h3>
+<p>Çektiğimiz fotoğraflarda Büyük Ayı Takımyıldızı’nın zamanla saat yönünün tersi yönde döndüğünü görürüz. Bu sırada Kutup Yıldızı’nın ise aynı yerde sabit kaldığını fark edebiliriz. Bu durumun nedeni, Dünya’nın batıdan doğuya doğru dönmesidir. Dünya’nın batıdan doğuya dönmesi, gökyüzünün saatin tersi yönde dönüyormuş gibi algılanmasına yol açar.</p>
+<p>Peki Büyük Ayı Takımyıldızı’nın Kutup Yıldızı etrafındaki hareketini takip ederek zamanı nasıl hesaplayabiliriz?</p>
+<p>Merkezdeki Kutup Yıldızı’ndan başlayıp Büyük Ayı Takımyıldızı’ndaki Dubhe ve Merak yıldızlarından geçen bir doğru hayal edelim. Bu hayali doğru, saatimizin akrebini temsil eder. Büyük Ayı Takımyıldızı’nın Kutup Yıldızı etrafındaki bir tam dönüşü yaklaşık 24 saat sürer. Normal saatlerde ise akrep bir tam turunu 12 saatte tamamlar. Yıldız saatimizde akrep 360 dereceyi 24 saatte tamamladığı için 1 saatte 15 derece hareket eder.</p>
+<h3>Çizim: Umut Uludağ</h3>
+<p>İlk çektiğimiz fotoğrafta Büyük Ayı Takımyıldızı’nın konumunu referans noktası olarak alabiliriz. Yani Kutup Yıldızı’ndan başlayıp Dubhe ve Merak yıldızlarından geçen hayali çizgi saatimizin başlangıç noktasını temsil eder. Daha sonra her saat başı çektiğimiz fotoğraflardaki Büyük Ayı Takımyıldızı’nın konumunu bir kâğıda çizerek içinde bulunduğumuz ay için bir yıldızı saati oluşturabiliriz. Daha sonraki gecelerde yıldız saatimizi kullanarak zamanı belirleyebiliriz. Örneğin Büyük Ayı Takımyıldızı referans çizgimizin 30 derece sağındaysa, saat referans çizgisini çizdiğimiz saatten (örneğin gece yarısından) 2 saat geridedir.</p>
+<p>Aslında yıldızlar her 23 saat 56 dakikada bir (Bu süre genellikle yıldız günü olarak isimlendirilir.) gökyüzündeki konumlarına geri döner. Yani yıldız saatimizin akrebi olan Büyük Ayı Takımyıldızı bir turunu 24 saatten 4 dakika eksik sürede tamamlar. Bu, bir ayda 120 dakika yani 2 saate karşılık gelir.</p>
+<h3>Düşünelim!</h3>
+<p>Her ay aynı saatte Büyük Ayı Takımyıldızı’nın konumunu çizip aylara göre karşılaştırma yapabilirsiniz.</p>
+<p>Kutup Yıldızı, Kuzey Yarım Küre’den görülebilir. Güney Yarım Küre’de Dünya’nın dönme ekseni ile çakışan bir yıldız olup olmadığını araştırabilirsiniz.</p>
+    </article>
+</main>
+
+<footer class="article-footer">
+  <div class="footer-label">Vefa Akademi © 2026</div>
+  <a href="akademi.html" class="footer-back">
+    Tüm Makaleler
+    <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+  </a>
+</footer>
+
+<script>
+// Okuma progress bar
+window.addEventListener('scroll', ()=>{
+  const el = document.getElementById('progress');
+  const h  = document.body.scrollHeight - window.innerHeight;
+  if(h > 0) el.style.width = (window.scrollY / h * 100) + '%';
+});
+
+// Link hover gizleyici
+document.querySelectorAll('a[href]').forEach(a=>{
+  if(!a.getAttribute('href').startsWith('#')){
+    a.addEventListener('mouseenter',function(){this.dataset.h=this.href;this.removeAttribute('href');this.style.cursor='pointer'});
+    a.addEventListener('mouseleave',function(){if(this.dataset.h)this.setAttribute('href',this.dataset.h)});
+    a.addEventListener('click',function(e){if(this.dataset.h){e.preventDefault();window.location.href=this.dataset.h}});
+  }
+});
+</script>
+</body>
+</html>

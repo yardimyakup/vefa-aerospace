@@ -1,0 +1,134 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 🛡️ GÜVENLİK (SECURITY) -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:;">
+
+<!-- ğŸš€ SEO METADATA -->
+<title>${title} - Vefa Akademi</title> 
+<meta name="description" content="${desc}">
+
+<!-- FONTLAR -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+/* Ö•Ö• PREMIUM MAKALE TASARIM SİSTEMİ Ö•Ö• */
+:root {
+  --space-bg: #03050a;
+  --glass-bg: rgba(13, 22, 39, 0.4);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --text-main: #f8fafc;
+  --text-read: #cbd5e1;
+  --text-muted: #8ba2b8;
+  --cyan-accent: #0ea5e9;
+  --red-accent: #ef4444;
+  --term-green: #10b981;
+  --font-body: 'Inter', sans-serif;
+  --font-disp: 'Space Grotesk', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background-color: var(--space-bg); color: var(--text-main); font-family: var(--font-body); line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+
+/* Ö•Ö• BACKGROUND Ö•Ö• */
+.space-layer {
+  position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background: radial-gradient(ellipse at top right, rgba(14, 165, 233, 0.08) 0%, transparent 50%),
+              radial-gradient(circle at bottom left, rgba(239, 68, 68, 0.05) 0%, transparent 40%);
+}
+.grid-overlay {
+  position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: 0.15;
+  background-image: linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Ö•Ö• NAVBAR Ö•Ö• */
+.navbar { position: fixed; top: 0; left: 0; width: 100%; height: 70px; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; background: rgba(3,5,10,0.8); backdrop-filter: blur(12px); border-bottom: 1px solid var(--glass-border); z-index: 50;}
+.nav-brand { font-family: var(--font-disp); font-size: 1.2rem; font-weight: 700; letter-spacing: 0.1em; color: var(--text-main); text-decoration: none; display: flex; align-items: center; gap: 8px;}
+.nav-brand span { color: var(--cyan-accent); font-weight: 500;}
+.nav-back { display: flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--cyan-accent); text-decoration: none; transition: 0.3s; }
+.nav-back:hover { color: var(--text-main); }
+.nav-back svg { width: 16px; height: 16px; stroke: currentColor; fill: none; }
+
+/* Ö•Ö• HERO ALANI Ö•Ö• */
+.article-hero { position: relative; padding: 160px 40px 80px; max-width: 1000px; margin: 0 auto; text-align: center; border-bottom: 1px solid var(--glass-border); }
+.meta-badges { display: flex; justify-content: center; flex-wrap: wrap; gap: 16px; margin-bottom: 30px; font-family: var(--font-mono); font-size: 0.8rem; color: var(--cyan-accent); text-transform: uppercase; letter-spacing: 0.1em; }
+.meta-badge { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: rgba(14, 165, 233, 0.1); border: 1px solid rgba(14, 165, 233, 0.2); border-radius: 20px; }
+.meta-badge svg { width: 14px; height: 14px; stroke: currentColor; fill: none; }
+.a-title { font-family: var(--font-disp); font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; color: var(--text-main); margin-bottom: 40px; text-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+.author-box { display: flex; align-items: center; justify-content: center; gap: 16px; }
+.avatar { width: 50px; height: 50px; border-radius: 50%; background: var(--glass-bg); border: 1px solid var(--cyan-accent); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(14, 165, 233, 0.2); }
+.avatar svg { width: 24px; height: 24px; stroke: var(--cyan-accent); fill: none; }
+.author-details { text-align: left; }
+.author-name { display: block; font-family: var(--font-disp); font-size: 1.1rem; font-weight: 600; color: var(--text-main); }
+.author-role { font-size: 0.85rem; color: var(--text-muted); }
+
+/* Ö•Ö• MAKALE İÇERİÄİ TİPOGRAFİSİ Ö•Ö• */
+.main-content { max-width: 800px; margin: 0 auto; padding: 60px 20px 100px; }
+.pro-reader { font-size: 1.2rem; line-height: 1.8; color: var(--text-read); font-weight: 300; }
+.pro-reader p { margin-bottom: 24px; }
+.pro-reader h2 { font-family: var(--font-disp); font-size: 2.2rem; font-weight: 700; color: var(--text-main); margin: 60px 0 24px; border-left: 4px solid var(--cyan-accent); padding-left: 20px; }
+.pro-reader h3 { font-family: var(--font-disp); font-size: 1.6rem; font-weight: 600; color: var(--text-main); margin: 40px 0 16px; }
+.pro-reader strong { color: white; font-weight: 600; }
+.pro-reader ul, .pro-reader ol { margin-bottom: 30px; padding-left: 24px; }
+.pro-reader li { margin-bottom: 12px; }
+.pro-reader li::marker { color: var(--cyan-accent); }
+.pro-reader blockquote { background: var(--glass-bg); border: 1px solid var(--glass-border); border-left: 4px solid var(--red-accent); padding: 30px; margin: 40px 0; border-radius: 0 16px 16px 0; font-size: 1.3rem; font-style: italic; color: white; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+
+/* Ö•Ö• FOOTER BÖLÜMÜ Ö•Ö• */
+.article-footer { max-width: 800px; margin: 0 auto 100px; padding-top: 40px; border-top: 1px solid var(--glass-border); display: flex; justify-content: space-between; align-items: center; }
+.footer-text { font-family: var(--font-mono); font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+
+@media(max-width: 768px){
+  .navbar { padding: 0 20px; }
+  .article-hero { padding: 120px 20px 60px; }
+  .pro-reader { font-size: 1.1rem; }
+  .pro-reader h2 { font-size: 1.8rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="space-layer"></div>
+<div class="grid-overlay"></div>
+
+<nav class="navbar">
+  <a href="akademi.html" class="nav-back"><svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg> AKADEMİ</a>
+  <a href="index.html" class="nav-brand">VEFA <span>AEROSPACE</span></a>
+</nav>
+
+<header class="article-hero">
+  <div class="meta-badges">
+    <div class="meta-badge"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg> ${dateStr}</div>
+    <div class="meta-badge"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> ${readTime} OKUMA</div>
+    <div class="meta-badge"><svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg> ${category}</div>
+  </div>
+  <h1 class="a-title">${title}</h1>
+  <div class="author-box">
+    <div class="avatar"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></div>
+    <div class="author-details">
+      <span class="author-name">${author}</span>
+      <span class="author-role">${role}</span>
+    </div>
+  </div>
+</header>
+
+<main class="main-content">
+  <article class="pro-reader">
+    ${htmlContent}
+  </article>
+</main>
+
+<footer class="article-footer">
+  <div class="footer-text">VEFA AKADEMİ © 2026</div>
+  <a href="akademi.html" style="color: var(--cyan-accent); font-family: var(--font-mono); font-size: 0.9rem; text-decoration: none;">Makalelere Dön Öœ</a>
+</footer>
+
+</body>
+</html>
