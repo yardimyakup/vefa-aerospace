@@ -540,6 +540,16 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
+(function() {
+  var _dt = function() {
+    var t = 160;
+    if (window.outerWidth - window.innerWidth > t || window.outerHeight - window.innerHeight > t) {
+      document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;background:#03050a;color:#ef4444;font-family:\'JetBrains Mono\',monospace;font-size:1.1rem;text-align:center;padding:40px;">[VEFA SECURITY] Geliştirici araçları bu sayfada devre dışıdır.</div>';
+    }
+  };
+  setInterval(_dt, 1000);
+})();
+
 
 
 const canvas = document.getElementById('spaceCanvas'); const ctx = canvas.getContext('2d');

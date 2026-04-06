@@ -631,6 +631,29 @@ footer { padding: 100px 0 40px; border-top: 1px solid var(--glass-border); backg
         </div>
       </article>
 
+            <!-- KART: Başlıksız Makale -->
+      <!-- KART: Başlıksız Makale -->
+         <!-- KART: Başlıksız Makale -->
+      <article class="article-card">
+        <div class="ac-image" ><svg viewBox="0 0 24 24" style="width:36px;height:36px;stroke:rgba(14,165,233,0.3);fill:none"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg></div>
+        <div class="ac-content">
+          <div class="ac-author">
+            <div class="ac-avatar"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></div>
+            <div class="ac-author-info">
+              <span class="ac-author-name">Anonim Akademisyen</span>
+              <span class="ac-author-date">6 Nisan 2026</span>
+            </div>
+          </div>
+          <h2 class="ac-title">Başlıksız Makale</h2>
+          <p class="ac-excerpt">VEFA Aerospace akademi makalesi.</p>
+          <div class="ac-footer">
+            <span>5 Dk okuma</span>
+            <!-- Dosya adı: basliksiz-makale.html -->
+            <a href="fener.html" class="ac-read-more">Makaleyi Oku <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
+          </div>
+        </div>
+      </article>
+
       <!-- YENİ KARTLAR İÇİN BURAYA EKLEYIN -->
 
     </div>
@@ -778,10 +801,23 @@ document.addEventListener('selectstart', e => e.preventDefault());
 document.addEventListener('dragstart', e => e.preventDefault());
 
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) || (e.ctrlKey && (e.key === 'U' || e.key === 'S'))) {
+  if (
+    e.key === 'F12' ||
+    (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) ||
+    (e.ctrlKey && (e.key === 'U' || e.key === 'u' || e.key === 'S' || e.key === 's'))
+  ) {
     e.preventDefault(); return false;
   }
 });
+(function() {
+  var _dt = function() {
+    var t = 160;
+    if (window.outerWidth - window.innerWidth > t || window.outerHeight - window.innerHeight > t) {
+      document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;background:#03050a;color:#ef4444;font-family:\'JetBrains Mono\',monospace;font-size:1.1rem;text-align:center;padding:40px;">[VEFA SECURITY] Geliştirici araçları bu sayfada devre dışıdır.</div>';
+    }
+  };
+  setInterval(_dt, 1000);
+})();
 </script>
 
 </body>
