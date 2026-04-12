@@ -2,711 +2,4559 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<!-- 🛡️ GÜVENLİK (SECURITY): Katı Koruma, Anti-XSS, Anti-Frame -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; frame-src 'self' https://www.youtube.com; object-src 'none'; base-uri 'self';">
-<meta name="referrer" content="no-referrer">
-
-<title>VEFA AEROSPACE — Yeni Nesil Uzay Mimarisi</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#03060e">
+<title>VEFA AEROSPACE — Gökyüzünün Ötesinde</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+
 <style>
-/* Ö•Ö• MODERN UZAY KAPSÜLÜ VE HUD TASARIM SİSTEMİ Ö•Ö• */
+/* ══════════════════════════════════════════════
+   VEFA AEROSPACE  ·  CSS CORE
+   Fonts: Syne (display) · Outfit (body) · DM Mono (code)
+   Aesthetic: deep-space brutalism · sharp editorial · cinematic
+══════════════════════════════════════════════ */
+
+/* ── Kök Değişkenler ── */
 :root {
-  --space-dark: #03050a;
-  --glass-bg: rgba(13, 22, 39, 0.4);
-  --glass-hover: rgba(20, 32, 55, 0.6);
-  --glass-border: rgba(255, 255, 255, 0.06);
-  --glass-border-strong: rgba(255, 255, 255, 0.15);
-  
-  --text-main: #f8fafc;
-  --text-muted: #8ba2b8;
-  --accent: #ef4444; 
-  --accent-glow: rgba(239, 68, 68, 0.5);
-  --cyan-accent: #0ea5e9; 
-  --term-green: #10b981;
-  
-  --font-body: 'Inter', sans-serif;
-  --font-disp: 'Space Grotesk', sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
-  --ease-smooth: cubic-bezier(0.25, 1, 0.5, 1);
+  --void:      #03060e;
+  --deep:      #060c1a;
+  --navy:      #091428;
+  --steel:     #0f2040;
+  --glass:     rgba(255,255,255,0.04);
+  --glass-mid: rgba(255,255,255,0.07);
+  --glass-hi:  rgba(255,255,255,0.12);
+
+  --cyan:      #00e5ff;
+  --cyan-dim:  rgba(0,229,255,0.15);
+  --cyan-glow: rgba(0,229,255,0.06);
+  --red:       #ff3b30;
+  --red-dim:   rgba(255,59,48,0.15);
+  --gold:      #ffb83f;
+  --green:     #30d158;
+  --violet:    #6e40c9;
+
+  --white:   #ffffff;
+  --text:    rgba(255,255,255,0.88);
+  --muted:   rgba(255,255,255,0.42);
+  --ghost:   rgba(255,255,255,0.06);
+  --border:  rgba(255,255,255,0.08);
+  --border-cyan: rgba(0,229,255,0.22);
+
+  --f-display: 'Syne', sans-serif;
+  --f-body:    'Outfit', sans-serif;
+  --f-mono:    'DM Mono', monospace;
+
+  --ease-out:    cubic-bezier(0.16,1,0.3,1);
+  --ease-spring: cubic-bezier(0.34,1.56,0.64,1);
+
+  --r-sm:  6px;
+  --r-md:  10px;
+  --r-lg:  16px;
+  --r-xl:  24px;
+  --r-max: 100px;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; font-size: 16px; overflow-x: hidden; width: 100%; max-width: 100vw; scroll-padding-top: 90px; }
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
 body {
-  background-color: var(--space-dark); color: var(--text-main);
-  font-family: var(--font-body); overflow-x: hidden; width: 100%; max-width: 100vw; -webkit-font-smoothing: antialiased;
+  font-family: var(--f-body);
+  background: var(--void);
+  color: var(--text);
+  overflow-x: hidden;
+  min-height: 100vh;
 }
 
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--space-dark); }
-::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.4); }
-
-/* Ö•Ö• BACKGROUND: DERİN UZAY BOÅLUÄU Ö•Ö• */
-#spaceCanvas { position: fixed; inset: 0; z-index: -2; width: 100%; height: 100%; pointer-events: none; }
-.nebula-glow {
-  position: fixed; inset: 0; z-index: -1; pointer-events: none;
-  background: radial-gradient(circle at 80% -20%, rgba(14, 165, 233, 0.08) 0%, transparent 50%),
-              radial-gradient(circle at 10% 100%, rgba(239, 68, 68, 0.06) 0%, transparent 40%);
-  animation: pulseNebula 15s ease-in-out infinite alternate;
+body.intro-lock {
+  overflow: hidden;
+  height: 100vh;
 }
-@keyframes pulseNebula { 0% { opacity: 0.8; } 100% { opacity: 1; } }
 
-/* Ö•Ö• TEMEL YAPI & KARTLAR Ö•Ö• */
-.container { max-width: 1280px; margin: 0 auto; padding: 0 clamp(24px, 5vw, 64px); }
-a { text-decoration: none; color: inherit; transition: opacity 0.3s; }
-a:hover { opacity: 0.8; }
+::selection { background: rgba(0,229,255,0.22); color: #fff; }
 
-.hud-card {
-  background: var(--glass-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--glass-border); border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-  transition: transform 0.4s var(--ease-smooth), border-color 0.4s, box-shadow 0.4s;
+/* ── Yıldızlı arkaplan dokusu ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background-image:
+    radial-gradient(1px 1px at 12% 18%, rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 38% 72%, rgba(255,255,255,0.45) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 65% 12%, rgba(200,230,255,0.55) 0%, transparent 100%),
+    radial-gradient(1px 1px at 80% 58%, rgba(255,255,255,0.40) 0%, transparent 100%),
+    radial-gradient(1px 1px at 22% 88%, rgba(255,255,255,0.50) 0%, transparent 100%),
+    radial-gradient(2px 2px at 90% 25%, rgba(200,230,255,0.65) 0%, transparent 100%),
+    radial-gradient(1px 1px at 54% 45%, rgba(255,255,255,0.35) 0%, transparent 100%),
+    radial-gradient(1px 1px at 6% 55%,  rgba(255,255,255,0.40) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 46% 5%,  rgba(200,230,255,0.60) 0%, transparent 100%),
+    radial-gradient(1px 1px at 73% 82%, rgba(255,255,255,0.38) 0%, transparent 100%),
+    radial-gradient(2px 2px at 30% 35%, rgba(255,255,255,0.28) 0%, transparent 100%),
+    radial-gradient(1px 1px at 92% 68%, rgba(200,230,255,0.45) 0%, transparent 100%);
+  pointer-events: none;
+  animation: star-drift 200s linear infinite;
 }
-.hud-card:hover { border-color: rgba(255,255,255,0.2); box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(255,255,255,0.02); background: var(--glass-hover); }
 
-/* Ortak Başlıklar */
-.section-label { font-family: var(--font-disp); font-size: 0.85rem; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; color: var(--cyan-accent); display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
-.section-label::before { content: ''; width: 30px; height: 1px; background: var(--cyan-accent); }
-.section-title { font-family: var(--font-disp); font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; color: var(--text-main); margin-bottom: 40px; }
-
-/* Ö•Ö• REVEAL ANİMASYONLARI Ö•Ö• */
-.reveal { opacity: 0; transform: translateY(40px); transition: opacity 1s var(--ease-smooth), transform 1s var(--ease-smooth); }
-.reveal.active { opacity: 1; transform: translateY(0); }
-.d-1 { transition-delay: 0.1s; } .d-2 { transition-delay: 0.2s; } .d-3 { transition-delay: 0.3s; }
-
-/* Ö•Ö• NAVBAR Ö•Ö• */
-header { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: 90px; transition: all 0.5s var(--ease-smooth); background: linear-gradient(to bottom, rgba(3,5,10,0.9), transparent); }
-header.scrolled { height: 75px; background: rgba(6, 11, 19, 0.8); backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border); }
-.nav-inner { display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 1400px; margin: 0 auto; padding: 0 clamp(24px, 5vw, 64px); height: 100%; }
-.logo { display: flex; align-items: center; gap: 16px; }
-.logo img { height: 42px; filter: drop-shadow(0 0 12px rgba(255,255,255,0.15)); }
-.logo-type { font-family: var(--font-disp); font-size: 1.25rem; font-weight: 700; letter-spacing: 0.1em; line-height: 1.2; }
-.logo-type span { color: var(--accent); font-size: 0.75rem; letter-spacing: 0.2em; display: block; font-weight: 500;}
-.nav-links { display: flex; gap: 40px; list-style: none; }
-.nav-links a { font-family: var(--font-disp); font-size: 0.9rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); transition: color 0.3s, text-shadow 0.3s; }
-.nav-links a:hover, .nav-links a.active { color: var(--text-main); text-shadow: 0 0 10px rgba(255,255,255,0.3); }
-
-/* ── UZAY GEÇİŞ ANİMASYONU ── */
-#warp-overlay {
-  position: fixed; inset: 0; z-index: 99999;
-  background: var(--space-dark);
-  background-image: radial-gradient(circle at 50% 50%, rgba(14, 165, 233, 0.1), transparent 60%);
-  opacity: 0; pointer-events: none;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  transition: opacity 0.4s ease;
+@keyframes star-drift {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-80px); }
 }
-#warp-overlay.active { opacity: 1; pointer-events: all; }
 
-.warp-rocket {
-  width: 50px; height: 50px; stroke: var(--cyan-accent); fill: none; stroke-width: 1.5;
-  transform: translateY(60px); opacity: 0;
-  transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+/* ══════════════════════════════════════════════
+   CANVAS KATMANLARI
+══════════════════════════════════════════════ */
+#va-earth, #va-space {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
 }
-#warp-overlay.active .warp-rocket {
-  transform: translateY(0); opacity: 1;
-  animation: rocketLaunch 0.6s 0.6s cubic-bezier(0.5, 0, 1, 0.5) forwards;
+
+#va-earth { z-index: 50; }
+#va-space { z-index: 49; opacity: 0; transition: opacity 2.5s ease; }
+
+/* Fırlatma flaşı */
+#va-flash {
+  position: fixed;
+  inset: 0;
+  z-index: 55;
+  background: white;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.12s ease;
 }
-@keyframes rocketLaunch { 100% { transform: translateY(-300px); opacity: 0; } }
+#va-flash.active { opacity: 1; }
 
-.warp-msg {
-  margin-top: 24px; font-family: var(--font-disp); font-size: 0.85rem; color: var(--text-main);
-  letter-spacing: 0.25em; text-transform: uppercase;
-  opacity: 0; transform: translateY(10px); transition: all 0.4s ease 0.2s;
+/* ── Skip Butonu ── */
+#va-skip {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 18px;
+  background: rgba(6,12,26,0.82);
+  border: 1px solid rgba(255,255,255,0.14);
+  color: rgba(255,255,255,0.65);
+  border-radius: var(--r-sm);
+  font-family: var(--f-mono);
+  font-size: 0.70rem;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: border-color 0.22s, color 0.22s, transform 0.18s;
+  -webkit-tap-highlight-color: transparent;
 }
-#warp-overlay.active .warp-msg { opacity: 1; transform: translateY(0); }
 
-.menu-btn { display: none; flex-direction: column; gap: 7px; cursor: pointer; z-index: 101; background: none; border: none; padding: 10px; }
-.menu-btn span { display: block; width: 32px; height: 2px; background: var(--text-main); border-radius: 2px; transition: 0.4s; }
-.menu-btn.open span:nth-child(1) { transform: translateY(9px) rotate(45deg); background: var(--accent); }
-.menu-btn.open span:nth-child(2) { opacity: 0; }
-.menu-btn.open span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); background: var(--accent); }
+#va-skip:hover {
+  border-color: rgba(255,255,255,0.35);
+  color: #fff;
+  transform: translateY(-1px);
+}
 
-.mobile-nav { display: none; position: fixed; inset: 0; background: rgba(3, 5, 10, 0.95); backdrop-filter: blur(20px); z-index: 99; flex-direction: column; justify-content: center; align-items: center; gap: 40px; opacity: 0; transform: translateY(-20px); transition: 0.5s var(--ease-smooth); }
-.mobile-nav.active { display: flex; opacity: 1; transform: translateY(0); }
-.mobile-nav a { font-family: var(--font-disp); font-size: 2.2rem; color: var(--text-main); letter-spacing: 0.1em; font-weight: 600; text-transform: uppercase; }
+/* Replay */
+#va-replay {
+  position: fixed;
+  bottom: 28px;
+  right: 24px;
+  z-index: 9999;
+  display: none;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: rgba(0,229,255,0.06);
+  border: 1px solid var(--border-cyan);
+  color: var(--cyan);
+  border-radius: var(--r-max);
+  font-family: var(--f-mono);
+  font-size: 0.70rem;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: background 0.22s, border-color 0.22s, transform 0.2s, box-shadow 0.22s;
+  -webkit-tap-highlight-color: transparent;
+}
 
-/* Ö•Ö• BUTONLAR Ö•Ö• */
-.btn {
-  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
-  font-family: var(--font-disp); font-size: 0.95rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
-  padding: 16px 32px; border-radius: 8px; transition: all 0.4s var(--ease-smooth); cursor: pointer; border: 1px solid transparent; position: relative; overflow: hidden;
+#va-replay:hover {
+  background: rgba(0,229,255,0.13);
+  border-color: rgba(0,229,255,0.50);
+  box-shadow: 0 0 24px rgba(0,229,255,0.18);
+  transform: translateY(-2px);
+}
+
+/* ══════════════════════════════════════════════
+   ANA UI
+══════════════════════════════════════════════ */
+#va-ui {
+  position: relative;
+  z-index: 10;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.7s ease;
+  min-height: 100vh;
+}
+
+#va-ui.show {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* ══════════════════════════════════════════════
+   NAVİGASYON
+══════════════════════════════════════════════ */
+/* NAVİGASYON */
+.va-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  height: 62px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 clamp(20px, 4vw, 56px);
+  background: rgba(3,6,14,0.78);
+  backdrop-filter: blur(20px) saturate(1.3);
+  -webkit-backdrop-filter: blur(20px) saturate(1.3);
+  border-bottom: 1px solid var(--border);
+  
+  /* BURAYI DEĞİŞTİRDİK/EKLEDİK: */
+  opacity: 0; 
+  pointer-events: none; /* Gizliyken tıklanmasın */
+  transition: opacity 0.7s ease, border-color 0.4s; 
+}
+
+/* YENİ EKLENEN SINIF: Bu sınıf eklendiğinde header görünür olacak */
+.va-nav.show {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.va-nav:hover { border-bottom-color: var(--border-cyan); }
+
+/* Logo */
+.va-logo {
+  font-family: var(--f-display);
+  font-size: 1.10rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 0.20em;
+  text-transform: uppercase;
+  text-decoration: none;
+  user-select: none;
+  transition: text-shadow 0.3s;
+}
+
+.va-logo:hover { text-shadow: 0 0 20px rgba(0,229,255,0.30); }
+.va-logo em { color: var(--red); font-style: normal; }
+
+/* Nav linkler */
+.va-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.va-nl {
+  font-family: var(--f-body);
+  font-size: 0.82rem;
+  font-weight: 400;
+  color: var(--muted);
+  text-decoration: none;
+  padding: 6px 14px;
+  border-radius: var(--r-sm);
+  transition: color 0.2s, background 0.2s;
+  letter-spacing: 0.02em;
+}
+
+.va-nl:hover {
+  color: #fff;
+  background: var(--glass-mid);
+}
+
+/* Nav CTA */
+.va-nav-cta {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 20px;
+  background: var(--red);
+  color: #fff;
+  border: none;
+  border-radius: var(--r-sm);
+  font-family: var(--f-display);
+  font-size: 0.80rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.22s, transform 0.18s;
+}
+
+.va-nav-cta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 35%, rgba(255,255,255,0.18) 50%, transparent 65%);
+  transform: translateX(-120%);
+  transition: transform 0.5s;
+}
+
+.va-nav-cta:hover {
+  box-shadow: 0 0 22px rgba(255,59,48,0.45);
+  transform: translateY(-1px);
+}
+
+.va-nav-cta:hover::before { transform: translateX(120%); }
+
+/* Hamburger */
+.va-ham {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  width: 38px;
+  height: 38px;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.va-ham span {
+  display: block;
+  width: 22px;
+  height: 1.5px;
+  background: rgba(255,255,255,0.78);
+  border-radius: 2px;
+  transition: transform 0.3s var(--ease-out), opacity 0.25s;
+}
+
+.va-ham.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.va-ham.open span:nth-child(2) { opacity: 0; }
+.va-ham.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+/* Mobil menü */
+.va-mobile-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 10001;
+  background: rgba(3,6,14,0.98);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s var(--ease-out);
+}
+
+.va-mobile-menu.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.va-mobile-menu a {
+  font-family: var(--f-display);
+  font-size: clamp(2rem, 7vw, 2.8rem);
+  font-weight: 800;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+  text-decoration: none;
+  padding: 18px 60px;
+  width: 100%;
+  text-align: center;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  transition: color 0.2s;
+}
+
+.va-mobile-menu a:last-child { border-bottom: none; color: var(--red); }
+.va-mobile-menu a:hover { color: var(--cyan); }
+
+/* ══════════════════════════════════════════════
+   HERO
+══════════════════════════════════════════════ */
+.va-hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: calc(62px + 60px) clamp(20px,5vw,80px) 80px;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* Izgara doku */
+.va-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,229,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,229,255,0.025) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 40%, black 0%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 40%, black 0%, transparent 100%);
+  animation: grid-scroll 28s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes grid-scroll {
+  from { background-position: 0 0; }
+  to   { background-position: 60px 60px; }
+}
+
+/* Merkez halo */
+.va-hero::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(1000px, 120vw);
+  height: min(700px, 80vw);
+  background: radial-gradient(ellipse,
+    rgba(0,229,255,0.035) 0%,
+    rgba(110,64,201,0.025) 38%,
+    transparent 65%
+  );
+  pointer-events: none;
+  animation: halo-breathe 9s ease-in-out infinite;
+}
+
+@keyframes halo-breathe {
+  0%,100% { transform: translate(-50%,-50%) scale(1);    opacity: 0.7; }
+  50%      { transform: translate(-50%,-50%) scale(1.10); opacity: 1.0; }
+}
+
+/* Badge */
+.va-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 18px;
+  border: 1px solid var(--border-cyan);
+  background: var(--cyan-dim);
+  border-radius: var(--r-max);
+  font-family: var(--f-mono);
+  font-size: 0.68rem;
+  color: var(--cyan);
+  letter-spacing: 0.14em;
+  margin-bottom: 32px;
+  animation: badge-pulse 3.5s ease-in-out infinite;
+}
+
+@keyframes badge-pulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(0,229,255,0.22); }
+  50%      { box-shadow: 0 0 0 8px rgba(0,229,255,0); }
+}
+
+/* Status dot */
+.va-dot {
+  width: 7px;
+  height: 7px;
+  background: var(--green);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--green);
+  animation: dot-blink 2s ease-in-out infinite;
+}
+
+@keyframes dot-blink {
+  0%,100% { opacity: 1; box-shadow: 0 0 10px var(--green); }
+  50%      { opacity: 0.25; box-shadow: 0 0 4px var(--green); }
+}
+
+/* Hero başlık */
+.va-h1 {
+  font-family: var(--f-display);
+  font-size: clamp(2.2rem, 8.5vw, 6.5rem);
+  font-weight: 800;
+  line-height: 0.90;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: #fff;
+  margin-bottom: 28px;
+  position: relative;
+}
+
+/* Başlık satırları — farklı efektler */
+.va-h1 .line-1 {
+  display: block;
+  background: linear-gradient(125deg, #fff 0%, #c8e8ff 40%, var(--cyan) 70%, #006aff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: line1-reveal 1.2s var(--ease-out) 0.2s both;
+}
+
+.va-h1 .line-2 {
+  display: block;
+  animation: line2-reveal 1.2s var(--ease-out) 0.45s both;
+}
+
+.va-h1 .line-3 {
+  display: block;
+  background: linear-gradient(125deg, #ffaaaa 0%, var(--red) 50%, #7f0000 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: line3-reveal 1.2s var(--ease-out) 0.65s both;
+}
+
+@keyframes line1-reveal {
+  from { opacity: 0; transform: translateY(40px) skewY(3deg); }
+  to   { opacity: 1; transform: translateY(0) skewY(0deg); }
+}
+
+@keyframes line2-reveal {
+  from { opacity: 0; transform: translateX(-50px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes line3-reveal {
+  from { opacity: 0; transform: scale(0.85); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* Alt metin */
+.va-hero-sub {
+  font-size: clamp(0.90rem, 1.8vw, 1.05rem);
+  color: var(--muted);
+  line-height: 1.90;
+  max-width: 560px;
+  margin: 0 auto 44px;
+  animation: fade-up 1s var(--ease-out) 0.85s both;
+}
+
+.va-hero-sub strong { color: rgba(255,255,255,0.85); font-weight: 500; }
+
+/* Geri sayım */
+.va-countdown {
+  display: flex;
+  gap: clamp(8px, 2.5vw, 18px);
+  justify-content: center;
+  margin-bottom: 48px;
+  animation: fade-up 1s var(--ease-out) 1.05s both;
+}
+
+.va-cd-box {
+  min-width: clamp(68px, 17vw, 106px);
+  padding: clamp(12px,2.2vw,22px) clamp(8px,1.5vw,16px);
+  background: var(--glass);
+  border: 1px solid var(--border-cyan);
+  border-radius: var(--r-md);
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  /* Burayı ekledik: */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Üst şerit */
+.va-cd-box::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.va-cd-box:hover { border-color: rgba(0,229,255,0.50); box-shadow: 0 0 28px rgba(0,229,255,0.12); }
+.va-cd-box:hover::before { opacity: 1; }
+
+.va-cd-num {
+  font-family: var(--f-display);
+  font-size: clamp(1.8rem, 4.5vw, 2.8rem); /* Fontu çok az küçülttüm ki taşmasın */
+  font-weight: 800;
+  color: #fff;
+  display: block;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  margin: 0;
+  padding: 0;
+}
+
+.va-cd-box {
+  min-width: clamp(68px, 17vw, 106px);
+  height: clamp(68px, 17vw, 106px); /* Kutu yüksekliğini de genişlik gibi sabitledik (Kare/Dikdörtgen arası) */
+  background: var(--glass);
+  border: 1px solid var(--border-cyan);
+  border-radius: var(--r-md);
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.va-cd-lbl {
+  font-family: var(--f-mono);
+  font-size: clamp(0.52rem, 1.1vw, 0.63rem);
+  color: rgba(0,229,255,0.55);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  display: block;
+  margin-top: 6px;
+}
+
+/* Hero CTA butonları */
+.va-hero-cta {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  animation: fade-up 1s var(--ease-out) 1.2s both;
+}
+
+/* Birincil buton */
+.va-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: clamp(13px,2vw,17px) clamp(28px,4.5vw,48px);
+  background: linear-gradient(140deg, var(--red) 0%, #b01818 100%);
+  color: #fff;
+  border: none;
+  border-radius: var(--r-md);
+  font-family: var(--f-display);
+  font-size: clamp(0.80rem, 1.6vw, 0.92rem);
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 36px rgba(255,59,48,0.28);
+  transition: transform 0.22s var(--ease-out), box-shadow 0.22s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.va-btn-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,0.16) 50%, transparent 70%);
+  transform: translateX(-120%);
+  transition: transform 0.5s;
+}
+
+.va-btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 48px rgba(255,59,48,0.45);
+}
+
+.va-btn-primary:hover::before { transform: translateX(120%); }
+.va-btn-primary:active { transform: translateY(0) scale(0.98); }
+
+/* İkincil buton */
+.va-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: clamp(13px,2vw,17px) clamp(28px,4.5vw,48px);
+  background: transparent;
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.16);
+  border-radius: var(--r-md);
+  font-family: var(--f-display);
+  font-size: clamp(0.80rem,1.6vw,0.92rem);
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: border-color 0.25s, color 0.25s, background 0.25s, box-shadow 0.25s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.va-btn-secondary:hover {
+  border-color: var(--border-cyan);
+  color: var(--cyan);
+  background: var(--cyan-dim);
+  box-shadow: 0 0 20px rgba(0,229,255,0.08);
+}
+
+/* Scroll ipucu */
+.va-scroll-hint {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--f-mono);
+  font-size: 0.58rem;
+  color: rgba(255,255,255,0.18);
+  letter-spacing: 0.2em;
+  pointer-events: none;
+  animation: fade-up 1s ease 1.8s both;
+}
+
+.va-scroll-arrow {
+  width: 16px;
+  height: 16px;
+  border-right: 1px solid rgba(255,255,255,0.20);
+  border-bottom: 1px solid rgba(255,255,255,0.20);
+  transform: rotate(45deg);
+  animation: arrow-bounce 2.2s ease-in-out infinite;
+}
+
+@keyframes arrow-bounce {
+  0%,100% { transform: rotate(45deg) translateY(0); }
+  50%      { transform: rotate(45deg) translateY(6px); }
+}
+
+/* ══════════════════════════════════════════════
+   STATS ŞERİDİ
+══════════════════════════════════════════════ */
+.va-stats {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Akan ışık çizgisi */
+.va-stats::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -60%;
+  width: 40%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0,229,255,0.6), transparent);
+  animation: scan 7s linear infinite;
+}
+
+@keyframes scan {
+  from { left: -60%; }
+  to   { left: 160%; }
+}
+
+.va-stats-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.va-stat {
+  padding: clamp(26px,4vw,44px) clamp(16px,2.5vw,32px);
+  text-align: center;
+  border-right: 1px solid var(--border);
+  position: relative;
+  transition: background 0.3s;
+  cursor: default;
+}
+
+.va-stat:last-child { border-right: none; }
+.va-stat:hover { background: var(--cyan-glow); }
+
+.va-stat::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 25%; right: 25%;
+  height: 1px;
+  background: var(--cyan);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.va-stat:hover::after { opacity: 0.35; }
+
+.va-stat-num {
+  font-family: var(--f-display);
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+  font-weight: 800;
+  color: #fff;
+  display: block;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.va-stat-num sup {
+  font-size: 0.5em;
+  color: var(--cyan);
+  vertical-align: super;
+  font-weight: 600;
+}
+
+.va-stat-lbl {
+  font-size: 0.76rem;
+  color: var(--muted);
+  display: block;
+  margin-top: 7px;
+  letter-spacing: 0.03em;
+}
+
+/* ══════════════════════════════════════════════
+   BÖLÜM ORTAK STİLLER
+══════════════════════════════════════════════ */
+.va-section {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 clamp(20px,5vw,64px);
+}
+
+.va-section-head {
+  padding: clamp(72px,11vw,130px) 0 clamp(40px,5vw,64px);
   text-align: center;
 }
-.btn::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); transition: 0.5s; }
-.btn:hover::before { left: 100%; }
-.btn-primary { background: var(--text-main); color: var(--space-dark); box-shadow: 0 0 20px rgba(255,255,255,0.2); }
-.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(255,255,255,0.4); }
-.btn-secondary { background: var(--glass-bg); color: var(--text-main); border-color: var(--glass-border-strong); }
-.btn-secondary:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); transform: translateY(-3px); }
-.btn-icon svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
 
-/* YENİ: Video Oynat Butonu (Görev Fragmanı) */
-.btn-video { border-color: var(--cyan-accent); color: var(--cyan-accent); background: rgba(14, 165, 233, 0.05); }
-.btn-video:hover { background: rgba(14, 165, 233, 0.2); transform: translateY(-3px); box-shadow: 0 0 20px rgba(14, 165, 233, 0.3); }
-
-/* Ö•Ö• KAHRAMAN BÖLÜMÜ (HERO) Ö•Ö• */
-#hero { min-height: 100vh; min-height: 100svh; display: flex; flex-direction: column; justify-content: center; padding-top: 100px; position: relative; overflow: hidden; }
-.hero-grid { display: grid; grid-template-columns: 1.2fr 1fr; align-items: center; gap: 40px; }
-
-.status-tag { display: inline-flex; align-items: center; gap: 10px; padding: 8px 16px; border: 1px solid var(--glass-border-strong); background: var(--glass-bg); border-radius: 30px; backdrop-filter: blur(10px); font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 0.1em; color: var(--text-main); margin-bottom: 32px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
-.status-tag span { width: 8px; height: 8px; background: #10b981; border-radius: 50%; box-shadow: 0 0 12px #10b981; animation: pulseOk 2s infinite; }
-@keyframes pulseOk { 50% { opacity: 0.4; } }
-
-.hero-title { font-family: var(--font-disp); font-size: clamp(3.2rem, 6vw, 6.5rem); font-weight: 700; line-height: 1.05; letter-spacing: -0.02em; text-transform: uppercase; margin-bottom: 24px; text-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-.hero-title span { color: transparent; -webkit-text-stroke: 1px var(--text-main); opacity: 0.8; font-weight: 500; }
-.hero-title .hg-red { color: var(--accent); -webkit-text-stroke: 0; opacity: 1; text-shadow: 0 0 40px var(--accent-glow); }
-.hero-desc { font-size: 1.2rem; font-weight: 300; color: var(--text-muted); line-height: 1.8; max-width: 600px; margin-bottom: 48px; }
-.hero-actions { display: flex; gap: 20px; flex-wrap: wrap; }
-
-.hero-visual { position: relative; display: flex; justify-content: center; align-items: center; height: 600px; }
-.rocket-wrapper { animation: floatCalmly 8s ease-in-out infinite; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5)) drop-shadow(0 0 30px rgba(14,165,233,0.2)); z-index: 2; }
-@keyframes floatCalmly { 0%, 100% { transform: translateY(0) rotate(5deg); } 50% { transform: translateY(-25px) rotate(8deg); } }
-.rocket-svg { width: clamp(140px, 15vw, 180px); }
-
-.hero-hud-countdown { margin-top: 60px; }
-.countdown-box { display: inline-flex; gap: clamp(15px, 3vw, 40px); padding: 30px 50px; text-align: center; }
-.cd-block { display: flex; flex-direction: column; align-items: center; min-width: clamp(75px, 8vw, 110px); }
-.cd-num { font-family: var(--font-disp); font-size: clamp(3.5rem, 6vw, 5.5rem); font-weight: 700; color: var(--text-main); line-height: 1; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; text-align: center; }
-.cd-lbl { font-family: var(--font-mono); font-size: clamp(0.7rem, 1.5vw, 0.9rem); font-weight: 500; letter-spacing: 0.25em; color: var(--text-muted); margin-top: 12px; text-transform: uppercase; }
-.cd-sep { font-family: var(--font-disp); font-size: clamp(3.5rem, 6vw, 5.5rem); color: var(--glass-border-strong); line-height: 1; font-weight: 300; }
-
-/* Ö•Ö• YENİ EKLENTİ 1: GÖREV FRAGMANI MODALI (PR VİDEOSU) Ö•Ö• */
-.video-modal {
-  position: fixed; inset: 0; z-index: 1000; background: rgba(3, 5, 10, 0.95); backdrop-filter: blur(15px);
-  display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: 0.4s var(--ease-smooth);
+.va-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--f-mono);
+  font-size: 0.67rem;
+  color: var(--cyan);
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  margin-bottom: 18px;
 }
-.video-modal.active { opacity: 1; pointer-events: all; }
-.modal-close {
-  position: absolute; top: 40px; right: 40px; background: transparent; border: 1px solid var(--glass-border-strong); color: white;
-  width: 50px; height: 50px; border-radius: 50%; font-size: 1.5rem; cursor: pointer; transition: 0.3s;
+
+.va-label::before, .va-label::after {
+  content: '';
+  width: 24px;
+  height: 1px;
+  background: var(--cyan);
+  flex-shrink: 0;
 }
-.modal-close:hover { background: var(--accent); border-color: var(--accent); }
-.modal-content {
-  width: 90%; max-width: 1000px; aspect-ratio: 16/9; background: #000; border-radius: 12px; overflow: hidden;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 40px rgba(14, 165, 233, 0.2); border: 1px solid var(--glass-border-strong);
-  transform: translateY(40px) scale(0.95); transition: 0.6s var(--ease-smooth); transition-delay: 0.1s;
+
+.va-section-title {
+  font-family: var(--f-display);
+  font-size: clamp(2.4rem, 7vw, 5.5rem);
+  font-weight: 800;
+  color: #fff;
+  line-height: 0.92;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
 }
-.video-modal.active .modal-content { transform: translateY(0) scale(1); }
-.modal-content iframe { width: 100%; height: 100%; border: none; }
 
-/* Ö•Ö• EKİBİMİZ (MÜRETTEBAT KAPSÜLÜ) Ö•Ö• */
-#crew { padding: 140px 0; border-top: 1px solid var(--glass-border); background: rgba(0,0,0,0.1); }
-.crew-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 60px; }
-.crew-card { position: relative; padding: 0; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 380px; text-align: center; }
-.crew-card::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 50%; background: linear-gradient(to top, rgba(14, 165, 233, 0.2), transparent); border-bottom: 2px solid var(--cyan-accent); pointer-events: none; opacity: 0.5; transition: 0.4s; }
-.crew-card:hover::after { opacity: 1; height: 60%; }
-.crew-img-placer { width: 100%; height: 100%; position: absolute; top: 0; left: 0; display: flex; align-items:flex-end; justify-content: center; z-index: 1; }
-.crew-img-placer img { width: auto; height: 90%; object-fit: contain; }
-.crew-info { position: relative; z-index: 2; width: 100%; padding: 24px 16px; background: linear-gradient(to top, rgba(3,5,10,0.9), rgba(3,5,10,0.5) 80%, transparent); }
-.crew-name { font-family: var(--font-disp); font-size: 1.4rem; font-weight: 700; color: var(--text-main); margin-bottom: 4px; }
-.crew-role { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.15em; color: var(--cyan-accent); text-transform: uppercase; }
-
-
-/* Ö•Ö• SİSTEM MİMARİSİ (HUD KARTLARI) Ö•Ö• */
-#architecture { padding: 140px 0; position: relative; border-top: 1px solid var(--glass-border); }
-.arch-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 60px; margin-bottom: 40px; }
-.arch-card { padding: 48px 40px; display: flex; flex-direction: column; height: 100%; }
-.ac-icon { width: 56px; height: 56px; border-radius: 14px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; margin-bottom: 32px; border: 1px solid rgba(255,255,255,0.05); }
-.ac-icon svg { width: 28px; height: 28px; stroke: var(--cyan-accent); stroke-width: 1.5; fill: none; }
-.arch-card h3 { font-family: var(--font-disp); font-size: 1.5rem; font-weight: 600; margin-bottom: 20px; color: var(--text-main); }
-.arch-card p { font-size: 1.05rem; color: var(--text-muted); line-height: 1.7; font-weight: 300; }
-.doc-download-wrapper { text-align: center; margin-top: 60px; padding-top: 40px; border-top: 1px dashed rgba(255,255,255,0.1); }
-
-/* Ö•Ö• YENİ EKLENTİ 2: SAHTE GÜVENLİK TERMİNALİ (PR İÇİN SİSTEM ONAY EKRANI) Ö•Ö• */
-#terminal-section { padding: 100px 0; background: #010204; border-top: 1px solid var(--glass-border); }
-.terminal-window {
-  background: #060b13; border: 1px solid #1f2937; border-radius: 8px; overflow: hidden;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.8), inset 0 0 20px rgba(16, 185, 129, 0.05);
+.va-section-sub {
+  font-size: clamp(0.88rem, 1.7vw, 1rem);
+  color: var(--muted);
+  max-width: 520px;
+  margin: 18px auto 0;
+  line-height: 1.88;
 }
-.term-header {
-  background: #111827; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between;
-  border-bottom: 1px solid #1f2937;
-}
-.term-dots { display: flex; gap: 8px; }
-.term-dots span { width: 12px; height: 12px; border-radius: 50%; background: #374151; }
-.term-dots span:nth-child(1) { background: #ef4444; }
-.term-dots span:nth-child(2) { background: #f59e0b; }
-.term-dots span:nth-child(3) { background: #10b981; }
-.term-title { font-family: var(--font-disp); font-size: 0.8rem; letter-spacing: 0.1em; color: var(--text-muted); }
-.term-body {
-  padding: 30px; font-family: var(--font-mono); font-size: 0.95rem; line-height: 1.8;
-  height: 300px; overflow-y: hidden; position: relative; color: var(--term-green);
-}
-/* Titreyen cursor efekti */
-.cursor-blink { display: inline-block; width: 10px; height: 16px; background: var(--term-green); animation: blink 1s step-end infinite; vertical-align: middle; margin-left: 5px; }
-@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-.term-line { margin-bottom: 8px; opacity: 0; transform: translateY(10px); animation: typeLine 0.1s forwards; }
-@keyframes typeLine { to { opacity: 1; transform: translateY(0); } }
-.term-gray { color: #6b7280; }
-.term-cyan { color: var(--cyan-accent); }
-.term-red { color: var(--accent); }
 
-
-/* Ö•Ö• FOOTER Ö•Ö• */
-/* ── FOOTER Ö• Ö• ── */
-footer { padding: 100px 0 40px; border-top: 1px solid var(--glass-border); background: radial-gradient(circle at 50% 100%, rgba(13, 22, 39, 0.6) 0%, transparent 60%); position: relative; overflow: hidden; }
-.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1.5fr; gap: 80px; margin-bottom: 80px; }
-.footer-brand { margin-bottom: 32px; display: flex; align-items: center; gap: 24px; }
-.footer-brand img { height: 48px; filter: grayscale(100%) opacity(0.9); }
-.f-logo-text { font-family: var(--font-disp); font-size: 1.8rem; font-weight: 700; color: var(--text-main); letter-spacing: 0.1em; }
-.about-text { font-size: 1.1rem; color: var(--text-muted); line-height: 1.8; font-weight: 300; max-width: 600px; }
-.about-text strong { color: var(--text-main); font-weight: 500; font-size: 1.25rem; display: block; margin-bottom: 12px; font-family: var(--font-disp); }
-.f-title { font-family: var(--font-disp); font-size: 1.1rem; color: var(--text-main); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 32px; font-weight: 600; }
-.f-links { list-style: none; display: flex; flex-direction: column; gap: 16px; }
-.f-links a { font-size: 1.05rem; color: var(--text-muted); transition: all 0.3s; display: inline-block; font-weight: 400; }
-.f-links a:hover { color: var(--text-main); padding-left: 8px; }
-.f-contact { list-style: none; display: flex; flex-direction: column; gap: 24px; }
-.f-contact li { display: flex; align-items: center; gap: 16px; font-size: 1.05rem; color: var(--text-muted); }
-.f-icon { width: 44px; height: 44px; border-radius: 12px; background: rgba(255,255,255,0.03); display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.05); }
-.f-contact svg { width: 20px; height: 20px; stroke: var(--cyan-accent); stroke-width: 1.5; fill: none; }
-.footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 40px; border-top: 1px solid var(--glass-border); font-size: 0.95rem; color: var(--text-muted); font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.05em; }
-
-/* Ö•Ö• RESPONSIVE Ö•Ö• */
-@media (max-width: 1100px) {
-  .hero-grid { grid-template-columns: 1fr; text-align: center; gap: 40px; }
-  .hero-visual { height: 400px; order: -1; }
-  .hero-title, .hero-desc { margin-left: auto; margin-right: auto; }
-  .hero-actions { justify-content: center; }
-  .hero-hud-countdown { display: flex; justify-content: center; }
-  .crew-grid, .arch-grid { grid-template-columns: repeat(2, 1fr); }
-  .footer-grid { grid-template-columns: 1fr 1fr; gap: 60px; }
-  .footer-grid > :first-child { grid-column: 1/-1; }
+/* ══════════════════════════════════════════════
+   MARKİ BANT (Marquee)
+══════════════════════════════════════════════ */
+.va-marquee-wrap {
+  overflow: hidden;
+  white-space: nowrap;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 18px 0;
 }
+
+.va-marquee-inner {
+  display: inline-block;
+  font-family: var(--f-display);
+  font-size: clamp(4rem, 10vw, 8rem);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgba(255,255,255,0.028);
+  animation: marquee-left 30s linear infinite;
+}
+
+.va-marquee-inner.rev {
+  animation: marquee-right 26s linear infinite;
+}
+
+@keyframes marquee-left {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@keyframes marquee-right {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
+
+/* ══════════════════════════════════════════════
+   PROJE — STORY BLOKLAR
+══════════════════════════════════════════════ */
+.va-story-blocks {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(44px, 7vw, 88px);
+  padding: clamp(44px, 7vw, 88px) 0;
+}
+
+.va-story-block {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(24px, 4vw, 64px);
+  align-items: center;
+}
+
+.va-story-block.va-rev {
+  direction: rtl;
+}
+
+.va-story-block.va-rev > * {
+  direction: ltr;
+}
+
+.va-block-tag {
+  font-family: var(--f-mono);
+  font-size: 0.64rem;
+  color: var(--cyan);
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  display: block;
+}
+
+.va-block-title {
+  font-family: var(--f-display);
+  font-size: clamp(2rem, 5vw, 3.6rem);
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #fff;
+  line-height: 0.95;
+  margin-bottom: 18px;
+  letter-spacing: -0.01em;
+}
+
+.va-block-desc {
+  font-size: clamp(0.86rem, 1.6vw, 0.96rem);
+  color: var(--muted);
+  line-height: 1.92;
+}
+
+.va-block-desc strong {
+  color: rgba(255,255,255,0.85);
+  font-weight: 500;
+}
+
+.va-block-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 22px;
+}
+
+.va-badge {
+  padding: 5px 14px;
+  background: var(--cyan-dim);
+  border: 1px solid var(--border-cyan);
+  border-radius: var(--r-max);
+  font-family: var(--f-mono);
+  font-size: 0.62rem;
+  color: var(--cyan);
+  letter-spacing: 0.08em;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.va-badge:hover {
+  background: rgba(0,229,255,0.18);
+  border-color: rgba(0,229,255,0.50);
+}
+
+/* Görsel paneller */
+.va-visual {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  padding: clamp(28px, 4vw, 52px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 280px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.35s;
+}
+
+.va-visual::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(0,229,255,0.06) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* Köşe dekorasyon */
+.va-visual::after {
+  content: '';
+  position: absolute;
+  top: 14px; right: 14px;
+  width: 24px; height: 24px;
+  border-top: 1px solid rgba(0,229,255,0.32);
+  border-right: 1px solid rgba(0,229,255,0.32);
+  border-radius: 0 4px 0 0;
+  pointer-events: none;
+}
+
+.va-visual:hover { border-color: var(--border-cyan); }
+
+/* Büyük metrik göstergesi */
+.va-big-metric {
+  text-align: center;
+}
+
+.va-bm-num {
+  font-family: var(--f-display);
+  font-size: clamp(4rem, 10vw, 7rem);
+  font-weight: 800;
+  color: #fff;
+  line-height: 1;
+  display: block;
+}
+
+.va-bm-unit {
+  font-size: 0.38em;
+  color: var(--cyan);
+  vertical-align: super;
+}
+
+.va-bm-label {
+  font-family: var(--f-mono);
+  font-size: 0.70rem;
+  color: var(--muted);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-top: 12px;
+  display: block;
+}
+
+.va-bm-sub {
+  font-size: 0.80rem;
+  color: rgba(255,255,255,0.30);
+  margin-top: 5px;
+  line-height: 1.6;
+}
+
+/* ══════════════════════════════════════════════
+   ANATOMİ BÖLÜMÜ
+══════════════════════════════════════════════ */
+.va-anatomy {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr 1fr;
+  gap: clamp(18px, 3vw, 50px);
+  align-items: center;
+  padding: clamp(36px,6vw,80px) 0;
+}
+
+.va-anat-col {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.va-anat-right { align-items: flex-start; }
+
+.va-anat-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* Roket ışıltısı */
+.va-rocket-glow {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(255,59,48,0.12) 0%, transparent 70%);
+  animation: rocket-glow 4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes rocket-glow {
+  0%,100% { transform: translate(-50%,-50%) scale(1);    opacity: 0.65; }
+  50%      { transform: translate(-50%,-50%) scale(1.25); opacity: 1.0; }
+}
+
+/* Spec kartlar */
+.va-spec {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: clamp(18px,3vw,28px) clamp(16px,2.5vw,24px);
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.35s var(--ease-out),
+              transform 0.35s var(--ease-out),
+              background 0.35s;
+  cursor: default;
+}
+
+.va-spec::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0,229,255,0.6), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.va-spec:hover {
+  border-color: var(--border-cyan);
+  background: rgba(0,229,255,0.025);
+  transform: translateY(-4px) scale(1.01);
+}
+
+.va-spec:hover::after { opacity: 1; }
+
+.va-spec-tag {
+  font-family: var(--f-mono);
+  font-size: 0.60rem;
+  color: var(--cyan);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 7px;
+}
+
+.va-spec-title {
+  font-family: var(--f-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  transition: color 0.22s;
+}
+
+.va-spec:hover .va-spec-title { color: var(--cyan); }
+
+.va-spec-val {
+  font-size: 0.83rem;
+  color: var(--muted);
+  line-height: 1.78;
+}
+
+/* İlerleme çubuğu */
+.va-spec-bar {
+  height: 2px;
+  background: rgba(0,229,255,0.08);
+  border-radius: 2px;
+  margin-top: 12px;
+  overflow: hidden;
+}
+
+.va-spec-fill {
+  height: 100%;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--cyan), var(--red));
+  width: 0;
+  transition: width 1.5s var(--ease-out);
+  position: relative;
+}
+
+.va-spec-fill::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -50%;
+  width: 50%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+  animation: shimmer 2.5s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  from { left: -50%; }
+  to   { left: 150%; }
+}
+
+/* ══════════════════════════════════════════════
+   TERMİNAL
+══════════════════════════════════════════════ */
+.va-terminal-wrap {
+  padding: clamp(32px, 5vw, 64px) 0;
+}
+
+.va-terminal {
+  background: #020810;
+  border: 1px solid rgba(0,229,255,0.10);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: 0 0 60px rgba(0,0,0,0.7), 0 0 0 1px rgba(0,229,255,0.03);
+  position: relative;
+}
+
+/* Üst tarama ışığı */
+.va-terminal::before {
+  content: '';
+  position: absolute;
+  top: -2px; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(0,229,255,0.9) 30%,
+    rgba(0,229,255,1) 50%,
+    rgba(0,229,255,0.9) 70%,
+    transparent 100%
+  );
+  animation: term-scan 5s ease-in-out infinite;
+  z-index: 2;
+}
+
+@keyframes term-scan {
+  0%   { opacity: 0; transform: scaleX(0); }
+  20%  { opacity: 1; transform: scaleX(1); }
+  80%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.va-term-bar {
+  background: #050c1c;
+  padding: 13px 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid rgba(0,229,255,0.07);
+}
+
+.va-term-dots { display: flex; gap: 6px; }
+
+.va-term-dots span {
+  width: 11px; height: 11px;
+  border-radius: 50%;
+}
+
+.va-term-dots span:nth-child(1) { background: #ef4444; box-shadow: 0 0 6px rgba(239,68,68,0.5); }
+.va-term-dots span:nth-child(2) { background: #f59e0b; box-shadow: 0 0 6px rgba(245,158,11,0.4); }
+.va-term-dots span:nth-child(3) { background: #10b981; box-shadow: 0 0 6px rgba(16,185,129,0.4); }
+
+.va-term-title {
+  font-family: var(--f-mono);
+  font-size: 0.68rem;
+  color: rgba(255,255,255,0.25);
+  margin: 0 auto;
+  letter-spacing: 0.05em;
+}
+
+.va-term-body {
+  padding: clamp(16px, 2.5vw, 26px);
+  font-family: var(--f-mono);
+  font-size: clamp(0.68rem, 1.3vw, 0.84rem);
+  line-height: 2.1;
+  color: #10b981;
+  min-height: 220px;
+  overflow-x: auto;
+  position: relative;
+}
+
+/* Tarama satırları */
+.va-term-body::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 30px,
+    rgba(0,229,255,0.010) 30px,
+    rgba(0,229,255,0.010) 31px
+  );
+  pointer-events: none;
+}
+
+/* Terminal renkleri */
+.tc  { color: var(--cyan); }
+.tr  { color: var(--red); }
+.tw  { color: rgba(255,255,255,0.88); }
+.tg  { color: var(--gold); }
+.tdim{ color: #2a3648; }
+
+/* Göz kırpan imleç */
+.va-cursor {
+  display: inline-block;
+  width: 7px; height: 14px;
+  background: #10b981;
+  vertical-align: middle;
+  box-shadow: 0 0 8px #10b981;
+  animation: cursor-blink 1.1s step-end infinite;
+}
+
+@keyframes cursor-blink { 50% { opacity: 0; box-shadow: none; } }
+
+/* ══════════════════════════════════════════════
+   YOL HARİTASI
+══════════════════════════════════════════════ */
+.va-timeline-wrap {
+  padding: clamp(40px,7vw,90px) 0;
+}
+
+.va-timeline {
+  max-width: 680px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* Dikey çizgi */
+.va-timeline::before {
+  content: '';
+  position: absolute;
+  left: 20px; top: 0; bottom: 0;
+  width: 1px;
+  background: linear-gradient(180deg, var(--cyan) 0%, rgba(0,229,255,0.20) 80%, transparent 100%);
+}
+
+.va-tl-item {
+  display: grid;
+  grid-template-columns: 52px 1fr;
+  gap: 20px;
+  margin-bottom: 32px;
+  position: relative;
+}
+
+.va-tl-dot {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: var(--deep);
+  border: 2px solid var(--cyan);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  z-index: 1;
+  box-shadow: 0 0 16px rgba(0,229,255,0.28);
+  transition: box-shadow 0.3s;
+}
+
+.va-tl-dot span {
+  font-family: var(--f-mono);
+  font-size: 0.60rem;
+  color: var(--cyan);
+  font-weight: 500;
+}
+
+.va-tl-item:hover .va-tl-dot { box-shadow: 0 0 26px rgba(0,229,255,0.50); }
+
+/* Gelecek milestone */
+.va-tl-item.upcoming .va-tl-dot {
+  border-color: rgba(255,255,255,0.15);
+  box-shadow: none;
+}
+
+.va-tl-item.upcoming .va-tl-dot span { color: rgba(255,255,255,0.25); }
+.va-tl-item.upcoming .va-tl-content  { opacity: 0.40; }
+
+.va-tl-content {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 20px 22px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s, background 0.3s, transform 0.3s;
+}
+
+/* Sol bar */
+.va-tl-content::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0;
+  width: 2px; height: 0;
+  background: var(--cyan);
+  border-radius: 2px 0 0 2px;
+  transition: height 0.4s var(--ease-out);
+}
+
+.va-tl-item:hover .va-tl-content {
+  border-color: var(--border-cyan);
+  background: rgba(0,229,255,0.02);
+  transform: translateX(5px);
+}
+
+.va-tl-item:hover .va-tl-content::before { height: 100%; }
+
+.va-tl-date {
+  font-family: var(--f-mono);
+  font-size: 0.63rem;
+  color: var(--cyan);
+  letter-spacing: 0.12em;
+  margin-bottom: 5px;
+}
+
+.va-tl-title {
+  font-family: var(--f-display);
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 7px;
+}
+
+.va-tl-desc {
+  font-size: 0.83rem;
+  color: var(--muted);
+  line-height: 1.78;
+}
+
+/* ══════════════════════════════════════════════
+   EKİP
+══════════════════════════════════════════════ */
+.va-team-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(12px, 2vw, 22px);
+  padding: clamp(24px, 4vw, 48px) 0;
+}
+
+.va-team-card {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  padding: clamp(26px, 3.5vw, 38px) clamp(20px, 2.5vw, 28px);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  cursor: default;
+  transition: border-color 0.35s var(--ease-out),
+              transform 0.35s var(--ease-out),
+              background 0.35s;
+}
+
+.va-team-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 110%, rgba(0,229,255,0.08) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+.va-team-card::after {
+  content: '';
+  position: absolute;
+  bottom: 12px; left: 12px;
+  width: 20px; height: 20px;
+  border-bottom: 1px solid rgba(0,229,255,0.26);
+  border-left: 1px solid rgba(0,229,255,0.26);
+  border-radius: 0 0 0 4px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.va-team-card:hover {
+  border-color: var(--border-cyan);
+  background: rgba(0,229,255,0.018);
+  transform: translateY(-7px) scale(1.015);
+}
+
+.va-team-card:hover::before,
+.va-team-card:hover::after { opacity: 1; }
+
+.va-team-avatar {
+  width: 72px; height: 72px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(0,229,255,0.14), rgba(255,59,48,0.10));
+  border: 2px solid var(--border-cyan);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  font-family: var(--f-display);
+  font-size: 1.22rem;
+  font-weight: 800;
+  color: var(--cyan);
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.va-team-card:hover .va-team-avatar {
+  border-color: rgba(0,229,255,0.55);
+  box-shadow: 0 0 22px rgba(0,229,255,0.20);
+}
+
+.va-team-name {
+  font-family: var(--f-display);
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+
+.va-team-role {
+  font-family: var(--f-mono);
+  font-size: 0.68rem;
+  color: var(--cyan);
+  letter-spacing: 0.08em;
+  margin-bottom: 12px;
+}
+
+.va-team-bio {
+  font-size: 0.80rem;
+  color: var(--muted);
+  line-height: 1.74;
+}
+
+/* ══════════════════════════════════════════════
+   CTA
+══════════════════════════════════════════════ */
+.va-cta {
+  padding: clamp(80px,12vw,148px) clamp(20px,5vw,64px);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.va-cta::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  width: min(900px, 120vw);
+  height: min(500px, 60vw);
+  background: radial-gradient(ellipse,
+    rgba(255,59,48,0.06) 0%,
+    rgba(110,64,201,0.035) 40%,
+    transparent 70%
+  );
+  pointer-events: none;
+  animation: cta-pulse 7s ease-in-out infinite;
+}
+
+@keyframes cta-pulse {
+  0%,100% { transform: translate(-50%,-50%) scale(1);    opacity: 0.7; }
+  50%      { transform: translate(-50%,-50%) scale(1.08); opacity: 1.0; }
+}
+
+.va-cta-title {
+  font-family: var(--f-display);
+  font-size: clamp(3rem, 9vw, 7rem);
+  font-weight: 800;
+  color: #fff;
+  text-transform: uppercase;
+  line-height: 0.90;
+  margin-bottom: 22px;
+  position: relative;
+}
+
+.va-cta-sub {
+  font-size: clamp(0.88rem, 1.8vw, 1rem);
+  color: var(--muted);
+  max-width: 500px;
+  margin: 0 auto 46px;
+  line-height: 1.88;
+}
+
+.va-cta-btns {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ══════════════════════════════════════════════
+   FOOTER
+══════════════════════════════════════════════ */
+.va-footer {
+  border-top: 1px solid var(--border);
+  padding: clamp(48px,7vw,80px) clamp(20px,5vw,64px) max(calc(env(safe-area-inset-bottom) + 32px), 44px);
+  position: relative;
+}
+
+.va-footer::before {
+  content: '';
+  position: absolute;
+  top: -1px; left: 22%; right: 22%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0,229,255,0.28), transparent);
+}
+
+.va-footer-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.5fr repeat(3, 1fr);
+  gap: clamp(28px,5vw,60px);
+  margin-bottom: clamp(40px,5vw,56px);
+}
+
+.va-footer-logo {
+  font-family: var(--f-display);
+  font-size: 1.30rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 0.20em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.va-footer-logo em { color: var(--red); font-style: normal; }
+
+.va-footer-tagline {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.80;
+  max-width: 280px;
+}
+
+.va-footer-col h5 {
+  font-family: var(--f-mono);
+  font-size: 0.63rem;
+  color: var(--cyan);
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.va-footer-col ul { list-style: none; }
+
+.va-footer-col li { margin-bottom: 10px; }
+
+.va-footer-col a {
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.34);
+  text-decoration: none;
+  transition: color 0.2s;
+  position: relative;
+}
+
+.va-footer-col a::after {
+  content: '';
+  position: absolute;
+  bottom: -1px; left: 0;
+  width: 0; height: 1px;
+  background: var(--cyan);
+  transition: width 0.25s var(--ease-out);
+}
+
+.va-footer-col a:hover { color: rgba(255,255,255,0.85); }
+.va-footer-col a:hover::after { width: 100%; }
+
+.va-footer-bottom {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding-top: 26px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-family: var(--f-mono);
+  font-size: 0.65rem;
+  color: rgba(255,255,255,0.16);
+}
+
+/* ══════════════════════════════════════════════
+   SCROLL REVEAL ANİMASYONLARI
+══════════════════════════════════════════════ */
+
+/* Yukarıdan aşağı — default */
+.va-sr {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.72s var(--ease-out), transform 0.72s var(--ease-out);
+}
+
+/* Soldan */
+.va-sr-l {
+  opacity: 0;
+  transform: translateX(-40px);
+  transition: opacity 0.72s var(--ease-out), transform 0.72s var(--ease-out);
+}
+
+/* Sağdan */
+.va-sr-r {
+  opacity: 0;
+  transform: translateX(40px);
+  transition: opacity 0.72s var(--ease-out), transform 0.72s var(--ease-out);
+}
+
+/* Ölçekten */
+.va-sr-s {
+  opacity: 0;
+  transform: scale(0.88);
+  transition: opacity 0.65s var(--ease-out), transform 0.65s var(--ease-out);
+}
+
+/* Dönerek */
+.va-sr-rot {
+  opacity: 0;
+  transform: rotate(-8deg) translateY(30px);
+  transition: opacity 0.70s var(--ease-out), transform 0.70s var(--ease-out);
+}
+
+/* Bulanık giriş */
+.va-sr-blur {
+  opacity: 0;
+  filter: blur(12px);
+  transition: opacity 0.80s var(--ease-out), filter 0.80s var(--ease-out);
+}
+
+/* Aktif (görünür) */
+.va-sr.vis,
+.va-sr-l.vis,
+.va-sr-r.vis,
+.va-sr-s.vis,
+.va-sr-rot.vis {
+  opacity: 1;
+  transform: none;
+}
+
+.va-sr-blur.vis {
+  opacity: 1;
+  filter: blur(0);
+}
+
+/* ══════════════════════════════════════════════
+   SCROLL REVEAL DELAY YARDIMCILARI
+══════════════════════════════════════════════ */
+.va-d1  { transition-delay: 0.08s !important; }
+.va-d2  { transition-delay: 0.16s !important; }
+.va-d3  { transition-delay: 0.24s !important; }
+.va-d4  { transition-delay: 0.32s !important; }
+.va-d5  { transition-delay: 0.40s !important; }
+
+/* ══════════════════════════════════════════════
+   GENEL YARDIMCILAR
+══════════════════════════════════════════════ */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+:target { scroll-margin-top: 80px; }
+
+:focus-visible {
+  outline: 2px solid rgba(0,229,255,0.55);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ══════════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .va-anatomy {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .va-anat-center { order: -1; }
+
+  .va-anat-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .va-team-grid { grid-template-columns: repeat(2, 1fr); }
+  .va-stats-inner { grid-template-columns: repeat(2, 1fr); }
+  .va-footer-inner { grid-template-columns: 1fr 1fr; }
+
+  .va-story-block { grid-template-columns: 1fr; }
+  .va-story-block.va-rev { direction: ltr; }
+}
+
 @media (max-width: 768px) {
-  .container { padding: 0 20px; }
-  .nav-links, .btn-nav { display: none; }
-  .menu-btn { display: flex; }
+  .va-nav { height: 56px; padding: 0 16px; }
+  .va-nav-links { display: none !important; }
+  .va-ham { display: flex !important; }
+
+  .va-hero {
+    padding: 100px 16px 60px !important;
+    min-height: auto !important;
+  }
+
+  .va-h1 { 
+    font-size: 2.1rem !important; 
+    line-height: 1.0 !important; 
+    margin-bottom: 20px !important;
+  }
+  .va-h1 .line-1, .va-h1 .line-2, .va-h1 .line-3 { display: block !important; }
+  .va-h1 .line-2 { transform: none !important; }
+
+  .va-section-title { font-size: 1.8rem !important; line-height: 1.1 !important; }
+  .va-block-title { font-size: 1.5rem !important; line-height: 1.1 !important; }
+
+  .va-hero-sub, .va-section-sub { font-size: 0.85rem !important; line-height: 1.6 !important; margin-bottom: 30px !important; }
+
+  .va-countdown { 
+    display: grid !important; 
+    grid-template-columns: 1fr 1fr !important; 
+    gap: 10px !important; 
+    max-width: 300px !important; 
+    margin: 0 auto 40px !important; 
+  }
+  .va-cd-box { 
+    width: 100% !important; 
+    min-width: 0 !important; 
+    height: 75px !important; 
+    padding: 10px !important;
+  }
+  .va-cd-num { font-size: 1.6rem !important; }
+  .va-cd-lbl { font-size: 0.55rem !important; }
+
+  .va-stats-inner { grid-template-columns: 1fr !important; gap: 0 !important; }
+  .va-stat { border-right: none !important; border-bottom: 1px solid var(--border) !important; padding: 24px 10px !important; }
+  .va-stat:last-child { border-bottom: none !important; }
+
+  .va-story-blocks { gap: 40px !important; padding: 40px 0 !important; }
+  .va-story-block { grid-template-columns: 1fr !important; gap: 24px !important; }
+  .va-story-block.va-rev { direction: ltr !important; }
   
-  .hero-title { font-size: clamp(2rem, 8vw, 3rem); line-height: 1.1; word-break: break-word; }
-  .status-tag { font-size: 0.7rem; padding: 6px 12px; margin-bottom: 24px; max-width: 100%; }
-  .hero-desc { font-size: 1.05rem; padding: 0; max-width: 100%; margin-bottom: 32px; }
-  .hero-actions { gap: 16px; flex-direction: column; width: 100%; }
-  .btn { width: 100%; padding: 14px 24px; font-size: 0.85rem; }
+  .va-block-badges { display: flex !important; flex-wrap: wrap !important; justify-content: flex-start !important; gap: 8px !important; }
+  .va-badge { font-size: 0.58rem !important; padding: 4px 10px !important; }
+
+  .va-visual { min-height: 180px !important; padding: 20px !important; }
+  .va-anatomy { grid-template-columns: 1fr !important; gap: 32px !important; padding: 40px 0 !important; }
+  .va-anat-col { grid-template-columns: 1fr !important; }
   
-  .countdown-box { gap: clamp(8px, 1.5vw, 15px); padding: 20px 10px; width: 100%; justify-content: center; flex-wrap: wrap; }
-  .cd-block { min-width: 60px; }
-  .cd-num { font-size: 2.2rem; }
-  .cd-sep { font-size: 2.2rem; }
+  .va-team-grid { grid-template-columns: 1fr !important; gap: 20px !important; }
+  .va-footer-inner { grid-template-columns: 1fr !important; gap: 32px !important; }
+  .va-footer-tagline { max-width: 100% !important; text-align: center !important; }
+  .va-footer-bottom { flex-direction: column !important; text-align: center !important; gap: 16px !important; }
+
+  .va-hero-cta, .va-cta-btns { 
+    flex-direction: column !important; 
+    width: 100% !important; 
+    gap: 12px !important; 
+    align-items: center !important;
+  }
+  .va-btn-primary, .va-btn-secondary { width: 100% !important; max-width: 320px !important; text-align: center !important; justify-content: center !important; }
+
+  #va-replay, #va-skip {
+    z-index: 1000 !important;
+  }
+
+  body.menu-open #va-replay, 
+  body.menu-open #va-skip {
+    display: none !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .va-h1 { font-size: 1.8rem !important; }
+  .va-section-title { font-size: 1.6rem !important; }
   
-  .crew-grid, .arch-grid { grid-template-columns: 1fr; }
-  .arch-card { padding: 40px 30px; }
-  .footer-grid { grid-template-columns: 1fr; gap: 50px; }
-  .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+  .va-cta { padding: 48px 16px !important; }
+  .va-cta-title { font-size: 1.5rem !important; margin-bottom: 10px !important; }
+  .va-cta-sub { font-size: 0.78rem !important; line-height: 1.5 !important; margin-bottom: 20px !important; }
+  .va-cta-btns { gap: 8px !important; flex-direction: column !important; }
+  .va-btn-primary, .va-btn-secondary { width: 100% !important; padding: 12px !important; font-size: 0.70rem !important; }
+
+  .va-term-body { 
+    font-size: 0.58rem !important; 
+    padding: 10px !important; 
+    line-height: 1.5 !important; 
+    white-space: pre-wrap !important;
+    word-break: break-all !important;
+  }
+}
+
+/* ── Fırlat Butonu ── */
+#va-launch-btn {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  padding: 16px 48px;
+  background: linear-gradient(135deg, #ff3b30, #990000);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  border-radius: 8px;
+  font-family: var(--f-display);
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  box-shadow: 0 0 24px rgba(255, 59, 48, 0.5);
+  transition: all 0.3s ease;
+}
+
+#va-launch-btn:hover {
+  transform: translateX(-50%) scale(1.05);
+  box-shadow: 0 0 40px rgba(255, 59, 48, 0.9);
+  background: linear-gradient(135deg, #ff4b40, #cc0000);
+}
+
+/* Yükleme Ekranı (Refresh için) */
+#va-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: var(--void);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.8s ease;
+}
+#va-loader.active { opacity: 1; pointer-events: all; }
+
+.va-loader-rocket {
+  width: 64px;
+  height: 64px;
+  color: var(--cyan);
+  animation: loader-spin 2s linear infinite;
+  filter: drop-shadow(0 0 12px var(--cyan-dim));
+}
+@keyframes loader-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.va-loader-text {
+  font-family: var(--f-mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+.va-loader-bar {
+  width: 200px;
+  height: 2px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+.va-loader-progress {
+  position: absolute;
+  top: 0; left: 0; bottom: 0;
+  width: 0%;
+  background: var(--cyan);
+  box-shadow: 0 0 10px var(--cyan);
+  transition: width 0.3s ease;
+}
+
+#va-flash {
+  position: fixed;
+  inset: 0;
+  z-index: 55;
+  background: var(--void);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+#va-flash.active { opacity: 1; }
+
+#va-ui {
+  position: relative;
+  z-index: 10;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.7s ease;
+  min-height: 100vh;
+  /* Keskin wipe için maske */
+  -webkit-mask-image: linear-gradient(var(--wipe-deg, 45deg), black var(--wipe-pct, 0%), transparent var(--wipe-pct, 0%));
+  mask-image: linear-gradient(var(--wipe-deg, 45deg), black var(--wipe-pct, 0%), transparent var(--wipe-pct, 0%));
+}
+#va-ui.show {
+  opacity: 1;
+  pointer-events: all;
 }
 </style>
 </head>
-<body>
+<body class="intro-lock">
 
-<canvas id="spaceCanvas"></canvas>
-<div class="nebula-glow"></div>
+<!-- ══════════════════════════════════════
+     CANVAS — Sinematik giriş
+══════════════════════════════════════ -->
+<canvas id="va-earth"></canvas>
+<canvas id="va-space"></canvas>
+<div id="va-flash"></div>
 
-<div id="warp-overlay">
-  <svg class="warp-rocket" viewBox="0 0 24 24">
-    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-  </svg>
-  <div class="warp-msg">Uzay Üssüne Bağlanılıyor...</div>
-</div>
-
-<header id="navbar">
-  <div class="nav-inner">
-    <a href="#" class="logo">
-      <img src="WhatsApp Image 2026-04-04 at 00.11.46.jpeg" alt="VEFA AEROSPACE">
-      <div class="logo-type">VEFA <span>AEROSPACE</span></div>
-    </a>
-    <ul class="nav-links">
-      <li><a href="#hero" class="active">Proje</a></li>
-      <li><a href="akademi.html">Akademi</a></li>
-      <li><a href="hakkimizda.html">Hakkımızda</a></li>
-    </ul>
-    <button class="menu-btn" id="menuBtn" aria-label="Menü Aç/Kapat">
-      <span></span><span></span><span></span>
-    </button>
+<div id="va-loader" aria-hidden="true">
+  <div class="va-loader-rocket">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path>
+      <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path>
+      <path d="M9 12H4s.55-3.03 2-5c1.62-2.2 5-3 5-3"></path>
+      <path d="M12 15v5s3.03-.55 5-2c2.2-1.62 3-5 3-5"></path>
+    </svg>
   </div>
-</header>
-
-<div class="mobile-nav" id="mobileNav">
-  <a href="#hero" class="mob-link">Proje</a>
-  <a href="akademi.html" class="mob-link">Akademi</a>
-  <a href="hakkimizda.html" class="mob-link">Hakkımızda</a>
+  <div class="va-loader-text">Sistemler Hazırlanıyor</div>
+  <div class="va-loader-bar"><div class="va-loader-progress" id="va-loader-progress"></div></div>
 </div>
 
-<!-- KAHRAMAN ALANI -->
-<section id="hero">
-  <div class="container hero-grid">
-    <div class="reveal">
-      <div class="status-tag"><span></span> OTONOM FIRLATMA PLATFORMU V1.0</div>
-      <h1 class="hero-title">
-        <span>GÖKYÜZÜNÜN</span><br>ÖTESİNİ<br><div class="hg-red">HEDEFLİYORUZ.</div>
-      </h1>
-      <p class="hero-desc">
-        Vefa Poyraz Anadolu Lisesi "GençTek" takımı liderliğinde, aerodinamik kararlılık ile basınç mühendisliğinin kesiştiği devrimsel Su Roketi Projesi. Yüksek irtifaya hazırız.
-      </p>
-      
-      <div class="hero-actions">
-        <!-- PR VİDEOSU İÇİN OYNAT BUTONU -->
-        <button id="openVideoBtn" class="btn btn-video btn-icon" aria-label="Fragmanı İzle">
-          <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-          GÖREV FRAGMANI
-        </button>
+<!-- Skip butonu -->
+<button id="va-skip" aria-label="Animasyonu atla">
+  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M5 3 L19 12 L5 21z M19 3 L19 21z"/>
+  </svg>
+  ATLA
+</button>
+
+<button id="va-launch-btn">FIRLAT</button>
+
+<!-- ══════════════════════════════════════
+     NAVİGASYON
+══════════════════════════════════════ -->
+<nav class="va-nav" role="navigation" aria-label="Ana navigasyon">
+  <a href="#" class="va-logo" aria-label="VEFA AEROSPACE">VEFA <em>AEROSPACE</em></a>
+
+  <div class="va-nav-links" role="menubar">
+    <a href="#proje"       class="va-nl" role="menuitem">Proje</a>
+    <a href="#ekip"        class="va-nl" role="menuitem">Ekip</a>
+    <a href="#yol-haritasi" class="va-nl" role="menuitem">Yol Haritası</a>
+    <a href="#iletisim"    class="va-nl" role="menuitem">Akademi</a>
+    <a href="#iletisim"    class="va-nav-cta" role="menuitem">Başvur</a>
+  </div>
+
+  <button class="va-ham" id="va-ham-btn" aria-label="Menü" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobil menü -->
+<div class="va-mobile-menu" id="va-mobile-menu" aria-hidden="true">
+  <a href="#proje"        onclick="vaMobileClose()">Proje</a>
+  <a href="#ekip"         onclick="vaMobileClose()">Ekip</a>
+  <a href="#yol-haritasi" onclick="vaMobileClose()">Yol Haritası</a>
+  <a href="#iletisim"     onclick="vaMobileClose()">Akademi</a>
+  <a href="#iletisim"     onclick="vaMobileClose()">Başvur</a>
+</div>
+
+<!-- ══════════════════════════════════════
+     ANA UI
+══════════════════════════════════════ -->
+<div id="va-ui">
+
+  <!-- ─── HERO ─── -->
+  <section class="va-hero" aria-labelledby="va-h1">
+    <div class="va-hero-badge" role="status">
+      <span class="va-dot" aria-hidden="true"></span>
+      OTONOM FIRLATMA PLATFORMU V1.0
+    </div>
+
+    <h1 class="va-h1" id="va-h1">
+      <span class="line-1">GÖKYÜZÜNÜN</span>
+      <span class="line-2">ÖTESİNDE</span>
+      <span class="line-3">YENİ BİR ÇAĞ.</span>
+    </h1>
+
+    <p class="va-hero-sub">
+      Lise sıralarından yörüngeye uzanan bir tutku.
+      <strong>Yüksek basınçlı tahrik sistemleri,</strong>
+      gerçek zamanlı telemetri ve aerodinamik mükemmeliyetin
+      buluşma noktası — VEFA GençTek.
+    </p>
+
+    <div class="va-countdown" role="timer" aria-label="Fırlatmaya geri sayım">
+      <div class="va-cd-box">
+        <span class="va-cd-num" id="va-cd-days">00</span>
+        <span class="va-cd-lbl">GÜN</span>
       </div>
-      
-      <div class="hero-hud-countdown reveal d-2">
-        <div class="hud-card countdown-box">
-          <div class="cd-block"><div class="cd-num" id="cd-days">00</div><div class="cd-lbl">GÜN</div></div><div class="cd-sep">:</div>
-          <div class="cd-block"><div class="cd-num" id="cd-hours">00</div><div class="cd-lbl">SAAT</div></div><div class="cd-sep">:</div>
-          <div class="cd-block"><div class="cd-num" id="cd-mins">00</div><div class="cd-lbl">DAKİKA</div></div><div class="cd-sep">:</div>
-          <div class="cd-block"><div class="cd-num" id="cd-secs">00</div><div class="cd-lbl">SANİYE</div></div>
-        </div>
+      <div class="va-cd-box">
+        <span class="va-cd-num" id="va-cd-hours">00</span>
+        <span class="va-cd-lbl">SAAT</span>
+      </div>
+      <div class="va-cd-box">
+        <span class="va-cd-num" id="va-cd-mins">00</span>
+        <span class="va-cd-lbl">DAKİKA</span>
+      </div>
+      <div class="va-cd-box">
+        <span class="va-cd-num" id="va-cd-secs">00</span>
+        <span class="va-cd-lbl">SANİYE</span>
       </div>
     </div>
-    
-    <div class="hero-visual reveal d-1">
-      <div class="rocket-wrapper">
-        <svg class="rocket-svg" viewBox="0 0 100 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+    <div class="va-hero-cta">
+      <a href="#proje" class="va-btn-primary">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <polygon points="5 3 19 12 5 21 5 3"/>
+        </svg>
+        PROJEYE BAK
+      </a>
+      <a href="#iletisim" class="va-btn-secondary">Ekibe Katıl →</a>
+    </div>
+
+    <div class="va-scroll-hint" aria-hidden="true">
+      <span>ASAĞI KAYDIR</span>
+      <div class="va-scroll-arrow"></div>
+    </div>
+  </section>
+
+  <!-- ─── STATS ─── -->
+  <div class="va-stats" role="region" aria-label="Proje rakamları">
+    <div class="va-stats-inner">
+      <div class="va-stat va-sr">
+        <span class="va-stat-num" data-target="45">00<sup>PSI</sup></span>
+        <span class="va-stat-lbl">Maksimum Basınç</span>
+      </div>
+      <div class="va-stat va-sr va-d1">
+        <span class="va-stat-num" data-target="3000">0<sup>+</sup></span>
+        <span class="va-stat-lbl">CFD Simülasyonu</span>
+      </div>
+      <div class="va-stat va-sr va-d2">
+        <span class="va-stat-num" data-target="6">0</span>
+        <span class="va-stat-lbl">Ekip Üyesi</span>
+      </div>
+      <div class="va-stat va-sr va-d3">
+        <span class="va-stat-num" data-target="500">0<sup>Hz</sup></span>
+        <span class="va-stat-lbl">PID Kontrol Döngüsü</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── MARKİ ─── -->
+  <div aria-hidden="true">
+    <div class="va-marquee-wrap">
+      <div class="va-marquee-inner">
+        VEFA AEROSPACE &nbsp;·&nbsp; GÖKYÜZÜNÜN ÖTESİNDE &nbsp;·&nbsp;
+        FIRLATMA PLATFORMU V1.0 &nbsp;·&nbsp; GENÇTEK &nbsp;·&nbsp;
+        VEFA AEROSPACE &nbsp;·&nbsp; GÖKYÜZÜNÜN ÖTESİNDE &nbsp;·&nbsp;
+        FIRLATMA PLATFORMU V1.0 &nbsp;·&nbsp; GENÇTEK &nbsp;·&nbsp;
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── PROJE ─── -->
+  <section id="proje" class="va-section" aria-labelledby="va-proje-h2">
+    <div class="va-section-head va-sr">
+      <div class="va-label">Misyon</div>
+      <h2 class="va-section-title" id="va-proje-h2">BİZ KİMİZ,<br>NE YAPIYORUZ?</h2>
+      <p class="va-section-sub">
+        VEFA GençTek, İstanbul'dan gökyüzüne uzanan bir lise ekibi.
+        Sıfırdan tasarladığımız otonom roket sistemi ile ulusal yarışmalarda sahne almayı hedefliyoruz.
+      </p>
+    </div>
+
+    <div class="va-story-blocks">
+
+      <!-- Blok 1 — Tahrik -->
+      <div class="va-story-block">
+        <div class="va-sr-l">
+          <span class="va-block-tag">01 — Tahrik Sistemi</span>
+          <h3 class="va-block-title">45 PSI.<br>Peak Thrust.</h3>
+          <p class="va-block-desc">
+            Motor tasarımımızın kalbi, <strong>45 PSI peak basınç</strong> muhafazası için optimize edilmiş bir
+            tahrik ünitesidir. 3.000'den fazla CFD simülasyonu sonucunda netleşen geometri, yakıt verimliliğini
+            en üst seviyeye taşırken fırlatma titreşimlerini minimize eder.
+          </p>
+          <div class="va-block-badges">
+            <span class="va-badge">45 PSI Peak</span>
+            <span class="va-badge">CFD Optimize</span>
+            <span class="va-badge">Yakıt Verimi</span>
+          </div>
+        </div>
+        <div class="va-visual va-sr-r">
+          <!-- Gauge SVG -->
+          <div class="va-big-metric" style="width:100%;">
+            <svg viewBox="0 0 200 130" style="width:100%;max-width:220px;display:block;margin:0 auto 12px;" aria-label="45 PSI basınç göstergesi">
+              <defs>
+                <linearGradient id="va-gauge-grad" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stop-color="#10b981"/>
+                  <stop offset="50%" stop-color="#ffb83f"/>
+                  <stop offset="100%" stop-color="#ff3b30"/>
+                </linearGradient>
+              </defs>
+              <path d="M 20 115 A 80 80 0 0 1 180 115" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="10" stroke-linecap="round"/>
+              <path id="va-gauge-arc" d="M 20 115 A 80 80 0 0 1 180 115" fill="none" stroke="url(#va-gauge-grad)" stroke-width="10" stroke-linecap="round"
+                stroke-dasharray="251" stroke-dashoffset="251" style="transition: stroke-dashoffset 2s var(--ease-out)"/>
+              <line id="va-gauge-needle" x1="100" y1="115" x2="100" y2="42" stroke="white" stroke-width="2" stroke-linecap="round"
+                style="transform-origin:100px 115px; transform:rotate(-90deg); transition: transform 2s var(--ease-out)"/>
+              <circle cx="100" cy="115" r="5" fill="white"/>
+              <text x="20"  y="130" font-family="DM Mono,monospace" font-size="9" fill="rgba(255,255,255,0.32)" text-anchor="middle">0</text>
+              <text x="100" y="30"  font-family="DM Mono,monospace" font-size="9" fill="rgba(0,229,255,0.65)" text-anchor="middle">45 PSI</text>
+              <text x="180" y="130" font-family="DM Mono,monospace" font-size="9" fill="rgba(255,59,48,0.55)" text-anchor="middle">60</text>
+            </svg>
+            <span class="va-bm-num" id="va-psi-counter">0<span class="va-bm-unit">PSI</span></span>
+            <span class="va-bm-label">Maksimum Basınç</span>
+            <span class="va-bm-sub">Motor peak çıkış değeri</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Blok 2 — Aerodinamik -->
+      <div class="va-story-block va-rev">
+        <div class="va-sr-r">
+          <span class="va-block-tag">02 — Aerodinamik Gövde</span>
+          <h3 class="va-block-title">Cd &lt; 0.12.<br>Sürtünme Yok.</h3>
+          <p class="va-block-desc">
+            Gövde geometrimiz sürtünme katsayısını <strong>Cd &lt; 0.12</strong> seviyesine indirmek için
+            binlerce iterasyon boyunca optimize edildi. Kararlılık merkezi (CP) ve ağırlık merkezi (CG)
+            arasındaki Stability Margin, her uçuş fazında kontrollü yörünge garantiler.
+          </p>
+          <div class="va-block-badges">
+            <span class="va-badge">Cd &lt; 0.12</span>
+            <span class="va-badge">CP/CG Optimize</span>
+            <span class="va-badge">Stabilite Marjı</span>
+          </div>
+        </div>
+        <div class="va-visual va-sr-l">
+          <!-- Roket kesit SVG -->
+          <svg viewBox="0 0 300 400" style="width:100%;max-width:240px;" aria-label="Roket aerodinamik kesit">
+            <defs>
+              <linearGradient id="va-body-g" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%"   stop-color="#050d1a"/>
+                <stop offset="18%"  stop-color="#1e3a58"/>
+                <stop offset="45%"  stop-color="#7a9ab8"/>
+                <stop offset="72%"  stop-color="#1e3a58"/>
+                <stop offset="100%" stop-color="#050d1a"/>
+              </linearGradient>
+              <linearGradient id="va-nose-g" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%"   stop-color="#7f1d1d"/>
+                <stop offset="50%"  stop-color="#f87171"/>
+                <stop offset="100%" stop-color="#7f1d1d"/>
+              </linearGradient>
+              <linearGradient id="va-flow-g" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%"   stop-color="rgba(0,229,255,0.7)"/>
+                <stop offset="100%" stop-color="rgba(0,229,255,0)"/>
+              </linearGradient>
+            </defs>
+            <!-- Akış çizgileri sol -->
+            <g stroke="url(#va-flow-g)" stroke-width="1" fill="none" opacity=".75">
+              <path d="M 8 65 Q 100 65 130 82" stroke-dasharray="150" stroke-dashoffset="150" style="animation:va-flow 2.6s ease-out 0.4s infinite"/>
+              <path d="M 8 95 Q 90 95 118 108" stroke-dasharray="140" stroke-dashoffset="140" style="animation:va-flow 2.6s ease-out 0.7s infinite"/>
+              <path d="M 8 125 Q 82 125 114 133" stroke-dasharray="130" stroke-dashoffset="130" style="animation:va-flow 2.6s ease-out 1.0s infinite"/>
+              <path d="M 8 200 Q 82 200 114 196" stroke-dasharray="130" stroke-dashoffset="130" style="animation:va-flow 2.6s ease-out 0.9s infinite"/>
+              <path d="M 8 232 Q 90 232 118 220" stroke-dasharray="140" stroke-dashoffset="140" style="animation:va-flow 2.6s ease-out 0.6s infinite"/>
+              <path d="M 8 264 Q 100 264 130 248" stroke-dasharray="150" stroke-dashoffset="150" style="animation:va-flow 2.6s ease-out 0.3s infinite"/>
+            </g>
+            <!-- Akış çizgileri sağ -->
+            <g stroke="url(#va-flow-g)" stroke-width="1" fill="none" opacity=".75" transform="translate(300,0) scale(-1,1)">
+              <path d="M 8 65 Q 100 65 130 82" stroke-dasharray="150" stroke-dashoffset="150" style="animation:va-flow 2.6s ease-out 0.4s infinite"/>
+              <path d="M 8 95 Q 90 95 118 108" stroke-dasharray="140" stroke-dashoffset="140" style="animation:va-flow 2.6s ease-out 0.7s infinite"/>
+              <path d="M 8 125 Q 82 125 114 133" stroke-dasharray="130" stroke-dashoffset="130" style="animation:va-flow 2.6s ease-out 1.0s infinite"/>
+              <path d="M 8 200 Q 82 200 114 196" stroke-dasharray="130" stroke-dashoffset="130" style="animation:va-flow 2.6s ease-out 0.9s infinite"/>
+              <path d="M 8 232 Q 90 232 118 220" stroke-dasharray="140" stroke-dashoffset="140" style="animation:va-flow 2.6s ease-out 0.6s infinite"/>
+              <path d="M 8 264 Q 100 264 130 248" stroke-dasharray="150" stroke-dashoffset="150" style="animation:va-flow 2.6s ease-out 0.3s infinite"/>
+            </g>
+            <!-- Kanatlar -->
+            <path d="M112 320 L70 370 L112 355 Z" fill="#7f1d1d"/>
+            <path d="M188 320 L230 370 L188 355 Z" fill="#7f1d1d"/>
+            <!-- Gövde -->
+            <rect x="112" y="110" width="76" height="250" fill="url(#va-body-g)" rx="3"/>
+            <rect x="112" y="240" width="76" height="7" fill="rgba(220,40,40,0.85)" rx="1"/>
+            <rect x="112" y="196" width="76" height="2.5" fill="rgba(0,229,255,0.5)" rx="1"/>
+            <!-- Pencere -->
+            <circle cx="150" cy="165" r="13" fill="rgba(0,160,230,0.55)" stroke="rgba(255,255,255,0.4)" stroke-width="2"/>
+            <circle cx="146" cy="161" r="3.5" fill="rgba(255,255,255,0.35)"/>
+            <!-- Yazı -->
+            <text x="150" y="218" text-anchor="middle" font-family="Syne,sans-serif" font-size="11" font-weight="800" fill="rgba(241,245,249,0.9)" letter-spacing="2">VEFA</text>
+            <!-- Burun -->
+            <path d="M112 110 L150 28 L188 110 Z" fill="url(#va-nose-g)"/>
+            <!-- Motor ağzı -->
+            <path d="M114 360 L122 380 L178 380 L186 360 Z" fill="#0a0f1a" stroke="rgba(0,229,255,0.16)" stroke-width="1"/>
+            <!-- CG / CP işaretleri -->
+            <circle cx="150" cy="212" r="5" fill="rgba(16,185,129,0.85)"/>
+            <line x1="155" y1="212" x2="195" y2="212" stroke="rgba(16,185,129,0.5)" stroke-width="1" stroke-dasharray="4,3"/>
+            <text x="198" y="216" font-family="DM Mono,monospace" font-size="9" fill="rgba(16,185,129,0.85)">CG</text>
+            <circle cx="150" cy="268" r="5" fill="rgba(0,229,255,0.85)"/>
+            <line x1="155" y1="268" x2="195" y2="268" stroke="rgba(0,229,255,0.5)" stroke-width="1" stroke-dasharray="4,3"/>
+            <text x="198" y="272" font-family="DM Mono,monospace" font-size="9" fill="rgba(0,229,255,0.85)">CP</text>
+          </svg>
+          <style>
+            @keyframes va-flow {
+              0%   { stroke-dashoffset: 150; opacity: 0; }
+              20%  { opacity: 1; }
+              80%  { opacity: 1; }
+              100% { stroke-dashoffset: 0; opacity: 0; }
+            }
+          </style>
+        </div>
+      </div>
+
+      <!-- Blok 3 — Aviyonik -->
+      <div class="va-story-block">
+        <div class="va-sr-l">
+          <span class="va-block-tag">03 — Aviyonik & Yazılım</span>
+          <h3 class="va-block-title">500Hz.<br>Gerçek Zamanlı.</h3>
+          <p class="va-block-desc">
+            ARM tabanlı uçuş bilgisayarımız, saniyede <strong>500 kez</strong> yürütülen PID kontrol döngüsüyle
+            roketi kararlı tutar. LoRa 915MHz telemetri sistemi tüm sensör verilerini anlık yer istasyonuna
+            aktarır. GPS yörünge kilitleme ile gerçek zamanlı konum takibi sağlanır.
+          </p>
+          <div class="va-block-badges">
+            <span class="va-badge">ARM Cortex</span>
+            <span class="va-badge">PID · 500Hz</span>
+            <span class="va-badge">LoRa 915MHz</span>
+            <span class="va-badge">GPS Takip</span>
+          </div>
+        </div>
+        <div class="va-visual va-sr-r" style="flex-direction:column;gap:18px;padding:28px;">
+          <div style="width:100%;">
+            <div style="font-family:var(--f-mono);font-size:0.62rem;color:var(--cyan);letter-spacing:0.10em;margin-bottom:10px;">TELEMETRİ SİNYALİ · 915MHz</div>
+            <svg id="va-wave-svg" width="100%" height="52" viewBox="0 0 300 52" preserveAspectRatio="none" aria-label="Telemetri sinyal dalgası">
+              <polyline id="va-wave1" points="" stroke="rgba(0,229,255,0.75)" stroke-width="1.5" fill="none"/>
+              <polyline id="va-wave2" points="" stroke="rgba(0,229,255,0.30)" stroke-width="1" fill="none"/>
+            </svg>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;width:100%;">
+            <div style="text-align:center;padding:12px 6px;background:var(--glass);border:1px solid var(--border);border-radius:8px;">
+              <div style="font-family:var(--f-display);font-size:1.35rem;font-weight:800;color:#fff;">P</div>
+              <div style="font-family:var(--f-mono);font-size:0.58rem;color:var(--muted);margin-top:3px;">Proportional</div>
+              <div id="va-pid-p" style="font-family:var(--f-mono);font-size:0.70rem;color:var(--cyan);margin-top:5px;">1.24</div>
+            </div>
+            <div style="text-align:center;padding:12px 6px;background:var(--glass);border:1px solid var(--border);border-radius:8px;">
+              <div style="font-family:var(--f-display);font-size:1.35rem;font-weight:800;color:#fff;">I</div>
+              <div style="font-family:var(--f-mono);font-size:0.58rem;color:var(--muted);margin-top:3px;">Integral</div>
+              <div id="va-pid-i" style="font-family:var(--f-mono);font-size:0.70rem;color:var(--gold);margin-top:5px;">0.08</div>
+            </div>
+            <div style="text-align:center;padding:12px 6px;background:var(--glass);border:1px solid var(--border);border-radius:8px;">
+              <div style="font-family:var(--f-display);font-size:1.35rem;font-weight:800;color:#fff;">D</div>
+              <div style="font-family:var(--f-mono);font-size:0.58rem;color:var(--muted);margin-top:3px;">Derivative</div>
+              <div id="va-pid-d" style="font-family:var(--f-mono);font-size:0.70rem;color:var(--green);margin-top:5px;">0.32</div>
+            </div>
+          </div>
+          <div style="font-family:var(--f-mono);font-size:0.58rem;color:rgba(255,255,255,0.16);text-align:center;letter-spacing:0.08em;">ADAPTİF PID · GERÇEK ZAMANLI KALİBRASYON</div>
+        </div>
+      </div>
+
+      <!-- Blok 4 — Kurtarma -->
+      <div class="va-story-block va-rev">
+        <div class="va-sr-r">
+          <span class="va-block-tag">04 — Kurtarma Sistemi</span>
+          <h3 class="va-block-title">Çift Aşamalı.<br>Güvenli İniş.</h3>
+          <p class="va-block-desc">
+            427 metrede barostat tetiklemesiyle açılan <strong>drogue paraşütü</strong> roketi yavaşlatır.
+            Ana paraşüt alçak irtifada devreye girerek <strong>yumuşak iniş</strong> sağlar.
+            İvmeölçer ve barostat çift doğrulama sistemi yanlış tetiklemeyi önler.
+          </p>
+          <div class="va-block-badges">
+            <span class="va-badge">Drogue · 427m</span>
+            <span class="va-badge">Ana Paraşüt</span>
+            <span class="va-badge">Çift Doğrulama</span>
+            <span class="va-badge">Fail-Safe</span>
+          </div>
+        </div>
+        <div class="va-visual va-sr-l" style="flex-direction:column;padding:28px;">
+          <!-- Kurtarma timeline -->
+          <div style="display:flex;flex-direction:column;gap:0;width:100%;position:relative;">
+            <div style="position:absolute;left:18px;top:0;bottom:0;width:1px;background:linear-gradient(180deg,var(--cyan),rgba(0,229,255,0.12));"></div>
+            <!-- Adım 1 -->
+            <div style="display:grid;grid-template-columns:44px 1fr;gap:12px;margin-bottom:20px;">
+              <div style="width:36px;height:36px;border-radius:50%;background:var(--deep);border:2px solid var(--cyan);display:flex;align-items:center;justify-content:center;box-shadow:0 0 12px rgba(0,229,255,0.30);z-index:1;">
+                <span style="font-family:var(--f-mono);font-size:0.54rem;color:var(--cyan);font-weight:500;">MAX</span>
+              </div>
+              <div style="padding:7px 0;">
+                <div style="font-family:var(--f-mono);font-size:0.60rem;color:var(--cyan);margin-bottom:2px;">ZİRVE İRTİFA</div>
+                <div style="font-family:var(--f-display);font-size:0.88rem;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:0.05em;">Apogee · Motor Sönümü</div>
+              </div>
+            </div>
+            <!-- Adım 2 -->
+            <div style="display:grid;grid-template-columns:44px 1fr;gap:12px;margin-bottom:20px;">
+              <div style="width:36px;height:36px;border-radius:50%;background:var(--deep);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;box-shadow:0 0 12px rgba(255,184,63,0.30);z-index:1;">
+                <span style="font-family:var(--f-mono);font-size:0.50rem;color:var(--gold);font-weight:500;">427m</span>
+              </div>
+              <div style="padding:7px 0;">
+                <div style="font-family:var(--f-mono);font-size:0.60rem;color:var(--gold);margin-bottom:2px;">DROGUE TETİKLEME</div>
+                <div style="font-family:var(--f-display);font-size:0.88rem;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:0.05em;">Barostat Aktif · Yavaşlama</div>
+              </div>
+            </div>
+            <!-- Adım 3 -->
+            <div style="display:grid;grid-template-columns:44px 1fr;gap:12px;margin-bottom:20px;">
+              <div style="width:36px;height:36px;border-radius:50%;background:var(--deep);border:2px solid var(--green);display:flex;align-items:center;justify-content:center;box-shadow:0 0 12px rgba(48,209,88,0.30);z-index:1;">
+                <span style="font-family:var(--f-mono);font-size:0.50rem;color:var(--green);font-weight:500;">150m</span>
+              </div>
+              <div style="padding:7px 0;">
+                <div style="font-family:var(--f-mono);font-size:0.60rem;color:var(--green);margin-bottom:2px;">ANA PARAŞÜT</div>
+                <div style="font-family:var(--f-display);font-size:0.88rem;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:0.05em;">İniş Profili Aktif</div>
+              </div>
+            </div>
+            <!-- Adım 4 -->
+            <div style="display:grid;grid-template-columns:44px 1fr;gap:12px;">
+              <div style="width:36px;height:36px;border-radius:50%;background:var(--deep);border:2px solid rgba(255,255,255,0.18);display:flex;align-items:center;justify-content:center;z-index:1;">
+                <span style="font-family:var(--f-mono);font-size:0.50rem;color:rgba(255,255,255,0.35);font-weight:500;">0m</span>
+              </div>
+              <div style="padding:7px 0;">
+                <div style="font-family:var(--f-mono);font-size:0.60rem;color:rgba(255,255,255,0.28);margin-bottom:2px;">GÜVENLİ İNİŞ</div>
+                <div style="font-family:var(--f-display);font-size:0.88rem;font-weight:700;color:rgba(255,255,255,0.45);text-transform:uppercase;letter-spacing:0.05em;">Yumuşak Dokunuş</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /story-blocks -->
+  </section>
+
+  <!-- ─── MARKİ 2 ─── -->
+  <div aria-hidden="true">
+    <div class="va-marquee-wrap">
+      <div class="va-marquee-inner rev">
+        TAHRİK &nbsp;·&nbsp; AERODİNAMİK &nbsp;·&nbsp; TELEMETRİ &nbsp;·&nbsp; PID KONTROL &nbsp;·&nbsp; KURTARMA &nbsp;·&nbsp; GPS &nbsp;·&nbsp;
+        TAHRİK &nbsp;·&nbsp; AERODİNAMİK &nbsp;·&nbsp; TELEMETRİ &nbsp;·&nbsp; PID KONTROL &nbsp;·&nbsp; KURTARMA &nbsp;·&nbsp; GPS &nbsp;·&nbsp;
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── ANATOMİ ─── -->
+  <section class="va-section" id="anatomi" aria-labelledby="va-anat-h2">
+    <div class="va-section-head va-sr">
+      <div class="va-label">Sistem Mimarisi</div>
+      <h2 class="va-section-title" id="va-anat-h2">ROKET<br>ANATOMİSİ</h2>
+      <p class="va-section-sub">Her bileşen belirli bir amaca hizmet eden hassas mühendislik çıktısıdır.</p>
+    </div>
+
+    <div class="va-anatomy">
+      <!-- Sol kolon -->
+      <div class="va-anat-col">
+        <div class="va-spec va-sr-l">
+          <span class="va-spec-tag">SİSTEM — BURUN</span>
+          <div class="va-spec-title">Ogive Burun Konisi</div>
+          <div class="va-spec-val">Aerodinamik keskinlik için tasarlandı. Hava direnç katsayısını minimuma çeker.</div>
+          <div class="va-spec-bar"><div class="va-spec-fill" data-w="88"></div></div>
+        </div>
+        <div class="va-spec va-sr-l va-d1">
+          <span class="va-spec-tag">SİSTEM — AVİYONİK</span>
+          <div class="va-spec-title">Uçuş Bilgisayarı</div>
+          <div class="va-spec-val">ARM Cortex-M4 · 500Hz PID · Gerçek zamanlı navigasyon ve stabilite yönetimi.</div>
+          <div class="va-spec-bar"><div class="va-spec-fill" data-w="95"></div></div>
+        </div>
+        <div class="va-spec va-sr-l va-d2">
+          <span class="va-spec-tag">SİSTEM — TELEMETRİ</span>
+          <div class="va-spec-title">LoRa Modülü</div>
+          <div class="va-spec-val">915MHz · 5km menzil · Uçuş verilerini anlık yer istasyonuna iletir.</div>
+          <div class="va-spec-bar"><div class="va-spec-fill" data-w="80"></div></div>
+        </div>
+      </div>
+
+      <!-- Merkez Roket -->
+      <div class="va-anat-center va-sr-s">
+        <div class="va-rocket-glow"></div>
+        <svg width="160" height="380" viewBox="0 0 160 380" aria-label="VEFA Aerospace roket detaylı görünüm">
           <defs>
-            <linearGradient id="rBody" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stop-color="#0f172a"/><stop offset="50%" stop-color="#334155"/><stop offset="100%" stop-color="#0f172a"/>
+            <linearGradient id="va-rb" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%"   stop-color="#050d1a"/>
+              <stop offset="18%"  stop-color="#1e3a58"/>
+              <stop offset="45%"  stop-color="#7a9ab8"/>
+              <stop offset="72%"  stop-color="#1e3a58"/>
+              <stop offset="100%" stop-color="#050d1a"/>
             </linearGradient>
-            <linearGradient id="rFin" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#ef4444" stop-opacity="0.9"/><stop offset="100%" stop-color="#b91c1c" stop-opacity="0.7"/>
+            <linearGradient id="va-rn" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%"   stop-color="#7f1d1d"/>
+              <stop offset="50%"  stop-color="#f87171"/>
+              <stop offset="100%" stop-color="#7f1d1d"/>
             </linearGradient>
+            <radialGradient id="va-rfire" cx="50%" cy="0%" r="100%">
+              <stop offset="0%"   stop-color="rgba(255,255,255,0.95)"/>
+              <stop offset="25%"  stop-color="rgba(255,200,0,0.85)"/>
+              <stop offset="65%"  stop-color="rgba(255,50,0,0.5)"/>
+              <stop offset="100%" stop-color="rgba(255,50,0,0)"/>
+            </radialGradient>
           </defs>
-          <path d="M50 5 L65 55 L35 55 Z" fill="url(#rFin)"/>
-          <rect x="35" y="55" width="30" height="145" rx="2" fill="url(#rBody)"/>
-          <rect x="35" y="80" width="30" height="2" fill="#ef4444"/>
-          <rect x="35" y="110" width="30" height="1" fill="rgba(255,255,255,0.2)"/>
-          
-          <circle cx="50" cy="95" r="8" fill="#03050a" stroke="#0ea5e9" stroke-width="2"/>
-          <circle cx="50" cy="95" r="4" fill="#0ea5e9" opacity="0.6"/>
-          
-          <text x="50" y="130" fill="#f8fafc" font-size="6" font-family="'Space Grotesk', sans-serif" font-weight="700" text-anchor="middle" letter-spacing="2">VEFA</text>
-          <text x="50" y="140" fill="#ef4444" font-size="4" font-family="'JetBrains Mono', monospace" text-anchor="middle" letter-spacing="1">AERO</text>
-          
-          <path d="M35 160 L10 210 L35 195 Z" fill="url(#rFin)"/>
-          <path d="M65 160 L90 210 L65 195 Z" fill="url(#rFin)"/>
-          <path d="M40 200 L60 200 L56 218 L44 218 Z" fill="#03050a" stroke="#0ea5e9" stroke-width="1.5"/>
-          
-          <path d="M44 218 Q50 250 46 260 Q50 240 54 260 Q50 250 56 218 Z" fill="#ef4444" opacity="0.8">
-            <animate attributeName="d" values="M44 218 Q50 250 46 260 Q50 240 54 260 Q50 250 56 218 Z; M44 218 Q48 245 44 255 Q50 235 56 255 Q52 245 56 218 Z; M44 218 Q50 250 46 260 Q50 240 54 260 Q50 250 56 218 Z" dur="0.8s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1; 0.4 0 0.2 1"/>
-          </path>
+          <!-- Alev -->
+          <path d="M64 295 Q58 315 52 338 Q80 352 108 338 Q102 315 96 295 Z" fill="url(#va-rfire)"/>
+          <!-- Kanatlar -->
+          <path d="M56 260 L26 305 L56 290 Z" fill="#7f1d1d"/>
+          <path d="M104 260 L134 305 L104 290 Z" fill="#7f1d1d"/>
+          <!-- Gövde -->
+          <rect x="56" y="86" width="48" height="210" fill="url(#va-rb)" rx="3"/>
+          <rect x="56" y="216" width="48" height="6" fill="rgba(220,40,40,0.9)" rx="1"/>
+          <rect x="56" y="178" width="48" height="2.5" fill="rgba(0,229,255,0.5)" rx="1"/>
+          <!-- Pencere -->
+          <circle cx="80" cy="128" r="11" fill="rgba(0,160,230,0.55)" stroke="rgba(255,255,255,0.4)" stroke-width="2"/>
+          <circle cx="77" cy="125" r="3.5" fill="rgba(255,255,255,0.32)"/>
+          <!-- Yazı -->
+          <text x="80" y="158" text-anchor="middle" font-family="Syne,sans-serif" font-size="9" font-weight="800" fill="rgba(241,245,249,0.92)" letter-spacing="1.5">VEFA</text>
+          <text x="80" y="167" text-anchor="middle" font-family="DM Mono,monospace" font-size="5" fill="rgba(220,40,40,0.88)" letter-spacing="0.8">AEROSPACE</text>
+          <!-- Burun -->
+          <path d="M56 86 L80 18 L104 86 Z" fill="url(#va-rn)"/>
+          <!-- Motor ağzı -->
+          <path d="M58 295 L64 310 L96 310 L102 295 Z" fill="#0a0f1a" stroke="rgba(0,229,255,0.14)" stroke-width="1"/>
+          <!-- Bölüm çizgileri -->
+          <line x1="106" y1="20"  x2="130" y2="20"  stroke="rgba(0,229,255,0.22)" stroke-width="0.7" stroke-dasharray="3,3"/>
+          <line x1="106" y1="128" x2="130" y2="128" stroke="rgba(0,229,255,0.22)" stroke-width="0.7" stroke-dasharray="3,3"/>
+          <line x1="106" y1="216" x2="130" y2="216" stroke="rgba(255,59,48,0.22)" stroke-width="0.7" stroke-dasharray="3,3"/>
+          <line x1="106" y1="295" x2="130" y2="295" stroke="rgba(0,229,255,0.22)" stroke-width="0.7" stroke-dasharray="3,3"/>
         </svg>
       </div>
+
+      <!-- Sağ kolon -->
+      <div class="va-anat-col va-anat-right">
+        <div class="va-spec va-sr-r">
+          <span class="va-spec-tag">SİSTEM — TAHRİK</span>
+          <div class="va-spec-title">Motor Ünitesi</div>
+          <div class="va-spec-val">45 PSI peak basınç · CFD optimize kombüsyon odası · Maksimum itki verimi.</div>
+          <div class="va-spec-bar"><div class="va-spec-fill" data-w="100"></div></div>
+        </div>
+        <div class="va-spec va-sr-r va-d1">
+          <span class="va-spec-tag">SİSTEM — KANATLAR</span>
+          <div class="va-spec-title">Trapez Kanatlar</div>
+          <div class="va-spec-val">Kararlılık merkezini (CP) optimal konuma getirir. Roll dampingi sağlar.</div>
+          <div class="va-spec-bar"><div class="va-spec-fill" data-w="72"></div></div>
+        </div>
+        <div class="va-spec va-sr-r va-d2">
+          <span class="va-spec-tag">SİSTEM — KURTARMA</span>
+          <div class="va-spec-title">Çift Paraşüt</div>
+          <div class="va-spec-val">Drogue @ 427m · Ana paraşüt @ 150m · İvmeölçer + barostat çift güvence.</div>
+          <div class="va-spec-bar"><div class="va-spec-fill" data-w="92"></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── TERMİNAL ─── -->
+  <div class="va-section" style="padding-bottom:0;">
+    <div class="va-section-head va-sr" style="padding-bottom:24px;">
+      <div class="va-label">Güvenlik & Validasyon</div>
+      <h2 class="va-section-title">FIRLATMA ÖNCESİ<br>OTOMATİK TESTLER</h2>
+    </div>
+    <div class="va-terminal-wrap">
+      <div class="va-terminal va-sr" role="log" aria-label="Sistem diagnostik terminali" aria-live="polite">
+        <div class="va-term-bar" aria-hidden="true">
+          <div class="va-term-dots"><span></span><span></span><span></span></div>
+          <div class="va-term-title">VEFA_OS_DIAGNOSTICS_V2.1 — PRE-LAUNCH CHECKLIST</div>
+        </div>
+        <div class="va-term-body" id="va-term-body">
+          <span class="va-cursor" aria-hidden="true"></span>
+        </div>
+      </div>
     </div>
   </div>
-</section>
 
-<!-- MÜRETTEBAT KAPSÜLÜ (TAÅžINDI: hakkimizda.html) -->
+  <!-- ─── YOL HARİTASI ─── -->
+  <section class="va-section" id="yol-haritasi" aria-labelledby="va-yol-h2" style="padding-bottom:0;">
+    <div class="va-section-head va-sr">
+      <div class="va-label">Görev Planı</div>
+      <h2 class="va-section-title" id="va-yol-h2">YOL<br>HARİTASI</h2>
+      <p class="va-section-sub">Ocak 2026'dan Mayıs yarışmasına uzanan görev takvimi.</p>
+    </div>
+    <div class="va-timeline-wrap">
+      <div class="va-timeline">
 
-<!-- MÜHENDİSLİK DETAYLARI & PDF DOSYASI -->
-<section id="architecture">
-  <div class="container">
-    <div class="section-label reveal">Mühendisliğin Sınırları</div>
-    <h2 class="section-title reveal">Sistem Spesifikasyonları</h2>
-    
-    <div class="arch-grid">
-      <div class="hud-card arch-card reveal">
-        <div class="ac-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
-        <h3>Maksimum Mukavemet: 40 PSI</h3>
-        <p>Aylarca süren sızdırmazlık ve yorulma testlerinden geçen PET ve PVC kompozit gövde, roketimizin en zorlu basınç koşullarında (40 PSI nominal) şaşmaz bir bütünlük sergilemesini sağlar.</p>
-      </div>
-      <div class="hud-card arch-card reveal d-1">
-        <div class="ac-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
-        <h3>Kusursuz Aerodinamik</h3>
-        <p>Ağırlık merkezi (CG) ile basınç merkezi (CP) denklemi tam entegre çalışır. Bilgisayar destekli simülasyonlardan geçen 4 noktalı trapezyal kanatlar, rüzgar sapmasını sıfıra yakınsar.</p>
-      </div>
-      <div class="hud-card arch-card reveal d-2">
-        <div class="ac-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-        <h3>Akıllı Entegrasyon Birimi</h3>
-        <p>Manuel güvenlik kilitlerine ek olarak pnömatik tetikleme valfleri, sahadan ekibimize anlık durum izleme ve güvenli uzaklaştırma opsiyonu tanıyarak uçuş güvencesi sunar.</p>
+        <div class="va-tl-item va-sr">
+          <div class="va-tl-dot"><span>01</span></div>
+          <div class="va-tl-content">
+            <div class="va-tl-date">OCAK 2026</div>
+            <div class="va-tl-title">Konsept Tasarım & Analiz</div>
+            <p class="va-tl-desc">Tahrik sistemi konsept çalışmaları, ön aerodinamik analizler ve ilk prototip çizimleri tamamlandı.</p>
+          </div>
+        </div>
+
+        <div class="va-tl-item va-sr va-d1">
+          <div class="va-tl-dot" style="border-color:var(--gold);box-shadow:0 0 14px rgba(255,184,63,0.28)">
+            <span style="color:var(--gold)">02</span>
+          </div>
+          <div class="va-tl-content">
+            <div class="va-tl-date" style="color:var(--gold)">ŞUBAT 2026</div>
+            <div class="va-tl-title">Prototip İmalat</div>
+            <p class="va-tl-desc">Gövde bileşenlerinin üretimi, aviyonik sistemlerin entegrasyonu ve statik test altyapısının kurulumu.</p>
+          </div>
+        </div>
+
+        <div class="va-tl-item va-sr va-d2">
+          <div class="va-tl-dot" style="border-color:var(--red);box-shadow:0 0 14px rgba(255,59,48,0.28)">
+            <span style="color:var(--red)">03</span>
+          </div>
+          <div class="va-tl-content">
+            <div class="va-tl-date" style="color:var(--red)">MART 2026</div>
+            <div class="va-tl-title">Statik Yanma Testleri</div>
+            <p class="va-tl-desc">Motor statik test serileri, telemetri sistem doğrulaması ve tüm alt sistemlerin entegre test süreçleri.</p>
+          </div>
+        </div>
+
+        <div class="va-tl-item upcoming va-sr va-d3">
+          <div class="va-tl-dot"><span>04</span></div>
+          <div class="va-tl-content">
+            <div class="va-tl-date">NİSAN 2026</div>
+            <div class="va-tl-title">İlk Uçuş Testi</div>
+            <p class="va-tl-desc">Tam sistem entegrasyonu sonrası ilk fırlatma denemesi. Veri toplama ve post-flight analiz.</p>
+          </div>
+        </div>
+
+        <div class="va-tl-item upcoming va-sr va-d4">
+          <div class="va-tl-dot"><span>05</span></div>
+          <div class="va-tl-content">
+            <div class="va-tl-date">MAYIS 2026</div>
+            <div class="va-tl-title">Yarışma & Sergileme</div>
+            <p class="va-tl-desc">Ulusal yarışmalara katılım, proje sunumları ve teknoloji fuarı sergileme programı.</p>
+          </div>
+        </div>
+
       </div>
     </div>
-    
-    <div class="doc-download-wrapper reveal">
-      <p style="font-size: 1rem; color: var(--cyan-accent); margin-bottom: 24px;">Geliştirme aşamalarının incelendiği detaylı roket sistem güvenlik izni ve uçuş protokolü dosyası.</p>
-      <!-- NOT: PDF iNDİREMEMENİZİN SEBEBİ, BİLGİSAYARINIZDA ÅU AN BÖYLE BİR PDF DOSYASI OLMAMASIDIR. Klasöre "vefa_aerospace_guvenlik_izni.pdf" adında bir pdf atarsanız bu buton çalışacaktır. -->
-      <a href="vefa_aerospace_guvenlik_izni.pdf" download class="btn btn-secondary btn-icon">
-        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-        Sistem Güvenlik Raporunu İndir (PDF)
+  </section>
+
+  <!-- ─── EKİP ─── -->
+  <section class="va-section" id="ekip" aria-labelledby="va-ekip-h2">
+    <div class="va-section-head va-sr">
+      <div class="va-label">VEFA GençTek</div>
+      <h2 class="va-section-title" id="va-ekip-h2">GÖREV<br>EKİBİMİZ</h2>
+      <p class="va-section-sub">Lise sıralarında büyük hayaller kuran altı kişilik mühendislik kadrosu.</p>
+    </div>
+
+    <div class="va-team-grid">
+      <div class="va-team-card va-sr">
+        <div class="va-team-avatar">AK</div>
+        <div class="va-team-name">Ahmet K.</div>
+        <div class="va-team-role">Proje Lideri & İtki Mühendisi</div>
+        <p class="va-team-bio">Tahrik sistemi tasarımı ve basınç simülasyonlarından sorumlu. 45 PSI hedefi onun vizyonu.</p>
+      </div>
+      <div class="va-team-card va-sr va-d1">
+        <div class="va-team-avatar" style="color:var(--red);border-color:rgba(255,59,48,0.32);background:linear-gradient(135deg,rgba(255,59,48,0.10),rgba(0,229,255,0.05))">ZY</div>
+        <div class="va-team-name">Zeynep Y.</div>
+        <div class="va-team-role">Aerodinamik & Yapısal Tasarım</div>
+        <p class="va-team-bio">Gövde geometrisi optimizasyonu ve CFD analizlerini yürütüyor. Cd değerini minimize eden mühendis.</p>
+      </div>
+      <div class="va-team-card va-sr va-d2">
+        <div class="va-team-avatar" style="color:var(--gold);border-color:rgba(255,184,63,0.32);background:linear-gradient(135deg,rgba(255,184,63,0.08),rgba(0,229,255,0.05))">MÖ</div>
+        <div class="va-team-name">Mehmet Ö.</div>
+        <div class="va-team-role">Aviyonik & Yazılım</div>
+        <p class="va-team-bio">Uçuş bilgisayarı firmware geliştirme ve gerçek zamanlı telemetri sisteminin mimarı.</p>
+      </div>
+      <div class="va-team-card va-sr">
+        <div class="va-team-avatar" style="color:#a78bfa;border-color:rgba(167,139,250,0.32);background:linear-gradient(135deg,rgba(167,139,250,0.08),rgba(0,229,255,0.05))">SB</div>
+        <div class="va-team-name">Selin B.</div>
+        <div class="va-team-role">Sistem Entegrasyonu</div>
+        <p class="va-team-bio">Elektronik sistemler entegrasyonu ve test prosedürleri koordinasyonundan sorumlu ekip üyesi.</p>
+      </div>
+      <div class="va-team-card va-sr va-d1">
+        <div class="va-team-avatar" style="color:#34d399;border-color:rgba(52,211,153,0.32);background:linear-gradient(135deg,rgba(52,211,153,0.08),rgba(0,229,255,0.05))">KD</div>
+        <div class="va-team-name">Kerem D.</div>
+        <div class="va-team-role">Kurtarma & Güvenlik</div>
+        <p class="va-team-bio">Paraşüt sistemi ve acil kurtarma protokollerinin tasarımcısı. Güvenli iniş onun sorumluluğu.</p>
+      </div>
+      <div class="va-team-card va-sr va-d2">
+        <div class="va-team-avatar" style="color:#f87171;border-color:rgba(248,113,113,0.32);background:linear-gradient(135deg,rgba(248,113,113,0.08),rgba(0,229,255,0.05))">LA</div>
+        <div class="va-team-name">Lale A.</div>
+        <div class="va-team-role">Veri Analizi & Dokümantasyon</div>
+        <p class="va-team-bio">Test verilerinin işlenmesi, raporlama ve teknik dokümantasyon süreçlerini yönetiyor.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── CTA ─── -->
+  <section class="va-cta" id="iletisim" aria-labelledby="va-cta-h2">
+    <div class="va-label va-sr" style="justify-content:center;display:inline-flex;margin-bottom:14px;">Birlikte Yükseliyoruz</div>
+    <h2 class="va-cta-title va-sr" id="va-cta-h2">
+      Gökyüzüne<br>
+      <span class="line-1" style="display:inline;">Birlikte</span><br>
+      Ulaşalım.
+    </h2>
+    <p class="va-cta-sub va-sr">
+      Bugün Lisede, Yarın Yörüngede! VEFA GençTek ekibine katılmak
+      veya projeyi desteklemek için bize ulaşın.
+    </p>
+    <div class="va-cta-btns va-sr">
+      <a href="mailto:iletisim@vefagenctek.com" class="va-btn-primary">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+          <polyline points="22,6 12,13 2,6"/>
+        </svg>
+        Bize Yazın
       </a>
+      <a href="#proje" class="va-btn-secondary">Projeyi İncele →</a>
     </div>
+  </section>
 
-  </div>
-</section>
-
-<!-- SAHTE GÜVENLİK TERMİNALİ -->
-<section id="terminal-section">
-  <div class="container reveal">
-    <div class="section-label">Güvenlik ve Validasyon Ağı</div>
-    <h2 class="section-title" style="font-size: 2rem;">Uçuş Öncesi Otomatik Diagnostik</h2>
-    
-    <div class="terminal-window">
-      <div class="term-header">
-        <div class="term-dots"><span></span><span></span><span></span></div>
-        <div class="term-title">VEFA_OS_DIAGNOSTICS_V1.4</div>
-        <div></div>
+  <!-- ─── FOOTER ─── -->
+  <footer class="va-footer" role="contentinfo">
+    <div class="va-footer-inner">
+      <div>
+        <span class="va-footer-logo">VEFA <em>AEROSPACE</em></span>
+        <p class="va-footer-tagline">Bugün Lisede, Yarın Yörüngede! Vefa GençTek ekibi olarak lise sıralarından gökyüzüne uzanan bir tutkuyla teknoloji üretiyoruz.</p>
       </div>
-      <div class="term-body" id="termConsole">
-        <!-- JS ile akan yazılar buraya gelecek -->
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- RESTORED MULTI-COLUMN FOOTER -->
-<footer id="footer">
-  <div class="container">
-    <div class="footer-grid">
-      <div class="reveal">
-        <div class="footer-brand">
-          <img src="WhatsApp Image 2026-04-04 at 00.11.46.jpeg" alt="Logo">
-          <span class="f-logo-text">VEFA AEROSPACE</span>
-        </div>
-        <div class="about-text">
-          <strong>Bugün Lisede, Yarın Yörüngede!</strong>
-          Vefa GençTek ekibi olarak, lise sıralarından gökyüzüne uzanan bir tutkuyla teknoloji üretiyoruz. Roket sistemleri, aerodinamik ve yazılım geliştirme alanlarında yarının mühendislik çözümlerini hayal ediyoruz.
-        </div>
-      </div>
-
-      <div class="reveal d-1">
-        <div class="f-title">Navigasyon</div>
-        <ul class="f-links">
-          <li><a href="#hero">Proje</a></li>
-          <li><a href="akademi.html">Akademi</a></li>
-          <li><a href="hakkimizda.html">Hakkımızda</a></li>
+      <div class="va-footer-col">
+        <h5>Navigasyon</h5>
+        <ul>
+          <li><a href="#proje">Proje Detayları</a></li>
+          <li><a href="#ekip">Ekibimiz</a></li>
+          <li><a href="#yol-haritasi">Yol Haritası</a></li>
         </ul>
       </div>
-
-      <div class="reveal d-2">
-        <div class="f-title">Karargah & İletişim</div>
-        <ul class="f-contact">
-          <li>
-            <div class="f-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
-            <span>iletisim@vefagenctek.com</span>
-          </li>
-          <li>
-            <div class="f-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
-            <span>İstanbul, Türkiye</span>
-          </li>
-          <li>
-            <div class="f-icon"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></div>
-            <span>@vefa_genctek</span>
-          </li>
+      <div class="va-footer-col">
+        <h5>Akademi</h5>
+        <ul>
+          <li><a href="#">Eğitim Modülleri</a></li>
+          <li><a href="#">Teknik Dökümanlar</a></li>
+          <li><a href="#">Araştırma</a></li>
+        </ul>
+      </div>
+      <div class="va-footer-col">
+        <h5>İletişim</h5>
+        <ul>
+          <li><a href="mailto:iletisim@vefagenctek.com">iletisim@vefagenctek.com</a></li>
+          <li><a href="#">İstanbul, Türkiye</a></li>
+          <li><a href="#">@vefa_genctek</a></li>
         </ul>
       </div>
     </div>
-    
-    <div class="footer-bottom">
-      <div>&copy; 2026 VEFA AEROSPACE &bull; GENÇTEK TAKIMI</div>
-      <div>GÖKYÜZÜNÜN ÖTESİNDEKİ TUTKU.</div>
+    <div class="va-footer-bottom">
+      <span>© 2026 VEFA AEROSPACE · GENÇTEK TAKIMI</span>
+      <span>GÖKYÜZÜNÜN ÖTESİNDEKİ TUTKU.</span>
     </div>
-  </div>
-</footer>
+  </footer>
 
-<!-- VİDEO MODALI (FRAGMAN) -->
-<div class="video-modal" id="videoModal">
-  <button class="modal-close" id="closeVideoBtn" aria-label="Kapat">Ã—</button>
-  <div class="modal-content">
-    <!-- ÖRNEK BİR YOUTUBE FRAGMANI EKLENDİ. SİZ SONRA BURADAKİ LİNKİ KENDİ VİDEONUZUN LİNKİ İLE DEÄİÅTİREBİLİRSİNİZ. -->
-    <iframe id="videoIframe" src="https://www.youtube.com/embed/ScMzIvxBSi4?enablejsapi=1" 
-      title="YouTube video player" frameborder="0" 
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-    </iframe>
-  </div>
-</div>
+</div><!-- /va-ui -->
+
+<!-- Replay butonu -->
+<button id="va-replay" aria-label="Animasyonu tekrar izle">↺ TEKRAR İZLE</button>
 
 <script>
-/* Ö•Ö• 1. GÜVENLİK VE İZİNSİZ SIZMA KORUMASI Ö•Ö• */
-console.log("%c[VEFA AEROSPACE SECURITY] %cBu alana (Geliştirici Konsoluna) giriş loglanmaktadır. Yetkisiz erişim tespit edildiğinde güvenlik protokolleri devreye girer.", "color: #ef4444; font-weight: bold; font-size: 1.2rem;", "color: #f8fafc; font-size: 1rem;");
+  'use strict';
 
-// İçerik Kopyalama ve Sürüklemeyi Engelle (Sağ tık, Metin seçimi)
-document.addEventListener('contextmenu', e => e.preventDefault());
-document.addEventListener('selectstart', e => e.preventDefault());
-document.addEventListener('dragstart', e => e.preventDefault());
-
-
-document.addEventListener('keydown', (e) => {
-  if (
-    e.key === 'F12' || 
-    (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) ||
-    (e.ctrlKey && (e.key === 'U' || e.key === 'u' || e.key === 'S' || e.key === 's'))
-  ) {
-    e.preventDefault();
-    return false;
-  }
-});
-
-(function() {
-  var _dt = function() {
-    var t = 160;
-    if (window.outerWidth - window.innerWidth > t || window.outerHeight - window.innerHeight > t) {
-      document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;background:#03050a;color:#ef4444;font-family:\'JetBrains Mono\',monospace;font-size:1.1rem;text-align:center;padding:40px;">[VEFA SECURITY] Geliştirici araçları bu sayfada devre dışıdır.</div>';
-    }
-  };
-  setInterval(_dt, 1000);
-})();
-
+/* ══════════════════════════════════════════════════════════════
+   VEFA AEROSPACE — CİNEMATİC ENGINE v4.0
+   1. Kod (Syne/Outfit/DM Mono) için özel yazılmış JS
+   ─────────────────────────────────────────────────────────────
+   § 1  Canvas & Boyutlandırma
+   § 2  Durum Makinesi & Faz Yönetimi
+   § 3  Mouse / Touch Parallax
+   § 4  Yıldız Alanı (3 katman + nebula)
+   § 5  Parçacık Motoru (ateş, duman, buhar, kıvılcım, iz)
+   § 6  Lens Flare & Bloom
+   § 7  Dünya Sahnesi (gökyüzü, güneş, bulutlar, arazi, rampa)
+   § 8  Roket Çizimleri (inşaat + uzay)
+   § 9  Uzay Sahnesi (uzay yüzeyi, ay, meteor)
+   § 10 Geri Sayım Overlay
+   § 11 Animasyon Döngüsü (RAF)
+   § 12 UI Aktivasyon & Scroll Reveal
+   § 13 Hero Countdown Timer
+   § 14 Terminal Animasyonu
+   § 15 PID & Telemetri Widgets
+   § 16 Gauge (PSI) Animasyonu
+   § 17 Stat Counter
+   § 18 Spec Bar Animasyonu
+   § 19 Hamburger Menü
+   § 20 Skip / Replay Butonları
+   § 21 Başlatma
+══════════════════════════════════════════════════════════════ */
 
 
-const canvas = document.getElementById('spaceCanvas'); const ctx = canvas.getContext('2d');
-let w, h; let stars = [];
-function resize() { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; initStars(); }
-function initStars() {
-  stars = []; const numStars = (w * h) / 4000; 
-  for(let i = 0; i < numStars; i++) {
-    stars.push({ x: Math.random() * w, y: Math.random() * h, size: Math.random() * 1.5, speedY: (Math.random() * 0.05) + 0.02, opacity: Math.random() * 0.5 + 0.1, drift: (Math.random() - 0.5) * 0.02 });
-  }
+/* ──────────────────────────────────────────────────────────────
+   § 1 — CANVAS & BOYUTLANDIRMA
+────────────────────────────────────────────────────────────── */
+
+const _earthCv = document.getElementById('va-earth');
+const _spaceCv = document.getElementById('va-space');
+const _flash   = document.getElementById('va-flash');
+const ec       = _earthCv ? _earthCv.getContext('2d', { alpha: false }) : null;
+const sc       = _spaceCv ? _spaceCv.getContext('2d', { alpha: true  }) : null;
+
+const DPR = Math.min(window.devicePixelRatio || 1, 2.5);
+let W = 0, H = 0;
+
+let STARS = [], NEBULAE = [];
+
+function _resizeAll() {
+  W = window.innerWidth;
+  H = window.innerHeight;
+  [_earthCv, _spaceCv].forEach(cv => {
+    if (!cv) return;
+    cv.width  = W * DPR;
+    cv.height = H * DPR;
+    cv.style.width  = W + 'px';
+    cv.style.height = H + 'px';
+  });
+  if (ec) ec.setTransform(DPR, 0, 0, DPR, 0, 0);
+  if (sc) sc.setTransform(DPR, 0, 0, DPR, 0, 0);
+  _genStars();
 }
-function drawSpace() {
-  ctx.clearRect(0, 0, w, h);
-  stars.forEach(s => {
-    ctx.fillStyle = `rgba(255, 255, 255, ${s.opacity})`; ctx.beginPath(); ctx.arc(s.x, s.y, s.size, 0, Math.PI*2); ctx.fill();
-    s.y -= s.speedY; s.x += s.drift;
-    if(s.y < 0) s.y = h; if(s.x < 0) s.x = w; if(s.x > w) s.x = 0;
-  }); requestAnimationFrame(drawSpace);
-}
-window.addEventListener('resize', resize); resize(); drawSpace();
 
-/* Ö•Ö• DEV GERİ SAYIM SAYACI Ö•Ö• */
-// AYAR LİSTESİ: Sayacın hedef tarihini buradan kolayca belirleyebilirsiniz.
-const COUNTDOWN_CONFIG = {
-    day: 20,
-    month: 4, // 1-12 arası
-    year: 2026,
-    hour: 0,
-    minute: 0
+let _resTimer;
+window.addEventListener('resize', () => { clearTimeout(_resTimer); _resTimer = setTimeout(_resizeAll, 100); });
+_resizeAll();
+
+
+/* ──────────────────────────────────────────────────────────────
+   § 2 — DURUM MAKİNESİ
+────────────────────────────────────────────────────────────── */
+
+const PH = {
+  EARTH_BUILD : 'EARTH_BUILD',
+  COUNTDOWN   : 'COUNTDOWN',
+  LAUNCH      : 'LAUNCH',
+  ASCENT      : 'ASCENT',
+  ORBIT_IN    : 'ORBIT_IN',
+  DEEP_SPACE  : 'DEEP_SPACE',
+  FAST_SKIP   : 'FAST_SKIP',
 };
 
-const targetDate = new Date(COUNTDOWN_CONFIG.year, COUNTDOWN_CONFIG.month - 1, COUNTDOWN_CONFIG.day, COUNTDOWN_CONFIG.hour, COUNTDOWN_CONFIG.minute).getTime();
-const elDays = document.getElementById('cd-days'), elHours = document.getElementById('cd-hours'), elMins = document.getElementById('cd-mins'), elSecs = document.getElementById('cd-secs');
+const S = {
+  phase       : PH.EARTH_BUILD,
+  start       : performance.now(),
+  phaseStart  : performance.now(),
+  buildPct    : 0,
+  countdownN  : 10,
+  launchVel   : 0,
+  rocketY     : 0,
+  rocketTilt  : 0,
+  puppetExit  : 0,
+  puppetDone  : false,
+  shakeAmp    : 0,
+  uiShown     : false,
+  engineAlpha : 0,
+  isReadyToLaunch: false // BURAYI EKLEDİK
+};
 
-function updateTimer() {
-    const diff = targetDate - new Date().getTime();
+function _setPhase(p) { S.phase = p; S.phaseStart = performance.now(); }
+function _pt()        { return (performance.now() - S.phaseStart) / 1000; }
+function _gt()        { return (performance.now() - S.start)      / 1000; }
+
+
+/* ──────────────────────────────────────────────────────────────
+   § 3 — PARALLAX
+────────────────────────────────────────────────────────────── */
+
+const MX = { x: 0, y: 0, tx: 0, ty: 0, camY: 0, camVel: 0 };
+
+window.addEventListener('mousemove', e => {
+  MX.tx = (e.clientX / W - 0.5) * 2;
+  MX.ty = (e.clientY / H - 0.5) * 2;
+});
+window.addEventListener('touchmove', e => {
+  MX.tx = (e.touches[0].clientX / W - 0.5) * 2;
+  MX.ty = (e.touches[0].clientY / H - 0.5) * 2;
+}, { passive: true });
+
+function _updateMX() {
+  MX.x += (MX.tx - MX.x) * 0.06;
+  MX.y += (MX.ty - MX.y) * 0.06;
+}
+
+
+/* ──────────────────────────────────────────────────────────────
+   § 4 — YILDIZ ALANI
+────────────────────────────────────────────────────────────── */
+
+function _genStars() {
+  const N = Math.floor((W * H) / 3800); // Biraz daha yoğun yıldızlar
+  STARS = Array.from({ length: N }, () => {
+    const tier = Math.random();
+    return {
+      x    : Math.random(),
+      y    : Math.random(),
+      r    : tier < 0.50 ? Math.random() * 0.45 + 0.10 // Arka plan
+             : tier < 0.82 ? Math.random() * 0.8 + 0.5   // Orta
+             : tier < 0.96 ? Math.random() * 1.5 + 1.0   // Ön (Parlak)
+             : Math.random() * 2.2 + 2.0,                // Dev Yıldızlar
+      spd  : Math.random() * 1.2 + 0.4,
+      ph   : Math.random() * Math.PI * 2,
+      col  : Math.random() > 0.90 ? '#a8cfff' // Mavi dev
+             : Math.random() > 0.82 ? '#ffd8aa' // Turuncu dev
+             : Math.random() > 0.96 ? '#ffaacc' // Morumsu
+             : Math.random() > 0.98 ? '#00e5ff' // Cyan (Vefa Cyan)
+             : '#ffffff',
+      dep  : Math.random() * 4 + 1,
+      glow : Math.random() > 0.94, // Bazı yıldızlarda halo olacak
+    };
+  });
+
+  NEBULAE = [
+    { x:0.12, y:0.15, r:0.45, c:'rgba(0,180,255,0.045)',  rot:0.005  },
+    { x:0.80, y:0.12, r:0.38, c:'rgba(120,60,220,0.040)',  rot:-0.008 },
+    { x:0.92, y:0.75, r:0.30, c:'rgba(255,40,40,0.035)',   rot:0.004  },
+    { x:0.05, y:0.85, r:0.28, c:'rgba(40,255,80,0.030)',   rot:0.010  },
+    { x:0.55, y:0.95, r:0.40, c:'rgba(255,160,40,0.025)',  rot:-0.005 },
+    { x:0.40, y:0.40, r:0.60, c:'rgba(110,64,201,0.020)',  rot:0.003  }, // Büyük merkezi bulutsu
+  ];
+}
+
+function _drawStars(ctx, t, pxMul = 1) {
+  STARS.forEach(s => {
+    // Daha belirgin ve çeşitli göz kırpma (twinkle) efekti
+    const twinkSpd = s.spd * (s.glow ? 1.5 : 1.0);
+    const tw = 0.4 + 0.6 * Math.sin(t * twinkSpd + s.ph);
     
-    if (diff < 0) {
-        if(elDays.innerText !== "00") { elDays.innerText = "00"; elHours.innerText = "00"; elMins.innerText = "00"; elSecs.innerText = "00"; }
-        return;
+    const px = ((s.x + MX.x * 0.018 * s.dep * pxMul) % 1 + 1) % 1;
+    const py = ((s.y + MX.y * 0.012 * s.dep * pxMul + (MX.camY * 0.003 * s.dep)) % 1 + 1) % 1;
+    
+    const x = px * W;
+    const y = py * H;
+    const size = s.r * (0.8 + 0.25 * tw);
+
+    // Bazı yıldızlarda yumuşak bir ışık halosu (Glow)
+    if (s.glow && tw > 0.5) {
+        const hg = ctx.createRadialGradient(x, y, 0, x, y, size * 4);
+        hg.addColorStop(0, s.col + '33'); // %20 saydamlık
+        hg.addColorStop(1, 'transparent');
+        ctx.fillStyle = hg;
+        ctx.beginPath(); ctx.arc(x, y, size * 4, 0, Math.PI * 2); ctx.fill();
     }
+
+    ctx.globalAlpha = (0.18 + 0.82 * tw) * Math.min(1, s.r * 0.72);
+    ctx.fillStyle = s.col;
+    ctx.beginPath(); ctx.arc(x, y, size, 0, Math.PI * 2); ctx.fill();
     
-    const d = Math.floor(diff / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
-    const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
-    const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
-    const s = Math.floor((diff % (1000 * 60)) / 1000).toString().padStart(2, '0');
-
-    // DOM yenilemesini sadece veri değiştiğinde yaparak titremeyi engelle
-    if (elDays.innerText !== d) elDays.innerText = d;
-    if (elHours.innerText !== h) elHours.innerText = h;
-    if (elMins.innerText !== m) elMins.innerText = m;
-    if (elSecs.innerText !== s) elSecs.innerText = s;
-}
-setInterval(updateTimer, 500); // 500ms ile daha hassas ve akıcı takip
-updateTimer();
-
-/* Ö•Ö• HEADER & MOBİL MENÜ Ö•Ö• */
-const header = document.getElementById('navbar'); window.addEventListener('scroll', () => { if (window.scrollY > 50) header.classList.add('scrolled'); else header.classList.remove('scrolled'); }, { passive: true });
-const menuBtn = document.getElementById('menuBtn'), mobileNav = document.getElementById('mobileNav');
-menuBtn.addEventListener('click', () => { menuBtn.classList.toggle('open'); mobileNav.classList.toggle('active'); document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : ''; });
-document.querySelectorAll('.mob-link').forEach(link => { link.addEventListener('click', () => { menuBtn.classList.remove('open'); mobileNav.classList.remove('active'); document.body.style.overflow = ''; }); });
-
-/* Ö•Ö• REVEAL Ö•Ö• */
-const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('active'); observer.unobserve(entry.target); } }); }, { threshold: 0.15, rootMargin: "0px 0px -50px 0px" });
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-
-/* Ö•Ö• YENİ - VİDEO MODAL (FRAGMAN SİSTEMİ) KONTROLCÜSÜ Ö•Ö• */
-const openVideoBtn = document.getElementById('openVideoBtn');
-const closeVideoBtn = document.getElementById('closeVideoBtn');
-const videoModal = document.getElementById('videoModal');
-const videoIframe = document.getElementById('videoIframe');
-
-openVideoBtn.addEventListener('click', () => {
-    videoModal.classList.add('active');
-    document.body.style.overflow = 'hidden';
-});
-closeVideoBtn.addEventListener('click', () => {
-    videoModal.classList.remove('active');
-    document.body.style.overflow = '';
-    let src = videoIframe.src; videoIframe.src = src;
-});
-
-
-/* Ö•Ö• YENİ - PR SHOW: SAHTE GÜVENLİK TERMİNALİ ANİMASYONU Ö•Ö• */
-const terminalLines = [
-  "<span class='term-gray'>[SYS] T-15:00:00 Protokol başlatıldı. Vefa_Aero_Core çekirdeği yükleniyor...</span>",
-  "&gt; Sistem durumu sorgulanıyor... <span class='term-cyan'>LÜTFEN BEKLEYİN</span>",
-  "&gt; Uçuş modülü donanım bağlantısı <span class='term-green'>[BAÅARILI]</span>",
-  "&gt; Çevresel rüzgar parametreleri yükleniyor... Rüzgar sapması %0.4",
-  "&gt; Epoksi sızdırmazlık bölümlerine statik simülasyon test ediliyor...",
-  "<span class='term-red'>[UYARI]</span> Yüksek irtifa tahmini 40 PSI üzerinde gerçekleşebilir.",
-  "&gt; Aerodinamik yüzey toleransları kontrol ediliyor <span class='term-green'>[NOMİNAL]</span>",
-  "&gt; Telemetri paneli dinleniyor... Veri bağlantısı sağlandı.",
-  "<span class='term-cyan'>[ONAY] BÜTÜN SİSTEMLER OPERASYONEL. FIRLATMA İÇİN ONAY BEKLENİYOR.</span>"
-];
-const termConsole = document.getElementById('termConsole');
-let termObserver = new IntersectionObserver((entries) => {
-  if (entries[0].isIntersecting) {
-    runTerminalAnim();
-    termObserver.disconnect();
-  }
-});
-termObserver.observe(document.getElementById('terminal-section'));
-
-function runTerminalAnim() {
-  let i = 0;
-  termConsole.innerHTML = '<span class="cursor-blink"></span>';
-  
-  function nextLine() {
-    if (i >= terminalLines.length) return;
-    const lineDiv = document.createElement('div');
-    lineDiv.className = 'term-line';
-    lineDiv.innerHTML = terminalLines[i];
-    
-    // İmlec'ten önce ekle
-    termConsole.insertBefore(lineDiv, termConsole.querySelector('.cursor-blink'));
-    // En alta kaydır
-    termConsole.scrollTop = termConsole.scrollHeight;
-    
-    i++;
-    // Rasgele gecikme süresi ile yazma efekti ver (hacker hissi)
-    setTimeout(nextLine, Math.random() * 800 + 400);
-  }
-  setTimeout(nextLine, 1000);
-}
-</script>
-
-<script>
-  // 🛡️ UZAY ÜSSÜ GÜVENLİÄİ: URL ÖNİZLEME GİZLEYİCİ
-  // SEO'yu zedelememek için href'leri sadece fare üzerine geldiğinde milisaniyelik siler, çıkınca geri koyar.
-  document.querySelectorAll('a').forEach(a => {
-    if (a.getAttribute('href') && !a.getAttribute('href').startsWith('#')) {
-      a.addEventListener('mouseenter', function() {
-        this.dataset.secureHref = this.href;
-        this.removeAttribute('href');
-        this.style.cursor = 'pointer';
-      });
-      a.addEventListener('mouseleave', function() {
-        if(this.dataset.secureHref) this.setAttribute('href', this.dataset.secureHref);
-      });
-      a.addEventListener('click', function(e) {
-        if(this.dataset.secureHref) {
-          e.preventDefault();
-          const targetUrl = this.dataset.secureHref;
-          
-          // Warp animasyonunu tetikle
-          document.getElementById('warp-overlay').classList.add('active');
-          
-          // Animasyon bitince (1.1sn) yönlendir
-          setTimeout(() => {
-            window.location.href = targetUrl;
-          }, 1100);
-        }
-      });
+    // Parlak haç efekti (Sadece büyük ve parlak yanan yıldızlar için)
+    if (s.r > 1.6 && tw > 0.82) {
+      ctx.globalAlpha = 0.35 * tw;
+      ctx.strokeStyle = s.col;
+      ctx.lineWidth = 0.6;
+      const len = s.r * 4.2;
+      ctx.beginPath();
+      ctx.moveTo(x - len, y); ctx.lineTo(x + len, y);
+      ctx.moveTo(x, y - len); ctx.lineTo(x, y + len);
+      ctx.stroke();
     }
   });
+  ctx.globalAlpha = 1;
+}
+
+function _drawNebulae(ctx, t) {
+  NEBULAE.forEach(n => {
+    ctx.save();
+    ctx.translate(n.x * W, n.y * H);
+    ctx.rotate(t * n.rot);
+    const g = ctx.createRadialGradient(0, 0, 0, 0, 0, n.r * Math.min(W, H));
+    g.addColorStop(0, n.c); g.addColorStop(1, 'transparent');
+    ctx.fillStyle = g;
+    ctx.scale(1.7, 1);
+    ctx.beginPath(); ctx.arc(0, 0, n.r * Math.min(W, H), 0, Math.PI * 2); ctx.fill();
+    ctx.restore();
+  });
+}
+
+
+/* ──────────────────────────────────────────────────────────────
+   § 5 — PARÇACIK MOTORU
+────────────────────────────────────────────────────────────── */
+
+/* ──────────────────────────────────────────────────────────────
+   § 5 — PARÇACIK MOTORU (DEVASA GAZ EFEKTİ İLE)
+────────────────────────────────────────────────────────────── */
+
+const PS = {
+  fire: [], smoke: [], sparks: [], steam: [], trail: [],
+
+  spawnFire(x, y, intensity = 1) {
+    const n = Math.ceil(11 * intensity);
+    for (let i = 0; i < n; i++) {
+      this.fire.push({
+        x: x + (Math.random() - 0.5) * 26 * intensity,
+        y: y + Math.random() * 14,
+        vx: (Math.random() - 0.5) * 5 * intensity,
+        vy: Math.random() * 11 + 8,
+        life: 1, size: Math.random() * 16 + 8,
+        hot: Math.random() > 0.35,
+        plasma: Math.random() > 0.7,
+      });
+    }
+  },
+
+  // EKRANI KAPLAYACAK DEVASA DUMAN/GAZ
+  spawnSmoke(x, y, d = 1) {
+    for (let i = 0; i < Math.ceil(4 * d); i++) {
+      this.smoke.push({
+        x: x + (Math.random() - 0.5) * 150, // Çok daha geniş alandan çıkıyor
+        y: y + (Math.random() - 0.5) * 50,
+        vx: (Math.random() - 0.5) * 15,     // Sağa sola hızlı yayılma
+        vy: Math.random() * 5 + 2,
+        life: 1, 
+        size: Math.random() * 150 + 100,    // DEVASA başlangıç boyutu (100-250px)
+        a: 0.15 + Math.random() * 0.1,      // Hafif saydam (üst üste binince koyulaşır)
+        g: Math.floor(Math.random() * 60 + 150), // Açık gri/beyazımsı yoğun gaz
+      });
+    }
+  },
+
+  spawnSteam(x, y) {
+    for (let i = 0; i < 4; i++) {
+      this.steam.push({
+        x: x + (Math.random() - 0.5) * 64,
+        y, vx: (Math.random() - 0.5) * 3.8,
+        vy: -(Math.random() * 4.5 + 2.5),
+        life: 1, size: Math.random() * 24 + 10,
+      });
+    }
+  },
+
+  spawnSparks(x, y, n = 5, pow = 1) {
+    for (let i = 0; i < n; i++) {
+      this.sparks.push({
+        x, y,
+        vx: (Math.random() - 0.5) * 14 * pow,
+        vy: (Math.random() - 1.9) * 8 * pow,
+        life: 1,
+        col: Math.random() > 0.5 ? '#ffea00' : Math.random() > 0.5 ? '#ff6600' : '#fff',
+        trail: [],
+      });
+    }
+  },
+
+  spawnTrail(x, y) {
+    this.trail.push({ x, y, life: 1, size: 13 + Math.random() * 9 });
+  },
+
+  update(dt = 1) {
+    this.fire.forEach(p => {
+      p.x += p.vx * dt; p.y += p.vy * dt;
+      p.life -= 0.08 * dt; 
+      p.size *= 0.95; 
+      p.vx *= 0.98;
+    });
+    
+    // DEVASA DUMAN GÜNCELLEMESİ (Ekranı kaplaması için kameraya geliyormuş gibi büyür)
+   // DUMAN GÜNCELLEMESİ (Devasa büyüme iptal, küçük ve kibar)
+    this.smoke.forEach(p => {
+      p.x += p.vx * dt; 
+      p.y -= p.vy * dt; 
+      p.life -= 0.02 * dt; // Daha hızlı kaybolur (Ekranı kirletmez)
+      p.size *= 1.01; // Büyüme oranını çok kıstık
+      p.vx *= 0.95; 
+    });
+
+    this.steam.forEach(p => {
+      p.x += p.vx * dt; p.y += p.vy * dt;
+      p.life -= 0.012 * dt; p.size *= 1.026; p.vx *= 0.97;
+    });
+    this.sparks.forEach(s => {
+      s.trail.push({ x: s.x, y: s.y });
+      if (s.trail.length > 9) s.trail.shift();
+      s.vy += 0.58 * dt; s.x += s.vx * dt; s.y += s.vy * dt;
+      s.life -= 0.032 * dt; s.vx *= 0.97;
+    });
+    this.trail.forEach(p => { p.life -= 0.026 * dt; p.size *= 0.968; });
+
+    this.fire   = this.fire.filter(p => p.life > 0 && p.size > 0.4);
+    this.smoke  = this.smoke.filter(p => p.life > 0); // Duman uzun yaşayacak
+    this.steam  = this.steam.filter(p => p.life > 0);
+    this.sparks = this.sparks.filter(s => s.life > 0);
+    this.trail  = this.trail.filter(p => p.life > 0);
+  },
+
+  draw(ctx) {
+    ctx.save();
+
+    // DEVASA GAZ/DUMAN ÇİZİMİ (Ekranı kaplayacak bulanık bulutlar)
+    ctx.globalCompositeOperation = 'source-over';
+    this.smoke.forEach(p => {
+      // Bulutlar büyüdükçe saydamlaşsın ama ekranı kaplasın
+      ctx.globalAlpha = Math.max(0, Math.min(1, p.life * p.a * 1.5)); 
+      
+      const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size);
+      g.addColorStop(0, `rgba(${p.g},${p.g + 10},${p.g + 20}, 0.8)`); // Mavimsi/Grimsi yoğun gaz merkezi
+      g.addColorStop(0.4, `rgba(${p.g - 30},${p.g - 30},${p.g - 20}, 0.5)`); // Orta yoğunluk
+      g.addColorStop(1, 'transparent'); // Kenarlara doğru yumuşak erime
+      
+      ctx.fillStyle = g;
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fill();
+    });
+
+    // Buhar
+    this.steam.forEach(p => {
+      ctx.globalAlpha = Math.max(0, p.life * 0.44);
+      const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size);
+      g.addColorStop(0, 'rgba(200,230,255,0.92)'); g.addColorStop(1, 'transparent');
+      ctx.fillStyle = g;
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fill();
+    });
+
+    // Ateş (additive)
+    ctx.globalCompositeOperation = 'lighter';
+    this.fire.forEach(p => {
+      ctx.globalAlpha = Math.max(0, p.life * 0.90);
+      const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size);
+      if (p.plasma) {
+        g.addColorStop(0, 'rgba(210,255,255,1)'); g.addColorStop(0.25, 'rgba(80,210,255,0.85)');
+        g.addColorStop(0.65, 'rgba(0,90,200,0.40)'); g.addColorStop(1, 'transparent');
+      } else if (p.hot) {
+        g.addColorStop(0, 'rgba(255,255,210,1)'); g.addColorStop(0.22, 'rgba(255,190,0,0.9)');
+        g.addColorStop(0.62, 'rgba(255,50,0,0.55)'); g.addColorStop(1, 'transparent');
+      } else {
+        g.addColorStop(0, 'rgba(255,170,40,0.95)'); g.addColorStop(0.38, 'rgba(255,50,0,0.70)');
+        g.addColorStop(1, 'transparent');
+      }
+      ctx.fillStyle = g;
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fill();
+    });
+
+    // Kıvılcım
+    this.sparks.forEach(s => {
+      if (s.trail.length > 1) {
+        ctx.globalAlpha = Math.max(0, s.life * 0.62);
+        ctx.strokeStyle = s.col; ctx.lineWidth = 1.2; ctx.lineCap = 'round';
+        ctx.beginPath(); ctx.moveTo(s.trail[0].x, s.trail[0].y);
+        s.trail.forEach(p2 => ctx.lineTo(p2.x, p2.y)); ctx.stroke();
+      }
+      ctx.globalAlpha = Math.max(0, s.life * 0.96);
+      const g2 = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, 3.5);
+      g2.addColorStop(0, 'white'); g2.addColorStop(1, s.col);
+      ctx.fillStyle = g2;
+      ctx.beginPath(); ctx.arc(s.x, s.y, 2.5, 0, Math.PI * 2); ctx.fill();
+    });
+
+    // Uzay izi
+    this.trail.forEach(p => {
+      ctx.globalAlpha = Math.max(0, p.life * 0.58);
+      const g3 = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size);
+      g3.addColorStop(0, 'rgba(80,200,255,0.85)'); g3.addColorStop(0.5, 'rgba(0,140,255,0.30)');
+      g3.addColorStop(1, 'transparent');
+      ctx.fillStyle = g3;
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fill();
+    });
+
+    ctx.globalAlpha = 1;
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.restore();
+  }
+};
+
+
+/* ──────────────────────────────────────────────────────────────
+   § 6 — LENS FLARE
+────────────────────────────────────────────────────────────── */
+
+function _lensFlare(ctx, x, y, alpha, col = [255, 220, 80]) {
+  if (alpha <= 0) return;
+  const [r, g, b] = col;
+  ctx.save();
+  ctx.globalCompositeOperation = 'screen';
+
+  const main = ctx.createRadialGradient(x, y, 0, x, y, 130);
+  main.addColorStop(0, `rgba(${r},${g},${b},${alpha * 0.92})`);
+  main.addColorStop(0.3, `rgba(${r},${g},${b},${alpha * 0.38})`);
+  main.addColorStop(1, 'transparent');
+  ctx.fillStyle = main;
+  ctx.beginPath(); ctx.arc(x, y, 130, 0, Math.PI * 2); ctx.fill();
+
+  const core = ctx.createRadialGradient(x, y, 0, x, y, 30);
+  core.addColorStop(0, `rgba(255,255,255,${alpha})`);
+  core.addColorStop(0.4, `rgba(${r},${g},${b},${alpha * 0.72})`);
+  core.addColorStop(1, 'transparent');
+  ctx.fillStyle = core;
+  ctx.beginPath(); ctx.arc(x, y, 30, 0, Math.PI * 2); ctx.fill();
+
+  const gx = W - x, gy = H - y;
+  for (let i = 0; i < 7; i++) {
+    const tp = i / 7;
+    const fx = x + (gx - x) * tp, fy = y + (gy - y) * tp;
+    const gr = 0.12 + Math.random() * 0.55;
+    const g2 = ctx.createRadialGradient(fx, fy, 0, fx, fy, 20 * gr);
+    g2.addColorStop(0, `rgba(170,200,255,${alpha * 0.38 * (1 - tp * 0.5)})`);
+    g2.addColorStop(1, 'transparent');
+    ctx.fillStyle = g2;
+    ctx.beginPath(); ctx.arc(fx, fy, 20 * gr, 0, Math.PI * 2); ctx.fill();
+  }
+
+  ctx.globalCompositeOperation = 'source-over';
+  ctx.restore();
+}
+
+
+/* ──────────────────────────────────────────────────────────────
+   § 7 — DÜNYA SAHNESİ
+────────────────────────────────────────────────────────────── */
+
+// Gökyüzü
+// Gökyüzü (Kamera kaydırması için scrollY parametresi eklendi)
+function _drawSky(darkening = 0, scrollY = 0) {
+  if (!ec) return;
+  const g = ec.createLinearGradient(0, 0, 0, H);
+  
+  const rT = _lerp(20, 4, darkening);
+  const gT = _lerp(96, 6, darkening);
+  const bT = _lerp(168, 22, darkening);
+
+  g.addColorStop(0, `rgb(${Math.floor(rT)}, ${Math.floor(gT)}, ${Math.floor(bT)})`);
+  g.addColorStop(0.5, darkening > 0.4 ? '#050a18' : '#1a2b4a');
+  g.addColorStop(1, darkening > 0.7 ? '#000000' : '#2e4372');
+  
+  ec.fillStyle = g;
+  ec.fillRect(0, 0, W, H);
+  
+  ec.save();
+  // Bulutlar ve güneş kamerayla birlikte aşağı kayar
+  ec.translate(0, scrollY * 0.25);
+  ec.globalAlpha = _clamp(1 - darkening * 1.5, 0, 1);
+  _drawSun(W * 0.72, H * 0.15, _gt()); // Yüzde hesabı ile kaydırma yapıldığı için darkening Y eksiğini sildik.
+  _drawClouds(_gt());
+  ec.globalAlpha = 1;
+  ec.restore();
+}
+
+// Güneş
+function _drawSun(x, y, t) {
+  const og = ec.createRadialGradient(x, y, 0, x, y, 190);
+  og.addColorStop(0, 'rgba(255,240,160,0.58)');
+  og.addColorStop(0.4, 'rgba(255,180,60,0.28)');
+  og.addColorStop(1, 'transparent');
+  ec.fillStyle = og; ec.beginPath(); ec.arc(x, y, 190, 0, Math.PI * 2); ec.fill();
+
+  const halo = ec.createRadialGradient(x, y, 28, x, y, 92);
+  halo.addColorStop(0, 'rgba(255,218,80,0.78)');
+  halo.addColorStop(1, 'transparent');
+  ec.fillStyle = halo; ec.beginPath(); ec.arc(x, y, 92, 0, Math.PI * 2); ec.fill();
+
+  ec.fillStyle = 'rgba(255,252,215,0.98)';
+  ec.beginPath(); ec.arc(x, y, 33, 0, Math.PI * 2); ec.fill();
+
+  ec.save(); ec.translate(x, y); ec.rotate(t * 0.11);
+  for (let i = 0; i < 18; i++) {
+    const a = (i / 18) * Math.PI * 2;
+    ec.strokeStyle = 'rgba(255,235,100,0.16)'; ec.lineWidth = 2;
+    ec.beginPath();
+    ec.moveTo(Math.cos(a) * 44, Math.sin(a) * 44);
+    ec.lineTo(Math.cos(a) * (70 + (i % 3) * 14), Math.sin(a) * (70 + (i % 3) * 14));
+    ec.stroke();
+  }
+  ec.restore();
+}
+
+// Bulutlar
+const _CLOUDS = [
+  { x:0.05, y:0.09, s:1.00, spd:0.0070 },
+  { x:0.32, y:0.063, s:0.78, spd:0.0052 },
+  { x:0.58, y:0.12, s:1.28, spd:0.0063 },
+  { x:0.80, y:0.088, s:0.88, spd:0.0046 },
+  { x:0.48, y:0.055, s:0.60, spd:0.0078 },
+];
+
+function _drawClouds(t) {
+  _CLOUDS.forEach(c => {
+    const cx = ((c.x * W + t * c.spd * W) % (W * 1.3)) - W * 0.15;
+    ec.globalAlpha = 0.88;
+    ec.fillStyle = 'rgba(255,255,255,0.88)';
+    const blobs = [{ox:0,oy:0,r:32},{ox:42,oy:-8,r:26},{ox:-38,oy:-5,r:22},{ox:72,oy:3,r:18},{ox:-66,oy:6,r:16},{ox:24,oy:-19,r:15}];
+    blobs.forEach(b => {
+      ec.beginPath(); ec.arc(cx + b.ox * c.s, c.y * H + b.oy * c.s, b.r * c.s, 0, Math.PI * 2); ec.fill();
+    });
+    ec.globalAlpha = 1;
+  });
+}
+
+// Arazi
+// Arazi (Düz Beton Tesis)
+function _drawTerrain(scrollY = 0) {
+  const baseY = H * 0.72;
+  ec.save(); ec.translate(0, scrollY * 0.30);
+  
+  // Ufuk çizgisi ve beton zemin
+  const hg = ec.createLinearGradient(0, baseY - 50, 0, baseY + 50);
+  hg.addColorStop(0, '#2a303c'); // Ufuk koyu gri
+  hg.addColorStop(1, '#1e2229'); // Temiz beton
+  ec.fillStyle = hg;
+  ec.fillRect(0, baseY - 10, W, H + 100);
+  
+  // Arkada ufak tesis silüetleri (Derinlik katsın diye çok belirsiz)
+  ec.fillStyle = 'rgba(255,255,255,0.02)';
+  ec.fillRect(W*0.1, baseY - 40, 120, 30);
+  ec.fillRect(W*0.7, baseY - 60, 80, 50);
+  ec.restore();
+}
+
+// Fırlatma Rampası (Sade, Kulesiz)
+// Fırlatma Rampası ve Çubuklu Kule
+function _drawPad(cx, gy) {
+  // Temiz, geniş beton platform
+  const pg = ec.createLinearGradient(cx - 200, 0, cx + 200, 0);
+  pg.addColorStop(0, '#15181e');
+  pg.addColorStop(0.5, '#3a414e');
+  pg.addColorStop(1, '#15181e');
+  
+  ec.fillStyle = pg;
+  ec.beginPath(); ec.ellipse(cx, gy, 220, 30, 0, 0, Math.PI * 2); ec.fill();
+  
+  // Üst katman
+  ec.fillStyle = '#2c323d';
+  ec.beginPath(); ec.ellipse(cx, gy - 8, 200, 25, 0, 0, Math.PI * 2); ec.fill();
+  
+  // Roket altı yanma ızgarası
+  ec.fillStyle = '#0a0c0f';
+  ec.beginPath(); ec.ellipse(cx, gy - 8, 40, 10, 0, 0, Math.PI * 2); ec.fill();
+
+  // --- YENİ FIRLATMA KULESİ (Roketin yanında) ---
+  const twX = cx + 80; // Kuleyi roketin hemen sağına koyduk
+  const twY = gy - 10;
+  const twH = 220; // Kule boyu
+
+  // Kule ana iskelet
+  ec.fillStyle = '#2a2e35';
+  ec.fillRect(twX, twY - twH, 18, twH);
+
+  // Kule tepesi ışığı (Sinyal)
+  const blink = (performance.now() / 1000) % 1 > 0.5;
+  ec.fillStyle = blink ? '#ff3b30' : '#4a1111';
+  ec.beginPath(); ec.arc(twX + 9, twY - twH, 6, 0, Math.PI*2); ec.fill();
+
+  // Roketi Tutan Destek Kolları (Çubuklar)
+  ec.fillStyle = '#3a414e';
+  // Üst kol
+  ec.fillRect(cx + 20, twY - twH + 40, twX - cx - 20, 10);
+  // Orta kol
+  ec.fillRect(cx + 20, twY - twH + 110, twX - cx - 20, 8);
+}
+
+
+// Estetik Kule Çizimi (En solda ve camlı seyir terasıyla)
+
+
+
+// Telepati Dronları (İnşaatçılar) Çizimi
+// Yardımcı Çizim: Among Us Karakteri
+
+
+// Crewmate (İnşaatçılar) Çizimi
+// Gerçekçi astronot işçi çizimi
+function _drawWorker(ctx, x, y, color, scale, facingRight, t) {
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.scale(facingRight ? scale : -scale, scale);
+
+  ctx.strokeStyle = color;
+  ctx.fillStyle = '#0a192f'; 
+  ctx.lineWidth = 1.2;
+
+  // Kask
+  ctx.beginPath(); ctx.ellipse(0, -12, 4, 5, 0, 0, Math.PI*2); ctx.fill(); ctx.stroke();
+  // Vizör (Cam)
+  ctx.fillStyle = '#bae6fd';
+  ctx.beginPath(); ctx.ellipse(1.5, -12.5, 2, 3, Math.PI/6, 0, Math.PI*2); ctx.fill();
+
+  // Gövde ve Bacaklar
+  ctx.beginPath(); ctx.moveTo(0, -7); ctx.lineTo(0, 3); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(0, 3); ctx.lineTo(-3, 10); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(0, 3); ctx.lineTo(3, 10); ctx.stroke();
+
+  // Kollar (Çalışma hareketi)
+  const armSwing = Math.sin(t * 15) * 3;
+  ctx.beginPath();
+  ctx.moveTo(0, -4); ctx.lineTo(4, -1 + armSwing); ctx.lineTo(8, -2 + armSwing * 1.5);
+  ctx.moveTo(0, -4); ctx.lineTo(5, 1 - armSwing); ctx.lineTo(9, -1 - armSwing * 1.5);
+  ctx.stroke();
+
+  ctx.restore();
+}
+
+// Yardımcı Çizim: Astronot İşçi Çöp Adam
+function _drawWorker(ctx, x, y, color, scale, facingRight, t) {
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.scale(facingRight ? scale : -scale, scale);
+
+  // Gölge/Silüet tarzı astronot
+  ctx.strokeStyle = color;
+  ctx.fillStyle = '#0a192f'; // Koyu tulum
+  ctx.lineWidth = 1.5;
+
+  // Kask (Oval)
+  ctx.beginPath();
+  ctx.ellipse(0, -12, 4, 5, 0, 0, Math.PI*2);
+  ctx.fill();
+  ctx.stroke();
+
+  // Kask Camı
+  ctx.fillStyle = '#bae6fd';
+  ctx.beginPath();
+  ctx.ellipse(1.5, -12.5, 2, 3, Math.PI/6, 0, Math.PI*2);
+  ctx.fill();
+
+  // Gövde
+  ctx.beginPath();
+  ctx.moveTo(0, -7);
+  ctx.lineTo(0, 3);
+  ctx.stroke();
+
+  // Bacaklar
+  ctx.beginPath();
+  ctx.moveTo(0, 3);
+  ctx.lineTo(-3, 10);
+  ctx.moveTo(0, 3);
+  ctx.lineTo(3, 10);
+  ctx.stroke();
+
+  // Çalışan Kollar (Zamana göre yukarı aşağı hareketli)
+  const armSwing = Math.sin(t * 15) * 3;
+  ctx.beginPath();
+  // Arka kol
+  ctx.moveTo(0, -4);
+  ctx.lineTo(4, -1 + armSwing);
+  ctx.lineTo(8, -2 + armSwing * 1.5); // El
+  // Ön kol
+  ctx.moveTo(0, -4);
+  ctx.lineTo(5, 1 - armSwing);
+  ctx.lineTo(9, -1 - armSwing * 1.5); // El
+  ctx.stroke();
+
+  ctx.restore();
+}
+
+// Astronot İşçilerin Davranışı
+
+
+
+/* ──────────────────────────────────────────────────────────────
+   § 8 — ROKET ÇİZİMLERİ
+────────────────────────────────────────────────────────────── */
+
+// İnşaat aşaması roketi
+function _drawBuildRocket(cx, cy, p) {
+  p = Math.min(p, 1);
+  ec.save(); ec.translate(cx, cy);
+  ec.scale(1.3, 1.3); // BURAYA SCALE EKLEDİK: Roket normalin %30'u kadar daha iri çizilecek
+  
+  const bh = 90 * p;
+
+  // Kanatlar
+// Kanatlar
+  if (p > 0.55) {
+    const fp = _easeOut((p - 0.55) / 0.26);
+    _drawFin(ec, -14, 0, -38, 34*fp, -14, 26*fp, false);
+    _drawFin(ec, 14, 0, 38, 34*fp, 14, 26*fp, false); // <-- BURASI false OLDU
+    if (p > 0.78) {
+      const fp2 = _easeOut((p - 0.78) / 0.22);
+      _drawFin(ec, -14, 12, -30, 24*fp2, -14, 18*fp2, false, 'rgba(175,30,30,0.8)');
+      _drawFin(ec, 14, 12, 30, 24*fp2, 14, 18*fp2, false, 'rgba(175,30,30,0.8)'); // <-- BURASI false OLDU
+    }
+  }
+
+  // Gövde
+  const bg = ec.createLinearGradient(-14, 0, 14, 0);
+  bg.addColorStop(0, '#060e1c'); bg.addColorStop(0.16, '#3a4e66');
+  bg.addColorStop(0.44, '#d0dce8'); bg.addColorStop(0.74, '#2e3f55'); bg.addColorStop(1, '#020912');
+  ec.fillStyle = bg; ec.fillRect(-14, -bh, 28, bh);
+
+  // Şeritler
+  if (p > 0.24) {
+    const sa = Math.min((p - 0.24) / 0.16, 1);
+    ec.fillStyle = `rgba(220,40,40,${sa * 0.9})`; ec.fillRect(-14, -bh*0.30, 28, 5);
+    ec.fillStyle = `rgba(0,229,255,${sa * 0.55})`; ec.fillRect(-14, -bh*0.52, 28, 2.5);
+    ec.fillStyle = `rgba(0,229,255,${sa * 0.30})`; ec.fillRect(-14, -bh*0.75, 28, 1.5);
+  }
+
+  // Yazı
+  if (p > 0.48) {
+    const fa = _easeOut((p - 0.48) / 0.26);
+    ec.globalAlpha = fa;
+    ec.fillStyle = '#f1f5f9';
+    ec.font = `800 ${Math.floor(9 * p)}px 'Syne', sans-serif`;
+    ec.textAlign = 'center';
+    ec.fillText('VEFA', 0, -bh * 0.44 + 4);
+    ec.font = `500 ${Math.floor(5.5 * p)}px 'DM Mono', monospace`;
+    ec.fillStyle = 'rgba(220,40,40,0.88)';
+    ec.fillText('AEROSPACE', 0, -bh * 0.44 + 14);
+    ec.globalAlpha = 1;
+  }
+
+  // Pencere
+  if (p > 0.38) {
+    const wp = _easeOut((p - 0.38) / 0.28);
+    const wy = -bh * 0.65;
+    const wg = ec.createRadialGradient(0, wy, 0, 0, wy, 9 * wp);
+    wg.addColorStop(0, `rgba(175,245,255,${0.96*wp})`);
+    wg.addColorStop(0.5, `rgba(0,155,230,${0.72*wp})`);
+    wg.addColorStop(1, 'transparent');
+    ec.fillStyle = wg; ec.beginPath(); ec.arc(0, wy, 9*wp, 0, Math.PI*2); ec.fill();
+    ec.strokeStyle = `rgba(255,255,255,${0.62*wp})`; ec.lineWidth = 1.5; ec.stroke();
+    ec.fillStyle = `rgba(255,255,255,${0.38*wp})`;
+    ec.beginPath(); ec.arc(-2.5*wp, wy-2.5*wp, 2.8*wp, 0, Math.PI*2); ec.fill();
+  }
+
+  // Burun
+  if (p > 0.66) {
+    const np = _easeOut((p - 0.66) / 0.32);
+    const nh = 34 * np;
+    const ng = ec.createLinearGradient(-13*np, 0, 13*np, 0);
+    ng.addColorStop(0, '#7f1d1d'); ng.addColorStop(0.5, '#f87171'); ng.addColorStop(1, '#7f1d1d');
+    ec.fillStyle = ng;
+    ec.beginPath(); ec.moveTo(-13*np, -bh); ec.lineTo(0, -bh-nh); ec.lineTo(13*np, -bh); ec.closePath(); ec.fill();
+  }
+
+  // Motor
+  const mg = ec.createLinearGradient(-12, 0, 12, 0);
+  mg.addColorStop(0, '#0a0f1a'); mg.addColorStop(0.5, '#1e293b'); mg.addColorStop(1, '#0a0f1a');
+  ec.fillStyle = mg;
+  ec.beginPath(); ec.moveTo(-12, 0); ec.lineTo(12, 0); ec.lineTo(9, 15); ec.lineTo(-9, 15); ec.closePath(); ec.fill();
+  ec.strokeStyle = 'rgba(0,229,255,0.22)'; ec.lineWidth = 1; ec.stroke();
+
+  ec.restore();
+}
+
+function _drawFin(ctx, x1, y1, x2, y2, x3, y3, mirror, col = '#dc2626') {
+  if (mirror) { x1=-x1; x2=-x2; x3=-x3; }
+  ctx.fillStyle = col;
+  ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.lineTo(x3,y3); ctx.closePath(); ctx.fill();
+}
+
+// HUD (inşaat yüzde çubuğu)
+function _drawBuildHUD(pct) {
+  const bW = Math.min(268, W * 0.66);
+  const bH = 13;
+  const bx = W/2 - bW/2;
+  const by = H * 0.72 - 130;
+
+  ec.save();
+  ec.fillStyle = 'rgba(3,6,14,0.72)';
+  _rr(ec, bx-18, by-38, bW+36, bH+50, 12); ec.fill();
+  ec.strokeStyle = 'rgba(0,229,255,0.20)'; ec.lineWidth = 1; ec.stroke();
+
+  ec.fillStyle = 'rgba(0,229,255,0.72)';
+  ec.font = `500 10px 'DM Mono', monospace`;
+  ec.textAlign = 'left';
+  ec.fillText('ROKET İNŞAAT SİSTEMİ', bx, by - 18);
+
+  ec.fillStyle = 'rgba(255,255,255,0.90)';
+  ec.font = `800 11px 'DM Mono', monospace`;
+  ec.textAlign = 'right';
+  ec.fillText(`${Math.floor(pct * 100).toString().padStart(3)}%`, bx + bW, by - 18);
+
+  ec.fillStyle = 'rgba(0,18,38,0.88)';
+  _rr(ec, bx, by, bW, bH, 7); ec.fill();
+
+  if (pct > 0) {
+    const barG = ec.createLinearGradient(bx, 0, bx + bW*pct, 0);
+    barG.addColorStop(0, '#10b981'); barG.addColorStop(0.5, '#00e5ff'); barG.addColorStop(1, '#3b82f6');
+    ec.fillStyle = barG;
+    _rr(ec, bx, by, Math.max(7, bW*pct), bH, 7); ec.fill();
+    ec.fillStyle = 'rgba(255,255,255,0.32)';
+    _rr(ec, bx, by, Math.max(7, bW*pct), bH*0.44, 7); ec.fill();
+  }
+
+  ec.strokeStyle = 'rgba(0,6,12,0.38)'; ec.lineWidth = 1;
+  for (let i = 1; i < 10; i++) {
+    const lx = bx + (bW/10)*i;
+    ec.beginPath(); ec.moveTo(lx, by); ec.lineTo(lx, by+bH); ec.stroke();
+  }
+
+  ec.restore();
+}
+
+// Uzay roketi
+function _drawSpaceRocket(ctx, cx, cy, angle, scale, t) {
+  ctx.save();
+  ctx.translate(cx, cy); ctx.rotate(angle); ctx.scale(scale, scale);
+
+  const HB = 110;
+
+  // Motor ışığı
+  const eg = ctx.createRadialGradient(0, 24, 0, 0, 24, 30);
+  eg.addColorStop(0, 'rgba(255,170,60,0.94)'); eg.addColorStop(0.4, 'rgba(255,70,0,0.58)'); eg.addColorStop(1, 'transparent');
+  ctx.fillStyle = eg; ctx.beginPath(); ctx.arc(0, 24, 30, 0, Math.PI*2); ctx.fill();
+
+  // Alev
+  const fl = 44 + Math.sin(t * 18) * 16;
+  const fg = ctx.createLinearGradient(0, 16, 0, 16+fl);
+  fg.addColorStop(0, 'rgba(255,255,255,0.96)'); fg.addColorStop(0.2, 'rgba(255,185,0,0.88)');
+  fg.addColorStop(0.62, 'rgba(255,45,0,0.52)'); fg.addColorStop(1, 'transparent');
+  ctx.fillStyle = fg;
+  ctx.beginPath(); ctx.moveTo(-10, 16); ctx.lineTo(10, 16);
+  ctx.bezierCurveTo(14, 16+fl*0.4, 14, 16+fl*0.8, 0, 16+fl);
+  ctx.bezierCurveTo(-14, 16+fl*0.8, -14, 16+fl*0.4, -10, 16);
+  ctx.fill();
+
+  // Kanatlar
+  ctx.fillStyle = '#b91c1c';
+  ctx.beginPath(); ctx.moveTo(-18,0); ctx.lineTo(-44,40); ctx.lineTo(-18,32); ctx.closePath(); ctx.fill();
+  ctx.beginPath(); ctx.moveTo( 18,0); ctx.lineTo( 44,40); ctx.lineTo( 18,32); ctx.closePath(); ctx.fill();
+  ctx.strokeStyle = 'rgba(255,100,100,0.30)'; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.moveTo(-18, 9); ctx.lineTo(-38, 34); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo( 18, 9); ctx.lineTo( 38, 34); ctx.stroke();
+
+  // Gövde
+  const bg = ctx.createLinearGradient(-18, -HB, 18, -HB);
+  bg.addColorStop(0, '#050d1a'); bg.addColorStop(0.20, '#2a3e58');
+  bg.addColorStop(0.46, '#8aacc8'); bg.addColorStop(0.76, '#2a3e58'); bg.addColorStop(1, '#050d1a');
+  ctx.fillStyle = bg; ctx.fillRect(-18, -HB, 36, HB);
+
+  ctx.fillStyle = 'rgba(220,40,40,0.94)'; ctx.fillRect(-18, -37, 36, 6);
+  ctx.fillStyle = 'rgba(0,229,255,0.62)'; ctx.fillRect(-18, -60, 36, 3);
+  ctx.fillStyle = 'rgba(0,229,255,0.30)'; ctx.fillRect(-18, -86, 36, 1.5);
+
+  // Yazı
+  ctx.fillStyle = 'rgba(241,245,249,0.96)';
+  ctx.font = '800 13px "Syne", sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText('VEFA', 0, -HB*0.76);
+  ctx.font = '500 8px "DM Mono", monospace';
+  ctx.fillStyle = 'rgba(220,40,40,0.9)';
+  ctx.fillText('AEROSPACE', 0, -HB*0.65);
+
+  // Pencere
+  const wg = ctx.createRadialGradient(0, -HB*0.50, 0, 0, -HB*0.50, 13);
+  wg.addColorStop(0, 'rgba(175,245,255,0.96)'); wg.addColorStop(0.45, 'rgba(0,165,230,0.82)');
+  wg.addColorStop(1, 'rgba(0,80,150,0.42)');
+  ctx.fillStyle = wg; ctx.beginPath(); ctx.arc(0, -HB*0.50, 13, 0, Math.PI*2); ctx.fill();
+  ctx.strokeStyle = 'rgba(255,255,255,0.55)'; ctx.lineWidth = 2.5; ctx.stroke();
+  ctx.fillStyle = 'rgba(255,255,255,0.42)';
+  ctx.beginPath(); ctx.arc(-3, -HB*0.50-3, 3.8, 0, Math.PI*2); ctx.fill();
+
+  // Burun
+  const ng = ctx.createLinearGradient(-16, -HB, 16, -HB);
+  ng.addColorStop(0, '#7f1d1d'); ng.addColorStop(0.5, '#f87171'); ng.addColorStop(1, '#7f1d1d');
+  ctx.fillStyle = ng;
+  ctx.beginPath(); ctx.moveTo(-16, -HB); ctx.lineTo(0, -HB-48); ctx.lineTo(16, -HB); ctx.closePath(); ctx.fill();
+
+  ctx.restore();
+}
+
+
+/* ──────────────────────────────────────────────────────────────
+   § 9 — UZAY SAHNESİ
+────────────────────────────────────────────────────────────── */
+
+function _drawSpaceBG(t) {
+  if (!sc) return;
+  sc.clearRect(0, 0, W, H);
+  const g = sc.createLinearGradient(0, 0, 0, H);
+  g.addColorStop(0, '#000306'); g.addColorStop(0.55, '#020810'); g.addColorStop(1, '#041020');
+  sc.fillStyle = g; sc.fillRect(0, 0, W, H);
+  _drawNebulae(sc, t);
+  _drawStars(sc, t, 1.2);
+}
+
+function _drawEarthFromSpace(cx, cy, t) {
+  if (!sc) return;
+  const r = Math.min(W, H) * 0.54;
+  sc.save(); sc.translate(cx, cy);
+
+  for (let i = 3; i >= 1; i--) {
+    const ag = sc.createRadialGradient(0, 0, r*0.90, 0, 0, r*(1+i*0.06));
+    ag.addColorStop(0, `rgba(55,135,255,${0.10/i})`);
+    ag.addColorStop(0.5, `rgba(25,95,255,${0.055/i})`);
+    ag.addColorStop(1, 'transparent');
+    sc.fillStyle = ag; sc.beginPath(); sc.arc(0,0,r*(1+i*0.06),0,Math.PI*2); sc.fill();
+  }
+
+  const og = sc.createRadialGradient(-r*0.18,-r*0.10,0,0,0,r);
+  og.addColorStop(0,'#1a70cc'); og.addColorStop(0.55,'#0e4a98'); og.addColorStop(1,'#062255');
+  sc.fillStyle = og; sc.beginPath(); sc.arc(0,0,r,0,Math.PI*2); sc.fill();
+
+  sc.rotate(t * 0.009);
+  sc.fillStyle = '#2d7a2d';
+  [{x:-0.28,y:-0.28,rx:0.37,ry:0.28,a:0.4},{x:0.22,y:-0.14,rx:0.28,ry:0.39,a:0.5},
+   {x:-0.06,y:0.12,rx:0.20,ry:0.25,a:0.3},{x:0.38,y:0.28,rx:0.14,ry:0.17,a:0.4}]
+  .forEach(c => {
+    sc.fillStyle = '#317a31';
+    sc.beginPath(); sc.ellipse(c.x*r,c.y*r,c.rx*r,c.ry*r,c.a,0,Math.PI*2); sc.fill();
+  });
+
+  sc.fillStyle = 'rgba(230,244,255,0.92)'; sc.beginPath(); sc.arc(0,-r*0.89,r*0.22,0,Math.PI*2); sc.fill();
+  sc.fillStyle = 'rgba(215,235,255,0.76)'; sc.beginPath(); sc.arc(0,r*0.90,r*0.13,0,Math.PI*2); sc.fill();
+
+  sc.fillStyle = 'rgba(255,255,255,0.18)';
+  [{x:0,y:0},{x:-0.28,y:0.18},{x:0.32,y:0.12}].forEach(c => {
+    sc.beginPath(); sc.ellipse(c.x*r,c.y*r,r*0.36,r*0.065,0.35,0,Math.PI*2); sc.fill();
+  });
+
+  const spec = sc.createRadialGradient(-r*0.28,-r*0.28,0,-r*0.28,-r*0.28,r*0.72);
+  spec.addColorStop(0,'rgba(255,255,255,0.14)'); spec.addColorStop(1,'transparent');
+  sc.fillStyle = spec; sc.beginPath(); sc.arc(0,0,r,0,Math.PI*2); sc.fill();
+
+  sc.save(); sc.globalCompositeOperation = 'destination-in';
+  sc.beginPath(); sc.arc(0,0,r,0,Math.PI*2); sc.fill(); sc.restore();
+  sc.restore();
+}
+
+function _drawMoon(t) {
+  if (!sc) return;
+  const mx = W*0.84+Math.sin(t*0.04)*6, my = H*0.14+Math.cos(t*0.03)*4, mr = 52;
+  sc.save(); sc.translate(mx, my);
+
+  const halo = sc.createRadialGradient(0,0,mr,0,0,mr*2.2);
+  halo.addColorStop(0,'rgba(200,220,255,0.07)'); halo.addColorStop(1,'transparent');
+  sc.fillStyle = halo; sc.beginPath(); sc.arc(0,0,mr*2.2,0,Math.PI*2); sc.fill();
+
+  const mg = sc.createRadialGradient(-mr*0.25,-mr*0.2,0,0,0,mr);
+  mg.addColorStop(0,'#dee6ef'); mg.addColorStop(0.7,'#b0bec8'); mg.addColorStop(1,'#7a8a98');
+  sc.fillStyle = mg; sc.beginPath(); sc.arc(0,0,mr,0,Math.PI*2); sc.fill();
+
+  [{x:14,y:-10,r:10},{x:-18,y:12,r:7},{x:5,y:20,r:5},{x:-8,y:-20,r:6}].forEach(c => {
+    sc.fillStyle = 'rgba(0,0,0,0.10)'; sc.beginPath(); sc.arc(c.x,c.y,c.r,0,Math.PI*2); sc.fill();
+    sc.strokeStyle = 'rgba(255,255,255,0.06)'; sc.lineWidth = 1;
+    sc.beginPath(); sc.arc(c.x-1,c.y-1,c.r*0.7,0,Math.PI*2); sc.stroke();
+  });
+
+  const shadow = sc.createRadialGradient(mr*0.4,0,mr*0.5,mr*0.4,0,mr*1.2);
+  shadow.addColorStop(0,'transparent'); shadow.addColorStop(0.7,'rgba(0,0,20,0.22)');
+  shadow.addColorStop(1,'rgba(0,0,20,0.55)');
+  sc.fillStyle = shadow; sc.beginPath(); sc.arc(0,0,mr,0,Math.PI*2); sc.fill();
+
+  sc.restore();
+}
+
+/**
+ * SATÜRN ÇİZİMİ — GERÇEKÇİ HALKALAR VE IŞIKLANDIRMA
+ * @param {CanvasRenderingContext2D} ctx 
+ * @param {number} cx Merkez X
+ * @param {number} cy Merkez Y
+ * @param {number} r Gezegen yarıçapı
+ * @param {number} t Zaman
+ */
+function _drawSaturn(ctx, cx, cy, r, t) {
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.rotate(-0.15); // Eksen eğikliği
+
+    // --- 1. Arka Halkalar (Gezegenin arkasında kalan kısım) ---
+    _drawSaturnRings(ctx, r, true);
+
+    // --- 2. Saturn Gövdesi (Gas Giant) ---
+    ctx.save();
+    // Gezegenin temel gradyanı (Katmanlı gaz yapısı)
+    const bodyG = ctx.createLinearGradient(0, -r, 0, r);
+    bodyG.addColorStop(0, '#4b3d2b'); // Koyu kutup
+    bodyG.addColorStop(0.25, '#c5ab6e'); 
+    bodyG.addColorStop(0.35, '#d3bc8d'); // Açık kuşak
+    bodyG.addColorStop(0.5, '#c5ab6e');
+    bodyG.addColorStop(0.65, '#e2d19e'); // Parlak orta kuşak
+    bodyG.addColorStop(0.8, '#c5ab6e');
+    bodyG.addColorStop(1, '#4b3d2b');
+
+    // Küresel form (Clipping ile)
+    ctx.beginPath(); ctx.arc(0, 0, r, 0, Math.PI * 2);
+    ctx.fillStyle = bodyG; ctx.fill();
+
+    // Atmosferik Işıklandırma (Gölge ve Vurgu)
+    // Güneş sol üstten geliyormuş gibi (Lens flare pozisyonuna uygun)
+    const lightG = ctx.createRadialGradient(-r*0.4, -r*0.4, 0, 0, 0, r*1.2);
+    lightG.addColorStop(0, 'rgba(255,255,240,0.2)'); // Tepe ışığı
+    lightG.addColorStop(0.7, 'rgba(0,0,0,0)');
+    lightG.addColorStop(1, 'rgba(0,0,0,0.6)'); // Koyu taraf
+    ctx.fillStyle = lightG; ctx.fill();
+
+    // Atmosferik parıltı (Rim Light)
+    ctx.strokeStyle = 'rgba(211,188,141,0.25)';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    ctx.restore();
+
+    // --- 3. Gezegenin Halkalar Üzerine Gölgesi ---
+    // (Gezegenin sağ tarafının halkaları gölgelemesi)
+    ctx.save();
+    ctx.rotate(0.2);
+    const shadowG = ctx.createLinearGradient(r*0.8, 0, r*1.8, 0);
+    shadowG.addColorStop(0, 'rgba(0,0,0,0.7)');
+    shadowG.addColorStop(0.5, 'rgba(0,0,0,0.4)');
+    shadowG.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = shadowG;
+    // Sadece sağ taraftaki halka bölgesine gölge yapıyoruz
+    ctx.beginPath();
+    ctx.ellipse(0, 0, r * 2.8, r * 0.7, 0, -Math.PI*0.2, Math.PI*0.2);
+    ctx.fill();
+    ctx.restore();
+
+    // --- 4. Ön Halkalar (Gezegenin önünde kalan kısım) ---
+    _drawSaturnRings(ctx, r, false);
+
+    // --- 5. Uydular (İsteğe bağlı hareketli noktalar) ---
+    const moons = [
+        { d: r*3.2, s: 0.15, sz: 2.5, ph: 0, col: '#f1f5f9' },
+        { d: r*4.5, s: 0.08, sz: 1.8, ph: 2, col: '#cbd5e1' },
+        { d: r*5.8, s: 0.04, sz: 3.2, ph: 4, col: '#e2e8f0' } // Titan?
+    ];
+    moons.forEach(m => {
+        const mx = Math.cos(t * m.s + m.ph) * m.d;
+        const my = Math.sin(t * m.s + m.ph) * (m.d * 0.2); // Eliptik yörünge görünümü
+        ctx.fillStyle = m.col;
+        ctx.shadowBlur = 4; ctx.shadowColor = m.col;
+        ctx.beginPath(); ctx.arc(mx, my, m.sz, 0, Math.PI*2); ctx.fill();
+        ctx.shadowBlur = 0;
+    });
+
+    ctx.restore();
+}
+
+/**
+ * SATÜRN HALKALARINI ÇİZER
+ * @param {CanvasRenderingContext2D} ctx 
+ * @param {number} r Gezegen yarıçapı
+ * @param {boolean} back Arka taraf mı çiziliyor?
+ */
+function _drawSaturnRings(ctx, r, back) {
+    const startAngle = back ? Math.PI : 0;
+    const endAngle = back ? 0 : Math.PI;
+
+    // Halka segmentleri (İçten dışa)
+    const ringSegments = [
+        { in: r * 1.15, out: r * 1.50, col: 'rgba(197,171,110,0.3)', step: 0.05 }, // İç saydam
+        { in: r * 1.52, out: r * 2.10, col: 'rgba(211,188,141,0.7)', step: 0.02 }, // Ana halka
+        { in: r * 2.15, out: r * 2.40, col: 'rgba(165,145,95,0.4)',  step: 0.03 }  // Dış halka
+    ];
+
+    ringSegments.forEach(seg => {
+        // Gradyan halka dokusu (Merkezden dışa)
+        const g = ctx.createRadialGradient(0, 0, seg.in, 0, 0, seg.out);
+        g.addColorStop(0, 'transparent');
+        g.addColorStop(0.1, seg.col);
+        g.addColorStop(0.5, 'rgba(255,255,250,0.8)'); // Işık parlaması
+        g.addColorStop(0.9, seg.col);
+        g.addColorStop(1, 'transparent');
+        
+        ctx.strokeStyle = g;
+        // Çok sayıda ince çizgi ile "plak" dokusu yaratıyoruz
+        for (let i = seg.in; i < seg.out; i += 1.5) {
+            ctx.lineWidth = 1.2;
+            ctx.beginPath();
+            ctx.ellipse(0, 0, i, i * 0.28, 0, startAngle, endAngle);
+            ctx.stroke();
+        }
+    });
+
+    // Cassini Bölümü (Halkalar arasındaki boşluk) — daha koyu bir hat ile
+    ctx.strokeStyle = 'rgba(0,0,0,0.4)';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.ellipse(0, 0, r * 2.12, r * 2.12 * 0.28, 0, startAngle, endAngle);
+    ctx.stroke();
+}
+
+// Meteorlar
+const METEORS = []; let _lastMeteor = 0;
+function _updateMeteors(ctx, t) {
+  if (t - _lastMeteor > 2.6 + Math.random() * 3.8) {
+    _lastMeteor = t;
+    METEORS.push({ x:Math.random()*W*1.2-W*0.1, y:-20, vx:Math.random()*5+3, vy:Math.random()*8+5, len:Math.random()*85+40, life:1, w:Math.random()*1.5+0.4 });
+  }
+  for (let i = METEORS.length - 1; i >= 0; i--) {
+    const m = METEORS[i];
+    m.x += m.vx; m.y += m.vy; m.life -= 0.018;
+    if (m.life <= 0 || m.x > W+100 || m.y > H+100) { METEORS.splice(i,1); continue; }
+    ctx.save(); ctx.globalAlpha = m.life * 0.76;
+    const mg = ctx.createLinearGradient(m.x,m.y,m.x-m.vx*m.len/10,m.y-m.vy*m.len/10);
+    mg.addColorStop(0,'rgba(255,255,255,1)'); mg.addColorStop(0.4,'rgba(180,200,255,0.6)'); mg.addColorStop(1,'transparent');
+    ctx.strokeStyle = mg; ctx.lineWidth = m.w; ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(m.x,m.y); ctx.lineTo(m.x-m.vx*m.len/10,m.y-m.vy*m.len/10); ctx.stroke();
+    ctx.restore();
+  }
+}
+
+
+/* ──────────────────────────────────────────────────────────────
+   § 10 — GERİ SAYIM OVERLAY
+────────────────────────────────────────────────────────────── */
+
+function _drawCountdown(num) {
+  if (!ec) return;
+  const cx = W/2;
+  const cy = H/2 - 130; // BURASI DEĞİŞTİ: Roketin 130 piksel üstüne taşıdık
+  
+  ec.save();
+  
+  // Arka plan kutusu
+  ec.fillStyle = 'rgba(0,0,0,0.68)';
+  // Kutuyu merkeze aldık (Genişlik: 180, Yükseklik: 110)
+  _rr(ec, cx - 90, cy - 55, 180, 110, 16); 
+  ec.fill();
+  
+  ec.strokeStyle = num <= 3 ? 'rgba(255,59,48,0.65)' : 'rgba(0,229,255,0.38)';
+  ec.lineWidth = 1.5; 
+  ec.stroke();
+
+  ec.textAlign = 'center'; 
+  ec.textBaseline = 'middle';
+  
+  if (num > 0) {
+    ec.fillStyle = num <= 3 ? '#ff3b30' : '#ffffff';
+    ec.font = `800 64px 'Syne', sans-serif`; // Sayıyı 82'den 64'e küçülttük
+    ec.fillText(num, cx, cy - 8); // Sayıyı kutunun ortasına çektik
+    
+    ec.font = `500 10px 'DM Mono', monospace`;
+    ec.fillStyle = 'rgba(255,255,255,0.40)';
+    ec.fillText('GERİ SAYIM', cx, cy + 32); // Yazıyı taşmasın diye yukarı (kutunun içine) aldık
+  } else {
+    ec.fillStyle = '#ff3b30';
+    ec.font = `800 42px 'Syne', sans-serif`; // ATEŞ yazısını da uyumlu yaptık
+    ec.fillText('ATEŞ!', cx, cy); // Tam ortaya sabitledik
+  }
+  
+  ec.textBaseline = 'alphabetic';
+  ec.restore();
+}
+
+
+/* ──────────────────────────────────────────────────────────────
+   § 11 — ANİMASYON DÖNGÜSÜ
+────────────────────────────────────────────────────────────── */
+
+let _raf, _lastNow = 0;
+
+function _loop(now) {
+  _raf = requestAnimationFrame(_loop);
+  const dt = Math.min((now - _lastNow) / 16.67, 3);
+  _lastNow = now;
+
+  const t  = _gt();
+  const pt = _pt();
+
+  const rb = { x: W*0.5, y: H*0.72 };
+
+  _updateMX();
+
+  /* ── EARTH_BUILD ── */
+/* ── EARTH_BUILD (BEKLEME/HAZIRLIK AŞAMASI) ── */
+/* ── EARTH_BUILD (BEKLEME/HAZIRLIK AŞAMASI) ── */
+  if (S.phase === PH.EARTH_BUILD) {
+    S.buildPct = 1; // Roket zaten yapılmış, hazır bekliyor
+    
+    if (ec) {
+      ec.clearRect(0, 0, W, H);
+      // Roketi %40 daha büyük göstermek için zoom'u artırdık
+      const zoom = 1.4; 
+      ec.save(); ec.translate(W/2,H*0.72); ec.scale(zoom,zoom); ec.translate(-W/2,-H*0.72);
+      
+      _drawSky(0);
+      _drawTerrain(0);
+      _drawPad(rb.x, rb.y);
+      
+      // Roketi çiziyoruz (Artık p=1 yani tam çiziliyor)
+      _drawBuildRocket(rb.x, rb.y - 34, 1);
+      
+      PS.update(dt); 
+      PS.draw(ec);
+      _vignette(ec, 0.45);
+      ec.restore();
+      
+      // İNŞAAT ÇUBUĞU (HUD) BURADAN SİLİNDİ!
+    }
+
+    // ARTIK SÜREYE GÖRE DEĞİL, BUTONA BASILMASINA GÖRE GERİ SAYIMA GEÇİYORUZ
+    if (S.isReadyToLaunch) {
+      _setPhase(PH.COUNTDOWN);
+    }
+  }
+
+  /* ── COUNTDOWN ── */
+ /* ── COUNTDOWN ── */
+ /* ── COUNTDOWN ── */
+  else if (S.phase === PH.COUNTDOWN) {
+    S.countdownN = Math.max(0, 10 - Math.floor(pt));
+
+    if (ec) {
+      ec.clearRect(0, 0, W, H);
+      const zoom = 1.4; // Roket burada da büyük görünsün
+      ec.save(); ec.translate(W/2,H*0.72); ec.scale(zoom,zoom); ec.translate(-W/2,-H*0.72);
+      
+      _drawSky(0);
+      _drawTerrain(0);
+      _drawPad(rb.x, rb.y);
+      _drawBuildRocket(rb.x, rb.y - 34, 1);
+
+      // Sarsıntı efekti 
+      if (S.countdownN <= 3) {
+        const sh = (4 - S.countdownN) * 1.0 * (Math.random() - 0.5);
+        ec.translate(sh, sh * 0.5);
+      }
+
+      // Parlama (Glow) Efekti
+      if (S.countdownN <= 5) {
+        const gp = (5 - S.countdownN) / 5;
+        ec.save(); 
+        ec.globalCompositeOperation = 'screen';
+        const eg = ec.createRadialGradient(rb.x, rb.y, 0, rb.x, rb.y, 185 * gp);
+        eg.addColorStop(0, `rgba(255,85,0,${0.42 * gp})`); 
+        eg.addColorStop(1, 'transparent');
+        ec.fillStyle = eg; 
+        ec.fillRect(0, 0, W, H); 
+        ec.restore();
+      }
+
+      // DİKKAT: BURADAKİ BUHAR/STEAM KISMINI TAMAMEN SİLDİK. ARTIK UÇMADAN ÖNCE DUMAN ÇIKMAYACAK!
+
+      PS.update(dt); 
+      PS.draw(ec);
+      ec.restore(); // Zoom'u kapat
+
+      _vignette(ec, 0.52);
+      _drawCountdown(S.countdownN);
+    }
+
+    if (pt >= 10.6) _setPhase(PH.LAUNCH);
+  }
+
+  /* ── LAUNCH ── */
+ /* ── LAUNCH ── */
+  /* -- LAUNCH & TRANSITION (KESİNTİSİZ AKIŞ) -- */
+/* ── LAUNCH & TRANSITION (KESİNTİSİZ AKIŞ) ── */
+ /* ── LAUNCH & TRANSITION (KESİNTİSİZ AKIŞ) ── */
+  else if (S.phase === PH.LAUNCH) {
+    const DUR = 7.0; 
+    const progress = _clamp(pt / DUR, 0, 1);
+    
+    // Kamera ivmelenerek hızlanır (Dünyayı aşağı iter)
+    MX.camVel += 1.8 * dt; 
+    MX.camY += MX.camVel * dt; 
+
+    // Roket KESİNLİKLE sabit (Kameraya kilitli)
+    const fixedRocketY = rb.y - 34;
+
+    // GEÇİŞ SIRRI: Dünya yavaşça silinirken (0'a giderken), Uzay yavaşça belirir (1'e gider)
+    const skyDarken = _clamp(progress * 1.5, 0, 1); 
+    const spaceOpacity = _clamp((progress - 0.25) / 0.50, 0, 1); // Sürecin ortasında pürüzsüz crossfade
+
+    if (ec) {
+        ec.clearRect(0, 0, W, H);
+        
+        // KOPUŞ BURADA ÖNLENİYOR: Dünya canvasını yavaşça saydamlaştırıyoruz ki altındaki yıldızlar çıksın!
+        _earthCv.style.opacity = 1 - spaceOpacity;
+        
+        _drawSky(skyDarken, MX.camY); 
+        _drawTerrain(MX.camY); 
+        _drawPad(rb.x, rb.y + MX.camY);
+        
+        // Uzay roketi gelene kadar dünya roketini çiz
+        ec.save();
+        const shake = (Math.random() - 0.5) * 3 * (1 - progress);
+        _drawBuildRocket(rb.x + shake, fixedRocketY + shake, 1); 
+        ec.restore();
+    }
+
+    // Uzay arka planını crossfade ile alt katmandan üste doğru bindiriyoruz
+    if (_spaceCv) {
+        _spaceCv.style.transition = 'none'; // CSS gecikmesini engelle, birebir JS takibi yap
+        _spaceCv.style.opacity = spaceOpacity;
+        
+        _drawSpaceBG(t); // Yıldızlar burada hızla akıyor
+        
+        const earthY = H * 1.5 + (MX.camY * 0.06);
+        if (earthY < H + 300) _drawEarthFromSpace(W/2, earthY, t);
+
+        if (spaceOpacity > 0.01) {
+            sc.save();
+            sc.globalAlpha = spaceOpacity;
+            const shake = (Math.random() - 0.5) * 3 * (1 - progress);
+            // Sıçrama olmasın diye tamamen aynı X, Y ve Scale(1.3) ile çiziliyor
+            _drawSpaceRocket(sc, rb.x + shake, fixedRocketY + shake, 0, 1.3, t);
+            sc.restore();
+        }
+    }
+
+    // Partikülleri crossfade mantığına uygun olarak iki tuvale de paylaştırıyoruz
+    PS.spawnFire(rb.x, fixedRocketY + 46, 1);
+    PS.update(dt);
+    
+    if (ec && spaceOpacity < 0.99) {
+        ec.save(); ec.globalAlpha = 1 - spaceOpacity; PS.draw(ec); ec.restore();
+    }
+    if (sc && spaceOpacity > 0.01) {
+        sc.save(); sc.globalAlpha = spaceOpacity; PS.draw(sc); sc.restore();
+    }
+
+    if (progress >= 1) {
+        if (_earthCv) _earthCv.style.display = 'none'; // Geçiş bitince dünya tuvalini tamamen kapat
+        _setPhase(PH.ORBIT_IN);
+    }
+  }
+
+  /* ── ORBIT_IN (METEOR VE KAMERAYA DOĞRU FIRLAMA) ── */
+  else if (S.phase === PH.ORBIT_IN || S.phase === PH.FAST_SKIP) {
+    const DUR = 3.8; 
+    const op  = _clamp(pt / DUR, 0, 1);
+
+    MX.camVel += 1.4 * dt;
+    MX.camY += MX.camVel * dt;
+
+    if (_spaceCv) _spaceCv.style.opacity = '1';
+    if (_earthCv) _earthCv.style.display = 'none';
+
+    _drawSpaceBG(t);
+
+    // 1. TAŞ / METEOR (0.0 - 0.7 arası görünür)
+    if (sc && op < 0.7) {
+       sc.save();
+       // Meteor yaklaşıyor (İlk 2 saniye)
+       const mOp = _clamp(op / 0.6, 0, 1);
+       const meteorX = W * 0.52;
+       const meteorY = _lerp(-H * 0.3, H * 0.40, mOp); 
+       const meteorScale = _lerp(0.4, 6.0, mOp);
+       
+       sc.translate(meteorX, meteorY); 
+       sc.scale(meteorScale, meteorScale); 
+       sc.rotate(t * 0.8); 
+       
+       sc.fillStyle = '#1e293b'; sc.beginPath();
+       sc.moveTo(0, -30); sc.lineTo(25, -22); sc.lineTo(35, 8); sc.lineTo(15, 32); sc.lineTo(-12, 28); sc.lineTo(-32, 8); sc.lineTo(-22, -18); sc.closePath(); sc.fill();
+       sc.fillStyle = 'rgba(0,0,0,0.5)'; sc.beginPath(); sc.arc(12, 5, 8, 0, Math.PI*2); sc.fill();
+       sc.restore();
+    }
+
+    // 2. ROKET MANEVRASI
+    const startX = W * 0.5;
+    const startY = rb.y - 34;
+    let rx = startX, ry = startY, scale = 1.3, angle = 0;
+
+    if (op < 0.35) {
+      // HAZIRLIK: Hafif titreşim
+      rx = startX + (Math.random()-0.5)*3;
+    } 
+    else if (op < 0.60) {
+      // MANEVRA: Uzaktan fark edip sola pürüzsüz kırma
+      const p = _easeOut((op - 0.35) / 0.25);
+      angle = _lerp(0, -0.92, p); 
+      rx = _lerp(startX, startX - W*0.18, p); 
+    } 
+    else {
+      // 3. BLAST & REVEAL: Siteye giriş manevrası
+      const p = _easeIn((op - 0.60) / 0.40);
+      const warpStartX = startX - W*0.18;
+      const warpEndX = -W * 1.5;
+      const warpEndY = -H * 1.5;
+      
+      rx = _lerp(warpStartX, warpEndX, p);
+      ry = _lerp(startY, warpEndY, p);
+      angle = -0.78; 
+      scale = _lerp(1.3, 160.0, p); 
+
+      // SHARP WIPE: Site maskesi roketin hızına tam senkron
+      const ui = document.getElementById('va-ui');
+      if (ui) {
+          ui.style.setProperty('--wipe-deg', '225deg'); 
+          // p=0.7 iken site görünmeye başlamalı, p=0.9'da tam açılmalı
+          const wipeP = _clamp((p - 0.3) / 0.6, 0, 1);
+          ui.style.setProperty('--wipe-pct', (wipeP * 120) + '%'); 
+      }
+
+      if (p > 0.40 && !S.uiShown) {
+          S.uiShown = true;
+          _showUI();
+      }
+    }
+
+    if (op > 0.60) PS.spawnFire(rx, ry, 6);
+    PS.update(dt); 
+    if (sc) PS.draw(sc);
+
+    if (op < 0.98) {
+        _drawSpaceRocket(sc, rx, ry, angle, scale, t);
+    }
+
+    if (op >= 1) _setPhase(PH.DEEP_SPACE);
+  }
+
+
+  else if (S.phase === PH.DEEP_SPACE) {
+    _drawSpaceBG(t);
+    _drawEarthFromSpace(W/2 + MX.x*20, H*1.06 + MX.y*14, t);
+    
+    // Satürn'ü ekranın sağ üst-orta bölgesine yerleştiriyoruz
+    // Mouse hareketiyle hafifçe sallanacak (Paralaks)
+    _drawSaturn(sc, W*0.78 + MX.x*25, H*0.26 + MX.y*20, 75, t);
+
+    _drawMoon(t);
+    _updateMeteors(sc, t);
+
+    const fp = (Math.sin(t*0.28)+1)/2;
+    if (fp > 0.72) _lensFlare(sc, W*0.88, H*0.08, (fp-0.72)/0.28*0.26, [255,240,160]);
+  }
+}
+
+
+/* ──────────────────────────────────────────────────────────────
+   § 12 — UI AKTİVASYON & SCROLL REVEAL
+────────────────────────────────────────────────────────────── */
+
+/* ──────────────────────────────────────────────────────────────
+   § 12 — UI AKTİVASYON & SCROLL REVEAL
+────────────────────────────────────────────────────────────── */
+
+function _showUI(isInstant = false) {
+  // Animasyon döngüsünü durdur (Performans için)
+  if (_raf) cancelAnimationFrame(_raf);
+
+  const ui = document.getElementById('va-ui');
+  const nav = document.querySelector('.va-nav');
+  const flash = document.getElementById('va-flash');
+  const loader = document.getElementById('va-loader');
+
+  if (_earthCv) _earthCv.style.display = 'none';
+  if (_spaceCv) _spaceCv.style.display = 'none';
+  if (loader) loader.style.display = 'none';
+
+  if (ui) {
+      if (isInstant) ui.style.transition = 'none';
+      ui.classList.add('show');
+      setTimeout(() => {
+          ui.style.maskImage = 'none';
+          ui.style.webkitMaskImage = 'none';
+          if (isInstant) ui.style.transition = '';
+      }, isInstant ? 0 : 1000);
+  }
+  
+  if (nav) {
+      if (isInstant) nav.style.transition = 'none';
+      nav.classList.add('show');
+      if (isInstant) setTimeout(() => nav.style.transition = '', 0);
+  }
+  
+  document.body.classList.remove('intro-lock');
+
+  const skip = document.getElementById('va-skip');
+  if (skip) skip.style.display = 'none';
+
+  const replay = document.getElementById('va-replay');
+  if (replay) replay.style.display = 'flex';
+
+  const launchBtn = document.getElementById('va-launch-btn');
+  if (launchBtn) launchBtn.style.display = 'none';
+
+  if (isInstant) {
+      if (flash) flash.style.display = 'none';
+  } else {
+      setTimeout(() => {
+          if (flash) {
+              flash.style.transition = 'opacity 1s ease';
+              flash.classList.remove('active');
+          }
+      }, 400);
+  }
+
+  // Scroll reveal — IntersectionObserver (BURADAN AŞAĞISI AYNI KALACAK)
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      el.classList.add('vis');
+    });
+  }, { threshold: 0.10, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.va-sr,.va-sr-l,.va-sr-r,.va-sr-s,.va-sr-rot,.va-sr-blur').forEach(el => io.observe(el));
+
+  // Fonksiyonları başlat
+  _initCountdown();
+  _initTerminal();
+  _initPIDWidget();
+  _initWave();
+  _initStats();
+  _initBars();
+  _initGauge();
+}
+
+
+/* ──────────────────────────────────────────────────────────────
+   § 13 — HERO COUNTDOWN TİMER
+────────────────────────────────────────────────────────────── */
+
+function _initCountdown() {
+  const TARGET = new Date(2026, 3, 20, 0, 0, 0).getTime();
+  const pad = n => String(n).padStart(2,'0');
+
+  function tick() {
+    const d = Math.max(0, TARGET - Date.now());
+    const days  = Math.floor(d / 86400000);
+    const hours = Math.floor((d % 86400000) / 3600000);
+    const mins  = Math.floor((d % 3600000) / 60000);
+    const secs  = Math.floor((d % 60000) / 1000);
+
+    const set = (id, v) => { const el = document.getElementById(id); if(el) el.textContent = pad(v); };
+    set('va-cd-days',  days);
+    set('va-cd-hours', hours);
+    set('va-cd-mins',  mins);
+    set('va-cd-secs',  secs);
+  }
+
+  tick(); setInterval(tick, 500);
+}
+
+
+/* ──────────────────────────────────────────────────────────────
+   § 14 — TERMİNAL ANİMASYONU
+────────────────────────────────────────────────────────────── */
+
+function _initTerminal() {
+  const el = document.getElementById('va-term-body');
+  if (!el) return;
+
+  const lines = [
+    { t:'<span class="tdim">[SYS] T-00:00 — VEFA_OS_CORE v2.1 önyükleme başlatıldı...</span>', d:0   },
+    { t:'<span class="tdim">────────────────────────────────────────────────────</span>',        d:360 },
+    { t:'<span class="tw">→</span> Aviyonik donanım denetimi&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<span class="tw">[ OK ]</span>',  d:600 },
+    { t:'<span class="tw">→</span> Uçuş bilgisayarı bağlantısı&emsp;&emsp;&emsp;&emsp;&emsp;<span class="tw">[ OK ]</span>',     d:440 },
+    { t:'<span class="tw">→</span> Tahrik sistemi basınç testi&emsp;&emsp;&emsp;&emsp;<span class="tc">45.2 PSI · NOMİNAL</span>', d:520 },
+    { t:'<span class="tr">[UYARI]</span> Basınç limiti yakın — güvenlik protokolü 7 aktif.',     d:390 },
+    { t:'<span class="tw">→</span> Aerodinamik kontrol yüzeyleri&emsp;&emsp;&emsp;<span class="tw">Cd &lt; 0.12 · NOMİNAL</span>', d:560 },
+    { t:'<span class="tw">→</span> LoRa 915MHz telemetri&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<span class="tc">SAĞLANDI · -87dBm</span>', d:470 },
+    { t:'<span class="tw">→</span> PID kontrol döngüsü (500Hz)&emsp;&emsp;&emsp;&emsp;<span class="tw">KALİBRE EDİLDİ</span>',    d:490 },
+    { t:'<span class="tw">→</span> Kurtarma sistemi — Barostat 427m&emsp;&emsp;<span class="tc">HAZIR</span>',                    d:455 },
+    { t:'<span class="tw">→</span> GPS yörünge modülü&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<span class="tw">KİLİTLENDİ</span>', d:580 },
+    { t:'<span class="tg">══════════════════════════════════════════════════</span>',              d:340 },
+    { t:'<span class="tc">✓ TÜM SİSTEMLER OPERATİF — FIRLATMAYA HAZIR.</span>',                 d:700 },
+  ];
+
+  const io = new IntersectionObserver((entries) => {
+    if (!entries[0].isIntersecting) return;
+    io.disconnect();
+    el.innerHTML = '<span class="va-cursor" aria-hidden="true"></span>';
+    let cum = 500;
+    lines.forEach(({ t, d }) => {
+      cum += d;
+      setTimeout(() => {
+        const div = document.createElement('div');
+        div.innerHTML = t;
+        div.style.cssText = 'opacity:0;transform:translateX(-9px);transition:opacity .30s ease,transform .30s ease';
+        el.insertBefore(div, el.querySelector('.va-cursor'));
+        requestAnimationFrame(() => { div.style.opacity='1'; div.style.transform='none'; });
+        el.scrollTop = el.scrollHeight;
+      }, cum);
+    });
+  }, { threshold: 0.14 });
+
+  io.observe(el);
+}
+
+
+/* ──────────────────────────────────────────────────────────────
+   § 15 — PID & TELEMETRİ
+────────────────────────────────────────────────────────────── */
+
+function _initPIDWidget() {
+  const pidVals = {
+    P: [1.00, 1.48, 1.24, 1.31, 1.18, 1.24],
+    I: [0.06, 0.10, 0.08, 0.09, 0.07, 0.08],
+    D: [0.28, 0.36, 0.32, 0.30, 0.34, 0.32],
+  };
+  let idx = 0;
+  setInterval(() => {
+    idx = (idx + 1) % pidVals.P.length;
+    const p = document.getElementById('va-pid-p');
+    const i = document.getElementById('va-pid-i');
+    const d = document.getElementById('va-pid-d');
+    if(p) p.textContent = pidVals.P[idx].toFixed(2);
+    if(i) i.textContent = pidVals.I[idx].toFixed(2);
+    if(d) d.textContent = pidVals.D[idx].toFixed(2);
+  }, 1400);
+}
+
+
+/* ──────────────────────────────────────────────────────────────
+   § 16 — TELEMETRİ DALGA
+────────────────────────────────────────────────────────────── */
+
+function _initWave() {
+  const w1 = document.getElementById('va-wave1');
+  const w2 = document.getElementById('va-wave2');
+  if (!w1 || !w2) return;
+
+  let wt = 0;
+  function drawWave() {
+    wt += 0.09;
+    const p1 = [], p2 = [];
+    for (let x = 0; x <= 300; x += 4) {
+      const y1 = 26 + Math.sin(x*0.082+wt)*13 + Math.sin(x*0.19+wt*1.3)*6;
+      const y2 = 26 + Math.sin(x*0.062+wt*0.7+1)*9 + Math.cos(x*0.145+wt)*5;
+      p1.push(x + ',' + y1); p2.push(x + ',' + y2);
+    }
+    w1.setAttribute('points', p1.join(' '));
+    w2.setAttribute('points', p2.join(' '));
+    requestAnimationFrame(drawWave);
+  }
+  drawWave();
+}
+
+
+/* ──────────────────────────────────────────────────────────────
+   § 17 — STAT COUNTER
+────────────────────────────────────────────────────────────── */
+
+function _initStats() {
+  const animated = new Set();
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      if (animated.has(el)) return;
+      animated.add(el);
+
+      const target = parseInt(el.dataset.target);
+      if (!target) return;
+
+      const suffix = el.querySelector('sup') ? el.querySelector('sup').outerHTML : '';
+      const dur    = target >= 1000 ? 1900 : 1300;
+      let cur = 0;
+      const step = target / (dur / 16);
+
+      function run() {
+        cur = Math.min(cur + step, target);
+        const val = target >= 1000 ? Math.round(cur).toLocaleString('tr') : Math.round(cur);
+        el.innerHTML = val + suffix;
+        if (cur < target) requestAnimationFrame(run);
+      }
+      requestAnimationFrame(run);
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.va-stat-num[data-target]').forEach(el => io.observe(el));
+}
+
+
+/* ──────────────────────────────────────────────────────────────
+   § 18 — SPEC BAR ANİMASYONU
+────────────────────────────────────────────────────────────── */
+
+function _initBars() {
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      entry.target.querySelectorAll('.va-spec-fill[data-w]').forEach(bar => {
+        setTimeout(() => { bar.style.width = bar.dataset.w + '%'; }, 220);
+      });
+    });
+  }, { threshold: 0.20 });
+
+  document.querySelectorAll('.va-spec').forEach(el => io.observe(el));
+}
+
+
+/* ──────────────────────────────────────────────────────────────
+   § 19 — GAUGE (PSI) ANİMASYONU
+────────────────────────────────────────────────────────────── */
+
+function _initGauge() {
+  const wrap = document.querySelector('.va-big-metric');
+  if (!wrap) return;
+
+  const io = new IntersectionObserver((entries) => {
+    if (!entries[0].isIntersecting) return;
+    io.disconnect();
+
+    const path   = document.getElementById('va-gauge-arc');
+    const needle = document.getElementById('va-gauge-needle');
+    const counter = document.getElementById('va-psi-counter');
+
+    if (path) setTimeout(() => { path.style.strokeDashoffset = '0'; }, 300);
+    if (needle) setTimeout(() => { needle.style.transform = 'rotate(0deg)'; }, 300);
+
+    if (counter) {
+      let v = 0;
+      const run = () => {
+        v = Math.min(v + 1.1, 45);
+        counter.innerHTML = Math.round(v) + '<span class="va-bm-unit">PSI</span>';
+        if (v < 45) requestAnimationFrame(run);
+      };
+      setTimeout(run, 400);
+    }
+  }, { threshold: 0.30 });
+
+  io.observe(wrap);
+}
+
+
+/* ──────────────────────────────────────────────────────────────
+   § 20 — HAMBURGER MENÜ
+────────────────────────────────────────────────────────────── */
+
+function vaMobileClose() {
+  const menu = document.getElementById('va-mobile-menu');
+  const btn  = document.getElementById('va-ham-btn');
+  if (!menu || !btn) return;
+  menu.classList.remove('open');
+  btn.classList.remove('open');
+  btn.setAttribute('aria-expanded', 'false');
+  menu.setAttribute('aria-hidden', 'true');
+}
+
+const _hamBtn = document.getElementById('va-ham-btn');
+if (_hamBtn) {
+  _hamBtn.addEventListener('click', () => {
+    const menu = document.getElementById('va-mobile-menu');
+    const open = menu.classList.toggle('open');
+    _hamBtn.classList.toggle('open', open);
+    _hamBtn.setAttribute('aria-expanded', open);
+    menu.setAttribute('aria-hidden', !open);
+
+    // Menü açıkken body'ye class ekle ve butonları gizle
+    document.body.classList.toggle('menu-open', open);
+  });
+}
+
+
+/* ──────────────────────────────────────────────────────────────
+   § 21 — YARDIMCI FONKSİYONLAR
+────────────────────────────────────────────────────────────── */
+
+function _easeOut(t) { return 1 - Math.pow(1 - _clamp(t,0,1), 3); }
+function _easeIn(t)  { return Math.pow(_clamp(t,0,1), 2.5); }
+function _lerp(a,b,t) { return a + (b-a) * _clamp(t,0,1); }
+function _clamp(v,mn,mx) { return Math.max(mn, Math.min(mx,v)); }
+
+function _rr(ctx, x, y, w, h, r) {
+  if(w < 2*r) r=w/2; if(h < 2*r) r=h/2;
+  ctx.beginPath();
+  ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r);
+  ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath();
+}
+
+function _vignette(ctx, s = 0.6) {
+  const g = ctx.createRadialGradient(W/2,H/2,H*0.28,W/2,H/2,H*0.94);
+  g.addColorStop(0,'rgba(0,0,0,0)'); g.addColorStop(1,`rgba(0,0,0,${s})`);
+  ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
+}
+
+
+/* ──────────────────────────────────────────────────────────────
+   § 22 — SKIP / REPLAY BUTONLARI
+────────────────────────────────────────────────────────────── */
+
+/* ──────────────────────────────────────────────────────────────
+   § 22 — SKIP / REPLAY BUTONLARI
+────────────────────────────────────────────────────────────── */
+
+const _skipBtn = document.getElementById('va-skip');
+if (_skipBtn) {
+  _skipBtn.addEventListener('click', () => {
+    cancelAnimationFrame(_raf);
+    S.phase     = PH.ORBIT_IN; // DİREKT SİNEMATİK MANEVRAYA ATLAR
+    S.phaseStart = performance.now();
+    if (_spaceCv) { _spaceCv.style.transition='none'; _spaceCv.style.opacity='1'; }
+    if (_earthCv) _earthCv.style.display = 'none';
+    _skipBtn.style.display = 'none';
+    _raf = requestAnimationFrame(_loop);
+    if (_launchBtn) _launchBtn.style.display = 'none';
+  });
+}
+
+const _replayBtn = document.getElementById('va-replay');
+if (_replayBtn) {
+  _replayBtn.addEventListener('click', () => {
+    localStorage.removeItem('vefa_seen');
+    location.reload();
+  });
+}
+
+const _launchBtn = document.getElementById('va-launch-btn');
+if (_launchBtn) {
+  _launchBtn.addEventListener('click', () => {
+    S.isReadyToLaunch = true; 
+    _launchBtn.style.display = 'none'; 
+  });
+}
+
+/* ──────────────────────────────────────────────────────────────
+   § 23 — BAŞLATMA
+────────────────────────────────────────────────────────────── */
+
+if (_spaceCv) { _spaceCv.style.transition = 'opacity 3s ease'; _spaceCv.style.opacity = '0'; }
+
+if (localStorage.getItem('vefa_seen')) {
+  // SİTE YENİLENDİĞİNDE: Doğrudan siteye gir (Gecikmesiz & Kasmadan)
+  _showUI(true);
+} else {
+  document.body.classList.add('intro-lock');
+  window.scrollTo(0, 0);
+  
+  const launchBtn = document.getElementById('va-launch-btn');
+  if (launchBtn) launchBtn.style.display = 'block';
+  
+  localStorage.setItem('vefa_seen', '1');
+  _raf = requestAnimationFrame(_loop);
+}
 </script>
+
 </body>
 </html>
